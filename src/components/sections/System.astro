@@ -1,0 +1,22 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Media from '../Media.astro';
+import { system, media } from '../../data/site';
+---
+
+<SectionHeader eyebrow="시스템 구성" title={system.title} intro={system.intro} pending={system.pending ? '자료 준비 중' : undefined} />
+
+<div class="mt-12 overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
+  <Media {...media.architecture} class="aspect-[21/9] w-full" sizes="(min-width: 1440px) 1344px, 100vw" />
+</div>
+
+<ul class="mt-6 grid gap-4 sm:grid-cols-3">
+  {
+    system.items.map((item) => (
+      <li class="rounded-2xl border border-dashed border-neutral-300 p-5 text-neutral-500">
+        <p class="font-semibold text-ink">{item}</p>
+        <p class="mt-1 text-sm">작성 예정</p>
+      </li>
+    ))
+  }
+</ul>

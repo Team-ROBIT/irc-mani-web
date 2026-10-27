@@ -1,0 +1,32 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Media from '../Media.astro';
+import { software } from '../../data/site';
+---
+
+<SectionHeader eyebrow="소프트웨어" title={software.title} intro={software.intro} pending={software.pending ? '자료 준비 중' : undefined} />
+
+<div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+  {
+    software.modules.map((m, i) => (
+      <article class:list={['reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white', i === 0 && 'lg:col-span-2']}>
+        <div class="bg-neutral-100 text-neutral-500">
+          <Media
+            id={`software/${m.key}`}
+            label={`${m.name} 결과 이미지`}
+            spec="16:9 · 가로 1600px 이상"
+            class="aspect-[16/9] w-full"
+            sizes="(min-width: 1024px) 33vw, 100vw"
+          />
+        </div>
+        <div class="flex flex-1 flex-col p-7">
+          <div class="flex items-baseline justify-between gap-4">
+            <h3 class="text-2xl font-bold">{m.name}</h3>
+            {m.owner && <span class="text-sm text-neutral-500">{m.owner}</span>}
+          </div>
+          <p class="mt-2 leading-relaxed text-neutral-600">{m.body}</p>
+        </div>
+      </article>
+    ))
+  }
+</div>

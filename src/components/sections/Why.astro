@@ -1,0 +1,47 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { why } from '../../data/site';
+---
+
+<SectionHeader eyebrow="배경" title={why.title} />
+
+<dl class="mt-14 grid gap-10 sm:grid-cols-3">
+  {
+    why.stats.map((s) => (
+      <div class="reveal border-t-2 border-ink pt-5">
+        <dd class="text-6xl font-black tracking-tight lg:text-7xl">
+          {s.value}
+          <span class="text-3xl">{s.unit}</span>
+        </dd>
+        <dt class="mt-3 text-neutral-600">{s.label}</dt>
+      </div>
+    ))
+  }
+</dl>
+
+<div class="mt-16 grid gap-10 md:grid-cols-3">
+  {
+    why.causes.map((c, i) => (
+      <div class="reveal">
+        <span class="text-sm font-bold text-accent">0{i + 1}</span>
+        <h3 class="mt-2 text-2xl font-bold">{c.title}</h3>
+        <p class="mt-2 text-lg leading-relaxed text-neutral-600">{c.body}</p>
+      </div>
+    ))
+  }
+</div>
+
+<div class="mt-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+  <ul class="space-y-1 text-xs text-neutral-500">
+    {why.sources.map((s) => <li>출처: {s}</li>)}
+  </ul>
+  <div class="flex flex-wrap gap-2">
+    {
+      why.cases.map((c) => (
+        <a href={c.url} target="_blank" rel="noopener" class="rounded-full border border-neutral-300 px-4 py-2 text-sm hover:border-ink">
+          사례 영상 · {c.title} ↗
+        </a>
+      ))
+    }
+  </div>
+</div>

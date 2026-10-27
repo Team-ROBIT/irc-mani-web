@@ -1,0 +1,28 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import Media from '../Media.astro';
+import { team } from '../../data/site';
+---
+
+<SectionHeader eyebrow="팀" title={team.title} />
+
+<ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+  {
+    team.members.map((m) => (
+      <li>
+        <div class="overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
+          <Media id={m.photo} label={`${m.name} 사진`} spec="1:1 · 800px 이상 · 사용 동의 필요" class="aspect-square w-full" sizes="(min-width: 1024px) 25vw, 50vw" />
+        </div>
+        <h3 class="mt-5 text-2xl font-bold">{m.name}</h3>
+        <ul class="mt-2 space-y-1 text-neutral-600">
+          {m.roles.map((r) => <li>{r}</li>)}
+        </ul>
+      </li>
+    ))
+  }
+</ul>
+
+<p class="mt-12 border-t border-neutral-200 pt-6 text-neutral-600">
+  <span class="font-semibold text-ink">도움 주신 분</span>
+  <span class="ml-3">{team.thanks.join(', ')}</span>
+</p>

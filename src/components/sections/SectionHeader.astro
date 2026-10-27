@@ -1,0 +1,21 @@
+---
+import PendingBadge from '../PendingBadge.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  pending?: string;
+}
+
+const { eyebrow, title, intro, pending } = Astro.props;
+---
+
+<div class="max-w-4xl">
+  <p class="flex items-center gap-3 text-sm font-semibold text-accent">
+    {eyebrow}
+    {pending && <PendingBadge class="text-neutral-500">{pending}</PendingBadge>}
+  </p>
+  <h2 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{title}</h2>
+  {intro && <p class="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600">{intro}</p>}
+</div>
