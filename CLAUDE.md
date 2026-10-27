@@ -95,8 +95,8 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## 커밋 규칙
 
-- commit과 push는 사용자가 직접 한다. Claude는 `git add` 대상과 커밋 메시지만 추천하고, commit·push를 실행하지 않는다.
-- `Co-Authored-By` 등 Claude를 공동 작성자로 표기하는 줄을 넣지 않는다. 커밋 메시지는 추천 문구 그대로 쓸 수 있게 작성한다.
+- `git add`와 commit은 Claude가 한다. push는 사용자가 직접 하며 Claude는 push하지 않는다.
+- `Co-Authored-By` 등 Claude를 공동 작성자로 표기하는 줄을 넣지 않는다.
 - 형식은 gitmoji를 쓴다: `:이모지: 타입: 설명`. 예: `:sparkles: Create: a new project`, `:memo: Docs: update README.md`.
 - 커밋 하나에는 한 가지 변경만 담는다.
 
@@ -105,7 +105,8 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Astro + TypeScript + Tailwind CSS + MDX, 정적 출력, GitHub Pages(base path `/irc-mani-web/`).
 - 기본은 JS 없는 정적 페이지로 하고, 3D 뷰어·타임라인처럼 필요한 곳에만 클라이언트 JS를 쓴다.
 - 스크롤 연출은 CSS(scroll-driven animations, View Transitions)를 먼저 쓰고, 부족할 때만 GSAP을 쓴다. 3D는 `<model-viewer>`, 폰트는 Pretendard 셀프호스팅.
-- 디자인 시안 4종: A Lab HUD(어두운 톤, VLM 탐지 패널), B Clean Editorial(밝고 큰 타이포, 3D 로봇), C Incident → Response(경고 노랑/검정, 스토리), D Blueprint/Docs(도면 그리드, 문서 중심). 시안은 Hero + 대표 섹션 2개 + 모바일 화면만 만들고 모두 같은 더미 콘텐츠를 쓴다.
+- 디자인: 1차 시안 4종 중 **B Clean Editorial**로 확정(밝은 배경 `#fafaf7`, 잉크 `#111`, 포인트 `#e8590c`, 큰 타이포). 어둡거나 "AI로 만든 티"가 나는 연출(HUD, 네온, 과한 그라데이션)은 피한다.
+- 2차 시안은 B를 기반으로 레이아웃·내비게이션·Hero 방식만 다른 4종(`/drafts/a`~`d`)이며, 섹션은 공통 컴포넌트(`src/components/sections/`)를 쓴다.
 
 ## 구조 규칙
 
@@ -118,5 +119,5 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## 브랜치 규칙
 
-- 디자인 시안은 `design/<알파벳>-<이름>` 브랜치에서 만들고, 시안 PR은 열지 않는다.
-- 공개 전환 전에 시안 브랜치를 원격에서 삭제한다.
+- 디자인 시안은 브랜치를 나누지 않고 한 브랜치 안의 페이지(`src/pages/drafts/`)로 만든다. 시안이 확정되면 나머지 시안 페이지는 삭제한다.
+- 시안 PR은 열지 않는다.
