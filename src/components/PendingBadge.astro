@@ -1,0 +1,16 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-full border border-current px-2 py-0.5 text-xs font-semibold whitespace-nowrap',
+    className,
+  ]}
+>
+  <slot>확정 전</slot>
+</span>

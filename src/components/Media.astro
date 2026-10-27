@@ -1,0 +1,39 @@
+---
+// src/assets/media/<id>.* 파일이 있으면 최적화된 이미지를, 없으면 필요한 자료를 알려주는 자리표시를 보여준다.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  id: string;
+  label: string;
+  spec: string;
+  class?: string;
+  sizes?: string;
+}
+
+const { id, label, spec, class: className = '', sizes = '100vw' } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>('/src/assets/media/**/*.{jpg,jpeg,png,webp,avif}', {
+  eager: true,
+});
+const key = Object.keys(files).find((path) => path.replace(/\.[^.]+$/, '') === `/src/assets/media/${id}`);
+---
+
+{
+  key ? (
+    <Image src={files[key].default} alt={label} sizes={sizes} class:list={['object-cover', className]} />
+  ) : (
+    <div
+      class:list={[
+        'grid place-content-center gap-1 border border-dashed border-current/40 p-4 text-center',
+        className,
+      ]}
+      role="img"
+      aria-label={`${label} 자리`}
+    >
+      <span class="text-sm font-semibold opacity-80">{label}</span>
+      <span class="text-xs opacity-60">{spec}</span>
+      <code class="mt-1 text-[11px] opacity-50">src/assets/media/{id}.jpg</code>
+    </div>
+  )
+}
