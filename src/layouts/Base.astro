@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+import { project } from '../data/site';
+
+interface Props {
+  title?: string;
+  bodyClass?: string;
+}
+
+const { title = `${project.name} · ${project.team}`, bodyClass = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={project.summary} />
+    <title>{title}</title>
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>
