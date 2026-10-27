@@ -1,0 +1,41 @@
+---
+// B 확장 시안 A: 기본 스크롤 — 상단 고정 내비, 넓은 Hero, 섹션을 위에서 아래로
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import DraftBar from '../../components/DraftBar.astro';
+import Why from '../../components/sections/Why.astro';
+import Tasks from '../../components/sections/Tasks.astro';
+import System from '../../components/sections/System.astro';
+import Hardware from '../../components/sections/Hardware.astro';
+import Software from '../../components/sections/Software.astro';
+import Team from '../../components/sections/Team.astro';
+import { project, media } from '../../data/site';
+---
+
+<Base title={`${project.name} · 시안 A`} bodyClass="bg-paper text-ink">
+  <SiteHeader />
+
+  <section id="top" class="wrap pt-14 sm:pt-20">
+    <p class="text-sm font-semibold text-accent">Team {project.team} · {project.contest}</p>
+    <h1 class="mt-4 text-[clamp(3.5rem,13vw,13rem)] leading-[0.9] font-black tracking-[-0.04em]">{project.name}</h1>
+    <div class="mt-10 grid gap-6 md:grid-cols-2 md:items-end">
+      <p class="text-2xl leading-snug font-bold sm:text-3xl lg:text-4xl">{project.headline}</p>
+      <p class="text-lg leading-relaxed text-neutral-600">{project.summary}</p>
+    </div>
+    <div class="reveal mt-14 overflow-hidden rounded-3xl bg-neutral-200 text-neutral-500">
+      <Media {...media.hero} class="aspect-[16/9] w-full lg:aspect-[21/9]" sizes="(min-width: 1440px) 1344px, 100vw" />
+    </div>
+  </section>
+
+  <section id="why" class="py-24 sm:py-32"><div class="wrap"><Why /></div></section>
+  <section id="tasks" class="bg-white py-24 sm:py-32"><div class="wrap"><Tasks /></div></section>
+  <section id="system" class="py-24 sm:py-32"><div class="wrap"><System /></div></section>
+  <section id="hardware" class="bg-white py-24 sm:py-32"><div class="wrap"><Hardware /></div></section>
+  <section id="software" class="py-24 sm:py-32"><div class="wrap"><Software /></div></section>
+  <section id="team" class="bg-white py-24 sm:py-32"><div class="wrap"><Team /></div></section>
+
+  <SiteFooter />
+  <DraftBar current="a" />
+</Base>

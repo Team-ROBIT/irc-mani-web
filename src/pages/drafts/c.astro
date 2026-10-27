@@ -1,0 +1,69 @@
+---
+// B 확장 시안 C: 개요 먼저 — Hero 바로 아래 "한눈에 보기" 카드로 전체를 요약하고 상세로 연결
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import DraftBar from '../../components/DraftBar.astro';
+import Why from '../../components/sections/Why.astro';
+import Tasks from '../../components/sections/Tasks.astro';
+import System from '../../components/sections/System.astro';
+import Hardware from '../../components/sections/Hardware.astro';
+import Software from '../../components/sections/Software.astro';
+import Team from '../../components/sections/Team.astro';
+import { project, media, why, tasks, hardware, software, team } from '../../data/site';
+
+const card = 'group flex flex-col rounded-3xl bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl';
+---
+
+<Base title={`${project.name} · 시안 C`} bodyClass="bg-paper text-ink">
+  <SiteHeader />
+
+  <section id="top" class="wrap pt-16 text-center sm:pt-24">
+    <p class="text-sm font-semibold text-accent">Team {project.team} · {project.contest}</p>
+    <h1 class="mt-4 text-[clamp(3.5rem,12vw,11rem)] leading-[0.9] font-black tracking-[-0.04em]">{project.name}</h1>
+    <p class="mx-auto mt-8 max-w-3xl text-2xl leading-snug font-bold sm:text-3xl">{project.headline}</p>
+    <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-neutral-600">{project.summary}</p>
+  </section>
+
+  <!-- 한눈에 보기 -->
+  <section class="wrap mt-16 grid gap-4 md:grid-cols-4 md:grid-rows-[auto_auto]">
+    <div class="overflow-hidden rounded-3xl bg-neutral-200 text-neutral-500 md:col-span-2 md:row-span-2">
+      <Media {...media.hero} class="size-full min-h-72" sizes="(min-width: 768px) 50vw, 100vw" />
+    </div>
+    <a href="#why" class={card}>
+      <span class="text-sm font-semibold text-neutral-500">대학 연구실 사고 비중</span>
+      <span class="mt-auto pt-6 text-6xl font-black">{why.stats[1].value}<span class="text-3xl">{why.stats[1].unit}</span></span>
+    </a>
+    <a href="#tasks" class={card}>
+      <span class="text-sm font-semibold text-neutral-500">수행 Task</span>
+      <span class="mt-auto pt-6 text-6xl font-black">{tasks.items.length}<span class="text-3xl">개</span></span>
+    </a>
+    <a href="#hardware" class={card}>
+      <span class="text-sm font-semibold text-neutral-500">자체 제작 하드웨어</span>
+      <ul class="mt-auto space-y-1 pt-6 text-lg font-bold">{hardware.items.map((h) => <li>{h.name}</li>)}</ul>
+    </a>
+    <a href="#software" class={card}>
+      <span class="text-sm font-semibold text-neutral-500">소프트웨어 모듈</span>
+      <ul class="mt-auto flex flex-wrap gap-1.5 pt-6 text-sm font-semibold">
+        {software.modules.map((m) => <li class="rounded-full bg-neutral-100 px-3 py-1">{m.name}</li>)}
+      </ul>
+    </a>
+  </section>
+  <div class="wrap mt-4">
+    <a href="#team" class="flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-ink px-7 py-5 text-white hover:bg-neutral-800">
+      <span class="font-semibold">Team {project.team}</span>
+      <span class="text-neutral-300">{team.members.map((m) => m.name).join(' · ')}</span>
+    </a>
+  </div>
+
+  <section id="why" class="py-24 sm:py-32"><div class="wrap"><Why /></div></section>
+  <section id="tasks" class="bg-white py-24 sm:py-32"><div class="wrap"><Tasks /></div></section>
+  <section id="system" class="py-24 sm:py-32"><div class="wrap"><System /></div></section>
+  <section id="hardware" class="bg-white py-24 sm:py-32"><div class="wrap"><Hardware /></div></section>
+  <section id="software" class="py-24 sm:py-32"><div class="wrap"><Software /></div></section>
+  <section id="team" class="bg-white py-24 sm:py-32"><div class="wrap"><Team /></div></section>
+
+  <SiteFooter />
+  <DraftBar current="c" />
+</Base>

@@ -1,0 +1,45 @@
+---
+// B 확장 시안 D: 사진 중심 — 화면을 가득 채운 Hero 사진, 하드웨어는 가로로 넘기는 카드
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import DraftBar from '../../components/DraftBar.astro';
+import Why from '../../components/sections/Why.astro';
+import Tasks from '../../components/sections/Tasks.astro';
+import System from '../../components/sections/System.astro';
+import Hardware from '../../components/sections/Hardware.astro';
+import Software from '../../components/sections/Software.astro';
+import Team from '../../components/sections/Team.astro';
+import { project, media } from '../../data/site';
+---
+
+<Base title={`${project.name} · 시안 D`} bodyClass="bg-paper text-ink">
+  <SiteHeader />
+
+  <section id="top" class="px-3 pt-3 sm:px-4 sm:pt-4">
+    <div class="relative overflow-hidden rounded-[2rem] bg-neutral-300 text-neutral-600">
+      <Media {...media.hero} class="h-[78vh] min-h-[32rem] w-full" sizes="100vw" />
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/55 to-transparent"></div>
+      <div class="wrap absolute inset-x-0 bottom-0 pb-10 text-white sm:pb-14">
+        <p class="text-sm font-semibold">Team {project.team} · {project.contest}</p>
+        <h1 class="mt-3 text-[clamp(3.5rem,12vw,11rem)] leading-[0.9] font-black tracking-[-0.04em]">{project.name}</h1>
+        <p class="mt-6 max-w-3xl text-2xl leading-snug font-bold sm:text-3xl">{project.headline}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap py-16 sm:py-20">
+    <p class="max-w-4xl text-2xl leading-relaxed font-medium text-neutral-700 sm:text-3xl">{project.summary}</p>
+  </section>
+
+  <section id="why" class="border-t border-neutral-200 py-24 sm:py-32"><div class="wrap"><Why /></div></section>
+  <section id="tasks" class="bg-white py-24 sm:py-32"><div class="wrap"><Tasks /></div></section>
+  <section id="hardware" class="overflow-hidden bg-neutral-100 py-24 sm:py-32"><div class="wrap"><Hardware layout="carousel" /></div></section>
+  <section id="system" class="py-24 sm:py-32"><div class="wrap"><System /></div></section>
+  <section id="software" class="bg-white py-24 sm:py-32"><div class="wrap"><Software /></div></section>
+  <section id="team" class="py-24 sm:py-32"><div class="wrap"><Team /></div></section>
+
+  <SiteFooter />
+  <DraftBar current="d" />
+</Base>

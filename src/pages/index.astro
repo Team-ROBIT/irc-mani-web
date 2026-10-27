@@ -1,0 +1,42 @@
+---
+// 시안 비교용 임시 목록. 시안이 선택되면 이 페이지를 실제 홈으로 교체한다.
+import Base from '../layouts/Base.astro';
+import { project } from '../data/site';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const drafts = [
+  { key: 'a', name: '기본 스크롤', desc: '상단 고정 메뉴와 넓은 Hero. 섹션이 위에서 아래로 차례대로 이어집니다.' },
+  { key: 'b', name: '챕터 목차', desc: '왼쪽에 고정 목차를 두고 본문을 문서처럼 읽습니다. 긴 기술 설명에 유리합니다.' },
+  { key: 'c', name: '개요 먼저', desc: 'Hero 아래 "한눈에 보기" 카드로 전체를 요약하고, 각 카드에서 상세 섹션으로 이동합니다.' },
+  { key: 'd', name: '사진 중심', desc: '화면을 가득 채운 Hero 사진, 하드웨어는 가로로 넘기는 카드. 실사 자료가 좋을 때 강합니다.' },
+];
+---
+
+<Base title={`${project.name} 디자인 시안`} bodyClass="bg-neutral-100 text-neutral-900">
+  <main class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+    <p class="text-sm font-semibold text-neutral-500">{project.team} · 팀 내부 검토용</p>
+    <h1 class="mt-2 text-4xl font-extrabold tracking-tight">{project.name} 디자인 시안</h1>
+    <p class="mt-4 text-neutral-600">
+      선정된 B안(Clean Editorial)을 기반으로 레이아웃만 다르게 만든 4개 시안입니다. 섹션 내용은 모두 같습니다. 모바일
+      화면도 함께 확인해 주세요.
+    </p>
+
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2">
+      {
+        drafts.map((d) => (
+          <li>
+            <a
+              href={`${base}/drafts/${d.key}/`}
+              class="block h-full rounded-2xl border border-neutral-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-lg"
+            >
+              <p class="text-sm font-bold text-neutral-500">시안 {d.key.toUpperCase()}</p>
+              <h2 class="text-2xl font-bold">{d.name}</h2>
+              <p class="mt-2 text-sm leading-relaxed text-neutral-600">{d.desc}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Base>
