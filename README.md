@@ -53,7 +53,7 @@ src/
 ├─ assets/media/          # 사진 파일 (파일명만 맞추면 자동으로 반영)
 ├─ pages/index.astro      # 홈 페이지 (왼쪽 챕터 목차 + 본문)
 ├─ components/
-│  ├─ sections/           # 배경, Task, 시연 결과, 시스템, 하드웨어, 소프트웨어, 팀 섹션
+│  ├─ sections/           # 배경, Task, 시연 결과, 시스템, 하드웨어, 소프트웨어, 개발 과정, 팀 섹션
 │  ├─ Media.astro         # 사진이 없으면 필요한 규격이 적힌 자리표시를 보여줌
 │  └─ ...
 ├─ layouts/Base.astro     # 공통 HTML 틀
@@ -68,7 +68,7 @@ src/
 
 - `project`: 이름, 팀, Hero 문구
 - `why`: 통계, 위험 요인, 출처, 사례 영상
-- `tasks`, `results`, `hardware`, `system`, `software`, `team`: 각 섹션의 내용
+- `tasks`, `results`, `hardware`, `system`, `software`, `timeline`, `team`: 각 섹션의 내용
 - `pending: true`인 항목은 화면에 "확정 전" 또는 "자료 준비 중"으로 표시됩니다. 내용이 확정되면 `false`로 바꾸거나 지우세요.
 - `[작성 예정]`으로 적힌 문구는 직접 채워야 할 자리입니다.
 
@@ -83,6 +83,7 @@ src/
 | `hardware/leader-arm.jpg` | 리더암 사진 (4:3) |
 | `hardware/station.jpg` | 스테이션 사진 (4:3) |
 | `software/vlm.jpg` 등 | 소프트웨어 모듈별 결과 이미지 (`vlm`, `vision`, `imitation`, `task-planner`, `motion-planner`) |
+| `process/design.jpg` 등 | 개발 과정 단계별 사진 (`design`, `build`, `data`, `training`, `integration`, 16:9) |
 | `team/kim-minjo.jpg` 등 | 팀원 사진 (1:1, 800px 이상) |
 
 사진이 없는 자리는 회색 자리표시로 보이며, 거기에 필요한 파일 경로와 규격이 적혀 있습니다.
