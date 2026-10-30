@@ -24,6 +24,7 @@ export const nav = [
   { id: 'top', label: '소개' },
   { id: 'why', label: '배경' },
   { id: 'tasks', label: '수행 Task' },
+  { id: 'results', label: '시연 결과' },
   { id: 'system', label: '시스템 구성' },
   { id: 'hardware', label: '하드웨어' },
   { id: 'software', label: '소프트웨어' },
@@ -70,6 +71,21 @@ export const tasks = {
     { name: '배터리 분리', action: '충전기에 꽂힌 드릴 배터리를 뽑아 둡니다.', cause: '배터리 과충전' },
     { name: '멀티탭 끄기', action: '멀티탭 스위치를 꺼서 전원을 차단합니다.', cause: '전기' },
     { name: '작업대 정리', action: '흩어진 공구를 정리하고, 사람이 건넨 물건도 받아서 치웁니다.', cause: '정리' },
+  ],
+};
+
+// 영상과 성공률은 측정 후 채운다. youtubeId를 넣으면 영상이 나오고, '—'는 아직 측정 전인 값.
+export const results = {
+  title: '실제 시연 결과',
+  intro: '로봇이 Task를 처음부터 끝까지 수행하는 영상과 Task별 성공률입니다.',
+  pending: true,
+  youtubeId: '',
+  items: [
+    { name: '위험요소 판별', rate: '—' },
+    { name: '인두기 코드 뽑기', rate: '—' },
+    { name: '배터리 분리', rate: '—' },
+    { name: '멀티탭 끄기', rate: '—' },
+    { name: '작업대 정리', rate: '—' },
   ],
 };
 

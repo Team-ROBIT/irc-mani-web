@@ -1,0 +1,36 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { results } from '../../data/site';
+---
+
+<SectionHeader eyebrow="시연 결과" title={results.title} intro={results.intro} pending={results.pending ? '자료 준비 중' : undefined} />
+
+<div class="mt-12 overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
+  {
+    results.youtubeId ? (
+      <iframe
+        class="aspect-video w-full"
+        src={`https://www.youtube-nocookie.com/embed/${results.youtubeId}`}
+        title="SAFE LAB 시연 영상"
+        loading="lazy"
+        allowfullscreen
+      />
+    ) : (
+      <div class="grid aspect-video w-full place-content-center gap-1 border border-dashed border-current/40 p-4 text-center" role="img" aria-label="시연 영상 자리">
+        <span class="text-sm font-semibold opacity-80">전체 시연 영상</span>
+        <span class="text-xs opacity-60">YouTube 업로드 후 site.ts의 results.youtubeId에 입력</span>
+      </div>
+    )
+  }
+</div>
+
+<dl class="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-5">
+  {
+    results.items.map((r) => (
+      <div class="border-t-2 border-ink pt-4">
+        <dd class="text-4xl font-black tracking-tight">{r.rate}</dd>
+        <dt class="mt-2 text-neutral-600">{r.name} 성공률</dt>
+      </div>
+    ))
+  }
+</dl>

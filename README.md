@@ -53,7 +53,7 @@ src/
 ├─ assets/media/          # 사진 파일 (파일명만 맞추면 자동으로 반영)
 ├─ pages/index.astro      # 홈 페이지 (왼쪽 챕터 목차 + 본문)
 ├─ components/
-│  ├─ sections/           # 배경, Task, 시스템, 하드웨어, 소프트웨어, 팀 섹션
+│  ├─ sections/           # 배경, Task, 시연 결과, 시스템, 하드웨어, 소프트웨어, 팀 섹션
 │  ├─ Media.astro         # 사진이 없으면 필요한 규격이 적힌 자리표시를 보여줌
 │  └─ ...
 ├─ layouts/Base.astro     # 공통 HTML 틀
@@ -68,7 +68,7 @@ src/
 
 - `project`: 이름, 팀, Hero 문구
 - `why`: 통계, 위험 요인, 출처, 사례 영상
-- `tasks`, `hardware`, `system`, `software`, `team`: 각 섹션의 내용
+- `tasks`, `results`, `hardware`, `system`, `software`, `team`: 각 섹션의 내용
 - `pending: true`인 항목은 화면에 "확정 전" 또는 "자료 준비 중"으로 표시됩니다. 내용이 확정되면 `false`로 바꾸거나 지우세요.
 - `[작성 예정]`으로 적힌 문구는 직접 채워야 할 자리입니다.
 
