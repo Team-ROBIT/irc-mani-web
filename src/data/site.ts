@@ -8,13 +8,13 @@ export const project = {
   // 문구 초안: 팀 검토 후 수정
   headline: '사람이 떠난 연구실, 남겨진 위험을 로봇이 찾아서 치웁니다.',
   summary:
-    'SAFE LAB은 연구실 안전사고에 대처하는 자율 로봇입니다. VLA와 직접 제작한 Mobile Manipulator로 퇴실 후 남겨진 화재·전기 위험을 판단하고 물리적으로 제거합니다.',
+    'SAFE LAB은 연구실 안전사고에 대처하는 자율 로봇입니다. VLA와 직접 제작한 Manipulator로 퇴실 후 남겨진 화재·전기 위험을 판단하고 물리적으로 제거합니다.',
 };
 
 // 사진·영상이 들어갈 자리. 파일을 src/assets/media/<id>.(jpg|png|webp)로 넣으면 자동으로 교체된다.
 export const media = {
   hero: { id: 'hero/robot', label: '로봇 대표 사진', spec: '16:9 · 가로 2400px 이상 · 연구실 배경' },
-  manipulator: { id: 'hardware/manipulator', label: 'Mobile Manipulator 사진', spec: '4:3 · 가로 1600px 이상' },
+  manipulator: { id: 'hardware/manipulator', label: 'Manipulator 사진', spec: '4:3 · 가로 1600px 이상' },
   leaderArm: { id: 'hardware/leader-arm', label: '리더암 사진', spec: '4:3 · 가로 1600px 이상' },
   station: { id: 'hardware/station', label: '스테이션 사진', spec: '4:3 · 가로 1600px 이상' },
 };
@@ -82,7 +82,7 @@ export const hardware = {
   items: [
     {
       key: 'manipulator',
-      name: 'Mobile Manipulator',
+      name: 'Manipulator',
       role: 'QDD 매니퓰레이터',
       body: 'QDD(Quasi-Direct Drive) 모터 기반 매니퓰레이터를 직접 설계·가공하고, 모터 low-level 제어기까지 자체 제작했습니다.',
       specs: [
