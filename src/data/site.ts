@@ -178,10 +178,10 @@ export const software = {
   pending: true,
   modules: [
     { key: 'vlm', name: 'VLM', owner: '송수민', body: '사람이 나간 것을 인식하고 책상 위 위험요소를 판별해 우선순위를 정합니다.' },
-    { key: 'vision', name: 'Vision', owner: '송수민', body: '[작성 예정]' },
     { key: 'imitation', name: '모방학습', owner: '김민조', body: '리더암으로 모은 시연 데이터로 동작 정책을 학습합니다.' },
-    { key: 'task-planner', name: 'Task Planner', owner: '김민조', body: '[작성 예정]' },
+    { key: 'vision', name: 'Vision', owner: '송수민', body: '[작성 예정]' },
     { key: 'motion-planner', name: 'Motion Planner', owner: '', body: '[작성 예정]' },
+    { key: 'task-planner', name: 'Task Planner', owner: '김민조', body: '[작성 예정]' },
   ],
 };
 
