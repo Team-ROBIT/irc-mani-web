@@ -82,7 +82,6 @@ src/
 | `hardware/manipulator.jpg` | Mobile Manipulator 사진 (4:3) |
 | `hardware/leader-arm.jpg` | 리더암 사진 (4:3) |
 | `hardware/station.jpg` | 스테이션 사진 (4:3) |
-| `system/architecture.png` | 시스템 아키텍처 다이어그램 |
 | `software/vlm.jpg` 등 | 소프트웨어 모듈별 결과 이미지 (`vlm`, `vision`, `imitation`, `task-planner`, `motion-planner`) |
 | `team/kim-minjo.jpg` 등 | 팀원 사진 (1:1, 800px 이상) |
 

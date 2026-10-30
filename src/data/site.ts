@@ -17,7 +17,6 @@ export const media = {
   manipulator: { id: 'hardware/manipulator', label: 'Mobile Manipulator 사진', spec: '4:3 · 가로 1600px 이상' },
   leaderArm: { id: 'hardware/leader-arm', label: '리더암 사진', spec: '4:3 · 가로 1600px 이상' },
   station: { id: 'hardware/station', label: '스테이션 사진', spec: '4:3 · 가로 1600px 이상' },
-  architecture: { id: 'system/architecture', label: '시스템 아키텍처 다이어그램', spec: 'SVG 또는 PNG · 가로 2000px 이상' },
 };
 
 // 페이지 내 섹션 목록(내비게이션 순서)
@@ -116,9 +115,42 @@ export const hardware = {
 // 자료가 정리되면 채운다. pending 섹션은 "자료 준비 중"으로 표시된다.
 export const system = {
   title: '전체 시스템 구성',
-  intro: '[작성 예정] 아키텍처 다이어그램, 노드 사이 통신, 실행 환경을 정리합니다.',
+  intro: '탑뷰 카메라로 위험요소를 판단하고 매니퓰레이터의 동작으로 옮기기까지의 흐름입니다. 리더암은 학습 데이터 수집에만 쓰며, 시합 중 수동 조작은 없습니다.',
   pending: true,
-  items: ['아키텍처 다이어그램', '노드 간 통신', '실행 환경'],
+  diagram: {
+    run: {
+      label: '실행 · 시합 중 완전 자율',
+      stages: [
+        { label: '입력', nodes: [{ name: '탑뷰 카메라', note: 'Station' }] },
+        {
+          label: '인식·판단',
+          nodes: [
+            { name: 'VLM', note: '퇴실 인식, 위험요소 판별, 우선순위' },
+            { name: 'Vision', note: '' },
+          ],
+        },
+        { label: '계획', nodes: [{ name: 'Task Planner', note: '' }] },
+        {
+          label: '동작 생성',
+          nodes: [
+            { name: 'Motion Planner', note: '' },
+            { name: '모방학습 정책', note: '' },
+          ],
+        },
+        { label: '제어', nodes: [{ name: 'QDD 모터 제어기', note: 'low-level' }] },
+        { label: '수행', nodes: [{ name: 'Manipulator', note: '인두기 → 배터리 → 멀티탭 → 정리' }] },
+      ],
+    },
+    train: {
+      label: '학습 · 시합 전',
+      stages: [
+        { name: 'Leader Arm', note: '사람이 직접 조작' },
+        { name: '시연 데이터', note: '' },
+        { name: '정책 학습', note: '학습한 정책을 실행에 사용' },
+      ],
+    },
+  },
+  items: ['노드 간 통신', '실행 환경'],
 };
 
 export const software = {
