@@ -13,7 +13,8 @@ import { team } from '../../data/site';
         <div class="overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
           <Media id={m.photo} label={`${m.name} 사진`} spec="1:1 · 800px 이상 · 사용 동의 필요" class="aspect-square w-full" sizes="(min-width: 1024px) 25vw, 50vw" />
         </div>
-        <h3 class="mt-5 text-2xl font-bold">{m.name}</h3>
+        <p class:list={['mt-5 text-sm font-semibold', m.position === '팀장' ? 'text-accent' : 'text-neutral-500']}>{m.position}</p>
+        <h3 class="mt-1 text-2xl font-bold">{m.name}</h3>
         <ul class="mt-2 space-y-1 text-neutral-600">
           {m.roles.map((r) => <li>{r}</li>)}
         </ul>
