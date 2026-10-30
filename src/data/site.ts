@@ -73,7 +73,6 @@ export const tasks = {
   ],
 };
 
-// 사양 값은 확정되면 채운다. '—'는 아직 정해지지 않은 값.
 export const hardware = {
   title: '직접 설계하고 만든 하드웨어',
   intro: '로봇팔부터 구동 모터 제어기, 데이터 수집용 리더암, 스테이션까지 모두 팀이 직접 설계·가공·조립했습니다.',
@@ -84,10 +83,10 @@ export const hardware = {
       role: 'QDD 매니퓰레이터',
       body: 'QDD(Quasi-Direct Drive) 모터 기반 매니퓰레이터를 직접 설계·가공하고, 모터 low-level 제어기까지 자체 제작했습니다.',
       specs: [
-        { label: '자유도', value: '—' },
-        { label: '구동 방식', value: 'QDD' },
-        { label: '가반 하중', value: '—' },
-        { label: '도달 거리', value: '—' },
+        { label: '자유도', value: '7' },
+        { label: '가반 하중', value: '정격 3kg · 최대 5kg' },
+        { label: '무게', value: '7.3kg' },
+        { label: '도달 거리', value: '77cm' },
       ],
     },
     {
@@ -96,16 +95,21 @@ export const hardware = {
       role: '모방학습 데이터 수집',
       body: '사람이 리더암을 움직여 시연 데이터를 모으고, 이 데이터로 정책을 학습합니다. 대회 시연 중에는 사용하지 않으며 로봇은 완전히 자율로 동작합니다.',
       specs: [
-        { label: '자유도', value: '—' },
+        { label: '자유도', value: '7' },
         { label: '용도', value: '데이터 수집' },
       ],
     },
     {
       key: 'station',
       name: 'Station',
-      role: '[설명 작성 예정]',
-      body: '[스테이션의 역할과 구성을 작성해 주세요.]',
-      specs: [{ label: '구성', value: '—' }],
+      role: '작업 공간',
+      body: '로봇이 위험요소를 찾아 처리하는 작업 공간입니다. 전원·배터리·공구 장비와 작업대를 내려다보는 탑뷰 카메라로 구성되어 있습니다.',
+      specs: [
+        { label: '전원', value: '멀티탭' },
+        { label: '배터리', value: '배터리 충전기 · 배터리 수납함' },
+        { label: '공구', value: '인두기 · 공구 수납함' },
+        { label: '카메라', value: '탑뷰 카메라' },
+      ],
     },
   ],
 } as const;
