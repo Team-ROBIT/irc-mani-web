@@ -8,7 +8,7 @@ export const project = {
   // 문구 초안: 팀 검토 후 수정
   headline: '사람이 떠난 연구실, 남겨진 위험을 로봇이 찾아서 치웁니다.',
   summary:
-    'SAFE LAB은 연구실 안전사고에 대처하는 자율 로봇입니다. VLA와 직접 제작한 Manipulator로 퇴실 후 남겨진 화재·전기 위험을 판단하고 물리적으로 제거합니다.',
+    'SAFE LAB은 연구실 안전사고에 대처하는 자율 로봇입니다. VLM과 직접 제작한 Manipulator로 퇴실 후 남겨진 화재·전기 위험을 판단하고 물리적으로 제거합니다.',
 };
 
 // 사진·영상이 들어갈 자리. 파일을 src/assets/media/<id>.(jpg|png|webp)로 넣으면 자동으로 교체된다.
