@@ -19,10 +19,10 @@ import { tasks } from '../../data/site';
   }
 </div>
 
-<ol class="mt-10 grid gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-3">
+<ol class="mt-10 grid gap-px overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-200 sm:grid-cols-2 lg:grid-cols-4">
   {
     tasks.items.map((t, i) => (
-      <li class="bg-white p-7">
+      <li class="bg-white p-7 first:col-span-full">
         <div class="flex items-baseline justify-between gap-4">
           <span class="text-sm font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
           <span class="text-xs text-neutral-500">{t.cause}</span>
