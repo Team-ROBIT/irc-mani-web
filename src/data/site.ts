@@ -121,7 +121,7 @@ export const system = {
   pending: true,
   diagram: {
     run: {
-      label: '실행 · 시합 중 완전 자율',
+      label: '자율 수행',
       stages: [
         { label: '입력', nodes: [{ name: '탑뷰 카메라', note: 'Station' }] },
         {
@@ -144,7 +144,7 @@ export const system = {
       ],
     },
     train: {
-      label: '학습 · 시합 전',
+      label: '사전 학습',
       stages: [
         { name: 'Leader Arm', note: '사람이 직접 조작' },
         { name: '시연 데이터', note: '' },
