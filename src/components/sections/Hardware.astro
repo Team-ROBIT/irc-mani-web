@@ -2,63 +2,31 @@
 import SectionHeader from './SectionHeader.astro';
 import Media from '../Media.astro';
 import { hardware, media } from '../../data/site';
-
-interface Props {
-  // rows: 사진과 설명이 번갈아 나오는 행, carousel: 가로로 넘기는 카드
-  layout?: 'rows' | 'carousel';
-}
-
-const { layout = 'rows' } = Astro.props;
 ---
 
 <SectionHeader eyebrow="하드웨어" title={hardware.title} intro={hardware.intro} />
 
-{
-  layout === 'rows' ? (
-    <div class="mt-20 space-y-24">
-      {hardware.items.map((h, i) => (
-        <article class="reveal grid gap-8 md:grid-cols-2 md:items-center md:gap-16">
-          <div class:list={['overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500', i % 2 === 1 && 'md:order-2']}>
-            <Media {...media[h.key]} class="aspect-[4/3] w-full" sizes="(min-width: 768px) 50vw, 100vw" />
-          </div>
-          <div>
-            <p class="text-sm font-semibold text-neutral-500">{h.role}</p>
-            <h3 class="mt-2 text-4xl font-extrabold tracking-tight lg:text-5xl">{h.name}</h3>
-            <p class="mt-5 text-lg leading-relaxed text-neutral-600">{h.body}</p>
-            <dl class="mt-8 grid grid-cols-2 gap-x-8 gap-y-4">
-              {h.specs.map((s) => (
-                <div class="border-t border-neutral-200 pt-3">
-                  <dt class="text-sm text-neutral-500">{s.label}</dt>
-                  <dd class="mt-1 text-xl font-bold">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </article>
-      ))}
-    </div>
-  ) : (
-    <div class="-mx-5 mt-14 flex snap-x snap-mandatory scroll-px-5 gap-6 overflow-x-auto px-5 pb-6 sm:-mx-8 sm:scroll-px-8 sm:px-8 lg:-mx-12 lg:scroll-px-12 lg:px-12">
-      {hardware.items.map((h) => (
-        <article class="w-[85%] shrink-0 snap-start overflow-hidden rounded-3xl bg-white sm:w-[60%] lg:w-[44%]">
-          <div class="bg-neutral-100 text-neutral-500">
-            <Media {...media[h.key]} class="aspect-[4/3] w-full" sizes="(min-width: 1024px) 44vw, 85vw" />
-          </div>
-          <div class="p-8">
-            <p class="text-sm font-semibold text-neutral-500">{h.role}</p>
-            <h3 class="mt-2 text-3xl font-extrabold tracking-tight">{h.name}</h3>
-            <p class="mt-4 leading-relaxed text-neutral-600">{h.body}</p>
-            <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-3">
-              {h.specs.map((s) => (
-                <div class="border-t border-neutral-200 pt-2">
-                  <dt class="text-xs text-neutral-500">{s.label}</dt>
-                  <dd class="mt-0.5 text-lg font-bold">{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </article>
-      ))}
-    </div>
-  )
-}
+<div class="mt-20 space-y-24">
+  {
+    hardware.items.map((h, i) => (
+      <article class="reveal grid gap-8 md:grid-cols-2 md:items-center md:gap-16">
+        <div class:list={['overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500', i % 2 === 1 && 'md:order-2']}>
+          <Media {...media[h.key]} class="aspect-[4/3] w-full" sizes="(min-width: 768px) 50vw, 100vw" />
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-neutral-500">{h.role}</p>
+          <h3 class="mt-2 text-4xl font-extrabold tracking-tight lg:text-5xl">{h.name}</h3>
+          <p class="mt-5 text-lg leading-relaxed text-neutral-600">{h.body}</p>
+          <dl class="mt-8 grid grid-cols-2 gap-x-8 gap-y-4">
+            {h.specs.map((s) => (
+              <div class="border-t border-neutral-200 pt-3">
+                <dt class="text-sm text-neutral-500">{s.label}</dt>
+                <dd class="mt-1 text-xl font-bold">{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </article>
+    ))
+  }
+</div>
