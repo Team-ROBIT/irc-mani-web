@@ -22,6 +22,7 @@ export const media = {
 
 // 페이지 내 섹션 목록(내비게이션 순서)
 export const nav = [
+  { id: 'top', label: '소개' },
   { id: 'why', label: '배경' },
   { id: 'tasks', label: '수행 Task' },
   { id: 'system', label: '시스템 구성' },

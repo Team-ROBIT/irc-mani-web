@@ -1,42 +1,118 @@
 ---
-// 시안 비교용 임시 목록. 시안이 선택되면 이 페이지를 실제 홈으로 교체한다.
 import Base from '../layouts/Base.astro';
-import { project } from '../data/site';
-
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-
-const drafts = [
-  { key: 'a', name: '기본 스크롤', desc: '상단 고정 메뉴와 넓은 Hero. 섹션이 위에서 아래로 차례대로 이어집니다.' },
-  { key: 'b', name: '챕터 목차', desc: '왼쪽에 고정 목차를 두고 본문을 문서처럼 읽습니다. 긴 기술 설명에 유리합니다.' },
-  { key: 'c', name: '개요 먼저', desc: 'Hero 아래 "한눈에 보기" 카드로 전체를 요약하고, 각 카드에서 상세 섹션으로 이동합니다.' },
-  { key: 'd', name: '사진 중심', desc: '화면을 가득 채운 Hero 사진, 하드웨어는 가로로 넘기는 카드. 실사 자료가 좋을 때 강합니다.' },
-];
+import Media from '../components/Media.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Why from '../components/sections/Why.astro';
+import Tasks from '../components/sections/Tasks.astro';
+import System from '../components/sections/System.astro';
+import Hardware from '../components/sections/Hardware.astro';
+import Software from '../components/sections/Software.astro';
+import Team from '../components/sections/Team.astro';
+import { project, media, nav } from '../data/site';
 ---
 
-<Base title={`${project.name} 디자인 시안`} bodyClass="bg-neutral-100 text-neutral-900">
-  <main class="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-    <p class="text-sm font-semibold text-neutral-500">{project.team} · 팀 내부 검토용</p>
-    <h1 class="mt-2 text-4xl font-extrabold tracking-tight">{project.name} 디자인 시안</h1>
-    <p class="mt-4 text-neutral-600">
-      선정된 B안(Clean Editorial)을 기반으로 레이아웃만 다르게 만든 4개 시안입니다. 섹션 내용은 모두 같습니다. 모바일
-      화면도 함께 확인해 주세요.
-    </p>
-
-    <ul class="mt-10 grid gap-4 sm:grid-cols-2">
-      {
-        drafts.map((d) => (
-          <li>
+<Base bodyClass="bg-paper text-ink">
+  <!-- 좁은 화면: 상단 고정 챕터 바 -->
+  <div class="sticky top-0 z-40 border-b border-neutral-200/70 bg-paper/90 backdrop-blur lg:hidden">
+    <div class="flex items-center gap-4 px-5 sm:px-8">
+      <a href="#top" class="shrink-0 py-3 text-base font-extrabold">{project.name}</a>
+      <nav data-spy-scroller class="relative flex gap-1 overflow-x-auto py-2 text-sm [scrollbar-width:none]">
+        {
+          nav.map((n) => (
             <a
-              href={`${base}/drafts/${d.key}/`}
-              class="block h-full rounded-2xl border border-neutral-200 bg-white p-6 transition hover:-translate-y-0.5 hover:shadow-lg"
+              data-spy
+              href={`#${n.id}`}
+              class="shrink-0 rounded-full px-3 py-1.5 whitespace-nowrap text-neutral-500 aria-[current=true]:bg-ink aria-[current=true]:text-white"
             >
-              <p class="text-sm font-bold text-neutral-500">시안 {d.key.toUpperCase()}</p>
-              <h2 class="text-2xl font-bold">{d.name}</h2>
-              <p class="mt-2 text-sm leading-relaxed text-neutral-600">{d.desc}</p>
+              {n.label}
             </a>
-          </li>
-        ))
-      }
-    </ul>
-  </main>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+
+  <div class="lg:grid lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-x-6 lg:pl-5 xl:grid-cols-[12rem_minmax(0,1fr)] xl:gap-x-8 xl:pl-8">
+    <!-- 넓은 화면: 왼쪽 가장자리에 붙인 챕터 목차 -->
+    <aside class="hidden lg:block">
+      <nav class="sticky top-0 py-12">
+        <a href="#top" class="block text-lg font-extrabold">{project.name}</a>
+        <p class="text-xs text-neutral-500">Team {project.team}</p>
+        <ol class="mt-8 space-y-1 border-l border-neutral-200 text-sm">
+          {
+            nav.map((n, i) => (
+              <li>
+                <a
+                  data-spy
+                  href={`#${n.id}`}
+                  class="group -ml-px flex gap-3 border-l-2 border-transparent py-2 pl-4 text-neutral-500 hover:text-ink aria-[current=true]:border-accent aria-[current=true]:font-semibold aria-[current=true]:text-ink"
+                >
+                  <span class="font-bold text-neutral-400 group-aria-[current=true]:text-accent">{String(i + 1).padStart(2, '0')}</span>
+                  {n.label}
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+    </aside>
+
+    <div class="mx-auto w-full max-w-[1500px] min-w-0 px-5 sm:px-8 lg:px-10 xl:px-14">
+      <main class="divide-y divide-neutral-200">
+        <section id="top" class="grid gap-10 pt-10 pb-20 xl:grid-cols-[1fr_1.15fr] xl:items-center xl:pt-16">
+          <div>
+            <p class="text-sm font-semibold text-accent">Team {project.team} · {project.contest}</p>
+            <h1 class="mt-4 text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.9] font-black tracking-[-0.04em]">{project.name}</h1>
+            <p class="mt-8 text-2xl leading-snug font-bold sm:text-3xl">{project.headline}</p>
+            <p class="mt-5 text-lg leading-relaxed text-neutral-600">{project.summary}</p>
+          </div>
+          <div class="overflow-hidden rounded-3xl bg-neutral-200 text-neutral-500">
+            <Media {...media.hero} class="aspect-[4/3] w-full" sizes="(min-width: 1280px) 55vw, 100vw" />
+          </div>
+        </section>
+        <section id="why" class="py-20 lg:py-28"><Why /></section>
+        <section id="tasks" class="py-20 lg:py-28"><Tasks /></section>
+        <section id="system" class="py-20 lg:py-28"><System /></section>
+        <section id="hardware" class="py-20 lg:py-28"><Hardware /></section>
+        <section id="software" class="py-20 lg:py-28"><Software /></section>
+        <section id="team" class="py-20 lg:py-28"><Team /></section>
+      </main>
+      <SiteFooter />
+    </div>
+  </div>
 </Base>
+
+<script>
+  // 스크롤 위치에 맞춰 현재 챕터 링크에 aria-current="true"를 붙인다.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-spy]')];
+  const sections = [...new Set(links.map((l) => l.hash.slice(1)))]
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  function setActive(id: string) {
+    for (const link of links) {
+      const on = link.hash === `#${id}`;
+      link.setAttribute('aria-current', String(on));
+      const box = link.closest<HTMLElement>('[data-spy-scroller]');
+      if (on && box) box.scrollTo({ left: link.offsetLeft - (box.clientWidth - link.offsetWidth) / 2, behavior: 'smooth' });
+    }
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) if (entry.isIntersecting) setActive(entry.target.id);
+    },
+    { rootMargin: '-35% 0px -60% 0px' },
+  );
+  sections.forEach((s) => observer.observe(s));
+
+  // 맨 아래에서는 마지막 챕터가 조건 구간에 닿지 않을 수 있어 따로 처리한다.
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) setActive(sections[sections.length - 1].id);
+    },
+    { passive: true },
+  );
+  setActive(sections[0].id);
+</script>
