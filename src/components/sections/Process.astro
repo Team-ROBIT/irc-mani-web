@@ -6,7 +6,8 @@ import { timeline } from '../../data/site';
 
 <SectionHeader eyebrow="개발 과정" title={timeline.title} intro={timeline.intro} pending={timeline.pending ? '자료 준비 중' : undefined} />
 
-<ol class="mt-16 space-y-14 border-l-2 border-neutral-200">
+<ol class="timeline-track relative mt-16 space-y-14 border-l-2 border-neutral-200">
+  <span class="timeline-line absolute top-0 -left-0.5 h-full w-0.5 bg-accent" aria-hidden="true"></span>
   {
     timeline.stages.map((s, i) => (
       <li class="reveal relative pl-8 sm:pl-12">
@@ -23,7 +24,7 @@ import { timeline } from '../../data/site';
               <p class="mt-1 leading-relaxed text-neutral-600">{s.trial}</p>
             </div>
           </div>
-          <div class="overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
+          <div class="wipe overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
             <Media
               id={`process/${s.key}`}
               label={`${s.name} 과정 사진`}

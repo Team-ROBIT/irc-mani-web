@@ -16,6 +16,6 @@ const { eyebrow, title, intro, pending } = Astro.props;
     {eyebrow}
     {pending && <PendingBadge class="text-neutral-500">{pending}</PendingBadge>}
   </p>
-  <h2 class="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{title}</h2>
-  {intro && <p class="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600">{intro}</p>}
+  <h2 class="reveal mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">{title}</h2>
+  {intro && <p class="reveal mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600" style="--i: 1">{intro}</p>}
 </div>

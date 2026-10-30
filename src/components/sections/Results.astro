@@ -5,7 +5,7 @@ import { results } from '../../data/site';
 
 <SectionHeader eyebrow="시연 결과" title={results.title} intro={results.intro} pending={results.pending ? '자료 준비 중' : undefined} />
 
-<div class="mt-12 overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
+<div class="wipe mt-12 overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
   {
     results.youtubeId ? (
       <iframe
@@ -26,8 +26,8 @@ import { results } from '../../data/site';
 
 <dl class="mt-12 grid grid-cols-2 gap-x-8 gap-y-8 lg:grid-cols-5">
   {
-    results.items.map((r) => (
-      <div class="border-t-2 border-ink pt-4">
+    results.items.map((r, i) => (
+      <div class="reveal border-t-2 border-ink pt-4" style={`--i: ${i}`}>
         <dd class="text-4xl font-black tracking-tight">{r.rate}</dd>
         <dt class="mt-2 text-neutral-600">{r.name} 성공률</dt>
       </div>

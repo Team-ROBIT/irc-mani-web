@@ -9,7 +9,7 @@ import { software } from '../../data/site';
 <div class="mt-12 grid gap-6 md:grid-cols-6">
   {
     software.modules.map((m, i) => (
-      <article class:list={['reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white', i < 2 ? 'md:col-span-3' : 'md:col-span-2']}>
+      <article class:list={['reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white', i < 2 ? 'md:col-span-3' : 'md:col-span-2']} style={`--i: ${i < 2 ? i : i - 2}`}>
         <div class="bg-neutral-100 text-neutral-500">
           <Media
             id={`software/${m.key}`}

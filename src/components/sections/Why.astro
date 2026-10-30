@@ -7,10 +7,10 @@ import { why } from '../../data/site';
 
 <dl class="mt-14 grid gap-10 sm:grid-cols-3">
   {
-    why.stats.map((s) => (
-      <div class="reveal border-t-2 border-ink pt-5">
+    why.stats.map((s, i) => (
+      <div class="reveal border-t-2 border-ink pt-5" style={`--i: ${i}`}>
         <dd class="text-6xl font-black tracking-tight lg:text-7xl">
-          {s.value}
+          <span data-count={s.value} class="tabular-nums">{s.value}</span>
           <span class="text-3xl">{s.unit}</span>
         </dd>
         <dt class="mt-3 text-neutral-600">{s.label}</dt>
@@ -22,7 +22,7 @@ import { why } from '../../data/site';
 <div class="mt-16 grid gap-10 md:grid-cols-3">
   {
     why.causes.map((c, i) => (
-      <div class="reveal">
+      <div class="reveal" style={`--i: ${i}`}>
         <span class="text-sm font-bold text-accent">0{i + 1}</span>
         <h3 class="mt-2 text-2xl font-bold">{c.title}</h3>
         <p class="mt-2 text-lg leading-relaxed text-neutral-600">{c.body}</p>
@@ -45,3 +45,29 @@ import { why } from '../../data/site';
     }
   </div>
 </div>
+
+<script>
+  // 통계 숫자가 화면에 들어오면 0부터 실제 값까지 올라간다. JS가 없으면 처음부터 실제 값이 보인다.
+  if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          observer.unobserve(entry.target);
+          const el = entry.target as HTMLElement;
+          const value = el.dataset.count!;
+          const decimals = value.split('.')[1]?.length ?? 0;
+          const start = performance.now();
+          const tick = (now: number) => {
+            const t = Math.min((now - start) / 1000, 1);
+            el.textContent = (Number(value) * (1 - (1 - t) ** 3)).toFixed(decimals);
+            if (t < 1) requestAnimationFrame(tick);
+          };
+          requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    document.querySelectorAll('[data-count]').forEach((el) => observer.observe(el));
+  }
+</script>

@@ -10,14 +10,14 @@ const trainStart = policyStage - train.stages.length + 1;
 
 <SectionHeader eyebrow="시스템 구성" title={system.title} intro={system.intro} pending={system.pending ? '확정 전' : undefined} />
 
-<figure class="mt-12 rounded-3xl border border-neutral-200 bg-white p-5 sm:p-8">
+<figure class="diagram-figure mt-12 rounded-3xl border border-neutral-200 bg-white p-5 sm:p-8">
   <figcaption class="sr-only">SAFE LAB 시스템 구성도. 탑뷰 카메라 입력이 인식·판단, 계획, 동작 생성, 제어를 거쳐 매니퓰레이터의 동작이 되고, 리더암으로 모은 시연 데이터로 학습한 정책이 동작 생성에 쓰입니다.</figcaption>
 
   <p class="text-sm font-bold text-accent">{run.label}</p>
   <ol class="diagram-grid mt-4">
     {
       run.stages.map((stage, i) => (
-        <li class="diagram-stage" style={`--col: ${i + 1}`}>
+        <li class="diagram-stage reveal" style={`--col: ${i + 1}; --step: ${i}`}>
           <p class="text-sm font-semibold text-neutral-500">{stage.label}</p>
           <div class="mt-2 flex flex-1 flex-col gap-2">
             {stage.nodes.map((n) => (
@@ -34,14 +34,14 @@ const trainStart = policyStage - train.stages.length + 1;
   </ol>
 
   <div class="diagram-grid mt-8 xl:mt-0" aria-hidden="true">
-    <span class="diagram-up hidden xl:block" style={`--col: ${policyStage + 1}`}></span>
+    <span class="diagram-up hidden xl:block" style={`--col: ${policyStage + 1}; --step: ${run.stages.length + train.stages.length}`}></span>
   </div>
 
   <p class="text-sm font-bold text-neutral-500">{train.label}</p>
   <ol class="diagram-grid mt-4">
     {
       train.stages.map((node, i) => (
-        <li class="diagram-stage" style={`--col: ${trainStart + i + 1}`}>
+        <li class="diagram-stage reveal" style={`--col: ${trainStart + i + 1}; --step: ${run.stages.length + i}`}>
           <div class="flex flex-1 flex-col justify-center rounded-xl border border-dashed border-neutral-400 p-3">
             <p class="font-bold">{node.name}</p>
             {node.note && <p class="mt-1 text-sm leading-snug text-neutral-600">{node.note}</p>}
@@ -126,6 +126,24 @@ const trainStart = policyStage - train.stages.length + 1;
 
     .diagram-up::before {
       content: '↑';
+    }
+  }
+
+  /* 넓은 화면: 입력부터 수행까지, 이어서 학습까지 흐름 순서대로 나타난다. --step은 흐름 순번. */
+  @media (min-width: 80rem) and (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .diagram-figure {
+        view-timeline: --diagram;
+      }
+
+      .diagram-stage,
+      .diagram-up {
+        animation-name: reveal;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-timeline: --diagram;
+        animation-range: cover calc(14% + var(--step) * 4%) cover calc(22% + var(--step) * 4%);
+      }
     }
   }
 </style>

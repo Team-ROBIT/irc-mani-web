@@ -9,11 +9,11 @@ import { hardware, media } from '../../data/site';
 <div class="mt-20 space-y-24">
   {
     hardware.items.map((h, i) => (
-      <article class="reveal grid gap-8 md:grid-cols-2 md:items-center md:gap-16">
-        <div class:list={['overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500', i % 2 === 1 && 'md:order-2']}>
+      <article class="grid gap-8 md:grid-cols-2 md:items-center md:gap-16">
+        <div class:list={['wipe overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500', i % 2 === 1 && 'md:order-2']}>
           <Media {...media[h.key]} class="aspect-[4/3] w-full" sizes="(min-width: 768px) 50vw, 100vw" />
         </div>
-        <div>
+        <div class="reveal">
           <p class="text-sm font-semibold text-neutral-500">{h.role}</p>
           <h3 class="mt-2 text-4xl font-extrabold tracking-tight lg:text-5xl">{h.name}</h3>
           <p class="mt-5 text-lg leading-relaxed text-neutral-600">{h.body}</p>

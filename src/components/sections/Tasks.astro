@@ -11,7 +11,7 @@ import { tasks } from '../../data/site';
     tasks.priorities.map((p, i) => (
       <>
         {i > 0 && <span class="text-neutral-400">›</span>}
-        <span class:list={['rounded-full px-3 py-1 font-semibold', i === 0 ? 'bg-accent text-white' : 'bg-neutral-200/70']}>
+        <span class:list={['reveal rounded-full px-3 py-1 font-semibold', i === 0 ? 'bg-accent text-white' : 'bg-neutral-200/70']} style={`--i: ${i}`}>
           {p.name}
         </span>
       </>
@@ -23,12 +23,14 @@ import { tasks } from '../../data/site';
   {
     tasks.items.map((t, i) => (
       <li class="bg-white p-7 first:col-span-full">
-        <div class="flex items-baseline justify-between gap-4">
-          <span class="text-sm font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
-          <span class="text-xs text-neutral-500">{t.cause}</span>
+        <div class="reveal" style={`--i: ${i}`}>
+          <div class="flex items-baseline justify-between gap-4">
+            <span class="text-sm font-bold text-accent">{String(i + 1).padStart(2, '0')}</span>
+            <span class="text-xs text-neutral-500">{t.cause}</span>
+          </div>
+          <h3 class="mt-3 text-2xl font-bold">{t.name}</h3>
+          <p class="mt-2 leading-relaxed text-neutral-600">{t.action}</p>
         </div>
-        <h3 class="mt-3 text-2xl font-bold">{t.name}</h3>
-        <p class="mt-2 leading-relaxed text-neutral-600">{t.action}</p>
       </li>
     ))
   }

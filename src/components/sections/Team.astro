@@ -8,8 +8,8 @@ import { team } from '../../data/site';
 
 <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
   {
-    team.members.map((m) => (
-      <li>
+    team.members.map((m, i) => (
+      <li class="reveal" style={`--i: ${i}`}>
         <div class="overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
           <Media id={m.photo} label={`${m.name} 사진`} spec="1:1 · 800px 이상 · 사용 동의 필요" class="aspect-square w-full" sizes="(min-width: 1024px) 25vw, 50vw" />
         </div>
