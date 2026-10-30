@@ -207,5 +207,4 @@ export const team = {
     { name: '박기홍', position: '팀원', photo: 'team/park-gihong', roles: ['매니퓰레이터 배선', '시연 소품 제작 및 준비', '웹 페이지 제작'] },
     { name: '송수민', position: '팀원', photo: 'team/song-sumin', roles: ['VLM 개발', 'Vision'] },
   ],
-  thanks: ['최범수'],
 };
