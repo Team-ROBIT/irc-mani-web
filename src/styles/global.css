@@ -16,112 +16,17 @@
   }
 }
 
-@keyframes wipe {
-  from {
-    clip-path: inset(10% round 1.5rem);
-  }
-  to {
-    clip-path: inset(0 round 1.5rem);
-  }
-}
-
-@keyframes settle {
-  from {
-    transform: scale(1.15);
-  }
-}
-
-@keyframes hero-out {
-  to {
-    opacity: 0.4;
-    transform: translateY(-80px);
-  }
-}
-
-@keyframes hero-zoom {
-  to {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes grow-x {
-  from {
-    transform: scaleX(0);
-  }
-}
-
-@keyframes grow-y {
-  from {
-    transform: scaleY(0);
-  }
-}
-
-/* 움직임을 줄이도록 설정한 사용자에게는 전부 정지 화면으로 보인다. */
+/* 첫 화면이 열릴 때 순서대로 나타난다. --i는 순번. 스크롤 효과는 src/scripts/motion.ts에 있다. */
 @media (prefers-reduced-motion: no-preference) {
-  /* 첫 화면이 열릴 때 순서대로 나타난다. --i는 순번. */
   .intro {
     animation: reveal 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
     animation-delay: calc(var(--i, 0) * 0.12s);
   }
+}
 
-  /* 스크롤 위치에 맞춰 움직이는 효과. 지원하지 않는 브라우저에서는 그냥 보인다. */
-  /* `animation` 축약형을 쓰면 CSS 압축 때 animation-timeline과 합쳐져 브라우저가 규칙을 버린다. 속성을 나눠 쓴다. */
-  @supports (animation-timeline: view()) {
-    .reveal,
-    .wipe,
-    .wipe > *,
-    .hero-out,
-    .hero-zoom,
-    .scroll-progress,
-    .timeline-line {
-      animation-timing-function: linear;
-      animation-fill-mode: both;
-      animation-timeline: view();
-    }
-
-    .reveal {
-      animation-name: reveal;
-      animation-range: entry calc(var(--i, 0) * 8%) entry calc(60% + var(--i, 0) * 8%);
-    }
-
-    /* 사진이 가장자리부터 열리면서 안쪽 이미지가 제자리를 찾는다. */
-    .wipe {
-      animation-name: wipe;
-      animation-range: entry 0% cover 45%;
-    }
-
-    .wipe > * {
-      animation-name: settle;
-      animation-range: entry 0% cover 45%;
-    }
-
-    .hero-out {
-      animation-name: hero-out;
-      animation-range: exit 0% exit 100%;
-    }
-
-    .hero-zoom {
-      animation-name: hero-zoom;
-      animation-range: exit 0% exit 100%;
-    }
-
-    .scroll-progress {
-      animation-name: grow-x;
-      animation-timeline: scroll(root);
-    }
-
-    /* 개발 과정 타임라인의 선이 스크롤을 따라 내려온다. */
-    .timeline-track {
-      view-timeline: --timeline;
-    }
-
-    .timeline-line {
-      transform-origin: top;
-      animation-name: grow-y;
-      animation-timeline: --timeline;
-      animation-range: cover 15% cover 85%;
-    }
-  }
+/* JS가 진행률을 채우기 전에는 보이지 않는다. */
+.scroll-progress {
+  transform: scaleX(0);
 }
 
 html {

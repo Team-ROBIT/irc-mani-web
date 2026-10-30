@@ -89,6 +89,8 @@ import { project, media, nav } from '../data/site';
 </Base>
 
 <script>
+  import '../scripts/motion';
+
   // 스크롤 위치에 맞춰 현재 챕터 링크에 aria-current="true"를 붙인다.
   const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-spy]')];
   const sections = [...new Set(links.map((l) => l.hash.slice(1)))]

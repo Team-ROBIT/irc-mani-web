@@ -7,6 +7,7 @@ VLA와 직접 제작한 Mobile Manipulator로 연구실 안전사고에 대처�
 
 - [Astro](https://astro.build) (정적 출력) + TypeScript
 - [Tailwind CSS](https://tailwindcss.com) 4
+- [GSAP](https://gsap.com) ScrollTrigger (스크롤 애니메이션, `src/scripts/motion.ts`)
 - [Pretendard](https://github.com/orioncactus/pretendard) 폰트 (패키지로 설치, 셀프호스팅)
 
 ## 환경 세팅

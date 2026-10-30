@@ -6,7 +6,7 @@ import { timeline } from '../../data/site';
 
 <SectionHeader eyebrow="개발 과정" title={timeline.title} intro={timeline.intro} pending={timeline.pending ? '자료 준비 중' : undefined} />
 
-<ol class="timeline-track relative mt-16 space-y-14 border-l-2 border-neutral-200">
+<ol class="relative mt-16 space-y-14 border-l-2 border-neutral-200">
   <span class="timeline-line absolute top-0 -left-0.5 h-full w-0.5 bg-accent" aria-hidden="true"></span>
   {
     timeline.stages.map((s, i) => (
