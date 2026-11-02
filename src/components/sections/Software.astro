@@ -1,10 +1,12 @@
 ---
 import SectionHeader from './SectionHeader.astro';
 import Media from '../Media.astro';
+import VisionDetail from './VisionDetail.astro';
+import VlmDetail from './VlmDetail.astro';
 import { software } from '../../data/site';
 ---
 
-<SectionHeader eyebrow="소프트웨어" title={software.title} intro={software.intro} pending={software.pending ? '자료 준비 중' : undefined} />
+<SectionHeader eyebrow="소프트웨어" title={software.title} intro={software.intro} pending={software.pending ? '일부 작성 중' : undefined} />
 
 <div class="mt-12 grid gap-6 md:grid-cols-6">
   {
@@ -25,8 +27,12 @@ import { software } from '../../data/site';
             {m.owner && <span class="text-sm text-neutral-500">{m.owner}</span>}
           </div>
           <p class="mt-2 leading-relaxed text-neutral-600">{m.body}</p>
+          {m.detail && <a href={m.detail} class="mt-4 text-sm font-semibold text-accent">자세히 보기 ↓</a>}
         </div>
       </article>
     ))
   }
 </div>
+
+<VisionDetail />
+<VlmDetail />
