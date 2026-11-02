@@ -204,7 +204,7 @@ export const team = {
   members: [
     { name: '김민조', position: '팀장', photo: 'team/kim-minjo', roles: ['QDD 모터 low-level 제어기 제작', '모방학습 개발', 'Task planner 개발'] },
     { name: '우정윤', position: '팀원', photo: 'team/woo-jeongyun', roles: ['QDD 매니퓰레이터 설계 및 가공', '매니퓰레이터 조립'] },
-    { name: '박기홍', position: '팀원', photo: 'team/park-gihong', roles: ['매니퓰레이터 배선', '시연 소품 제작 및 준비', '웹 페이지 제작'] },
+    { name: '박기홍', position: '팀원', photo: 'team/park-kihong', roles: ['매니퓰레이터 배선', '시연 소품 제작 및 준비', '웹 페이지 제작'] },
     { name: '송수민', position: '팀원', photo: 'team/song-sumin', roles: ['VLM 개발', 'Vision'] },
   ],
 };
