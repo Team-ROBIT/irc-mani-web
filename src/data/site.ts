@@ -178,9 +178,9 @@ export const software = {
   pending: true,
   modules: [
     { key: 'vlm', name: 'VLM', owner: '송수민', body: '카메라 화면과 책상 상태를 보고 무엇을 어떤 순서로 처리할지 계획합니다. 위험 우선순위를 따르고, 불명확하면 보류합니다.', detail: '#software-vlm' },
-    { key: 'imitation', name: '모방학습', owner: '김민조', body: '리더암으로 모은 시연 데이터로 동작 정책을 학습합니다.' },
+    { key: 'imitation', name: '모방학습', owner: '김민조', body: '리더암으로 모은 시연 데이터로 ACT 정책을 학습해, 코드 뽑기·스위치 끄기 같은 정밀한 조작을 로봇이 스스로 수행합니다.', detail: '#software-imitation' },
     { key: 'vision', name: 'Vision', owner: '송수민', body: 'RGB·깊이·열화상으로 책상 위 물체의 종류와 위치, 열 상태를 파악해 로봇이 쓸 수 있는 정보로 바꿉니다.', detail: '#software-vision' },
-    { key: 'motion-planner', name: 'Motion Planner', owner: '김민조', body: '[작성 예정]' },
+    { key: 'motion-planner', name: 'Motion Planner', owner: '김민조', body: 'Vision이 찾은 물체 앞 자세까지 MoveIt으로 경로를 계획해 팔을 옮기고, 그다음 조작을 모방학습 정책에 넘깁니다.', detail: '#software-motion-planner' },
   ],
 };
 
@@ -355,6 +355,127 @@ export const vlm = {
   ],
   unmeasured: ['평균 생성 시간', '계획 정확도', '전체 작업 성공률'],
   limit: '계획 생성이 성공해도 실행 성공을 보장하지는 않습니다. 입력 상태가 오래되었거나 관계가 불명확하면 보류합니다.',
+};
+
+// 모방학습 상세. 측정값이 null이면 "미측정"으로 표시된다.
+export const imitation = {
+  easy: '사람이 리더암으로 직접 보여 준 동작을 학습해, 코드 뽑기·스위치 끄기처럼 위치를 정밀하게 맞춰야 하는 조작을 로봇이 스스로 하게 만들었습니다.',
+  model: 'ACT (Action Chunking with Transformers)',
+  runtime: 'LeRobot 0.4.4 위에 로봇·학습·실행 도구를 직접 구현',
+  principle: {
+    title: '리더암은 데이터를 모을 때만 씁니다',
+    body: '시연 데이터는 사람이 리더암을 움직이고 로봇 팔이 그대로 따라 하게 해서 모읍니다. 대회 시연에서는 리더암을 끄고, 학습한 정책만으로 로봇이 움직입니다. 시합 중 수동 조작은 없습니다.',
+  },
+  flow: [
+    { name: '수집', body: '사람이 리더암을 움직이면 로봇 팔이 따라 움직이고, 카메라 영상과 그리퍼 자세를 30fps로 기록합니다.' },
+    { name: '학습', body: '모은 에피소드로 ACT 정책을 학습합니다. 정책은 영상과 현재 자세를 보고 앞으로 1초(30스텝)의 동작을 한 번에 예측합니다.' },
+    { name: '실행', body: 'Task Planner가 skill을 요청하면 해당 정책을 정해진 시간 동안 실행합니다. 동작이 끝났는지는 Vision 결과 확인으로 판단합니다.' },
+  ],
+  io: {
+    input: ['카메라 RGB 영상 1장 (360×640)', '그리퍼 자세: 위치 3 + 회전(6D) 6 + 그리퍼 1', '[카메라 위치 작성 예정]'],
+    output: ['앞으로 30스텝(1초)의 그리퍼 자세와 개폐', '역기구학(IK)으로 관절 각도로 바꿔 전송'],
+  },
+  features: [
+    {
+      key: 'task-space',
+      name: '관절 대신 그리퍼 자세로 학습',
+      easy: '7개 관절 각도가 아니라 그리퍼의 위치와 방향을 학습하고, 실행할 때 역기구학으로 관절 각도를 계산합니다.',
+      tags: ['End-effector pose', '6D rotation', 'Pinocchio IK'],
+      tech: '관측과 동작 모두 10차원(위치 3, 회전 행렬의 두 열 6, 그리퍼 1)입니다. IK는 Pinocchio로 관절 한계를 지키는 감쇠 최소제곱(damped least squares)을 현재 자세에서 한 번 풀어, 실행 중 팔 자세가 갑자기 바뀌지 않게 했습니다.',
+      improvements: [
+        { problem: '정책 출력이나 IK 해가 튀면 팔이 한 번에 크게 움직일 수 있음', solution: '측정한 관절 각도에서 한 스텝에 0.1rad(30fps에서 최대 3rad/s)까지만 움직이도록 명령을 잘라 보냅니다.' },
+      ],
+    },
+    {
+      key: 'relative',
+      name: '현재 자세 기준 상대 동작',
+      easy: '절대 좌표 대신 "지금 그리퍼에서 얼마나 움직일지"를 학습합니다.',
+      tags: ['relative action', 'state history 3'],
+      tech: '예측하는 동작 청크를 현재 그리퍼 자세 기준 좌표로 바꿔 학습하고, 입력 상태도 0.1초(3스텝) 전 자세를 현재 기준으로 본 값을 씁니다. 어떤 표현으로 학습했는지 체크포인트에 기록해 두어, 실행할 때 자동으로 같은 방식으로 되돌립니다. 절대·상대·직전 스텝 기준(delta) 세 가지를 바꿔 가며 학습할 수 있습니다.',
+    },
+    {
+      key: 'lipo',
+      name: '청크 이음새 다듬기 (LiPo)',
+      easy: '1초씩 예측한 동작을 이어 붙일 때 생기는 덜컥임을 줄였습니다.',
+      tags: ['ACT chunk 30', 'LiPo', 'OSQP'],
+      tech: '청크마다 앞 20스텝만 실행하고 다시 예측해, 새 청크의 앞 10스텝이 이전 청크와 겹치게 합니다. 겹치는 구간을 jerk가 최소가 되도록 최적화(QP)로 잇습니다. 그리퍼 개폐는 타이밍이 중요해서 다듬지 않습니다.',
+      improvements: [
+        { problem: '청크가 바뀌는 순간 동작이 끊기거나 튐', solution: '아무것도 하지 않는 방식, ACT 논문의 temporal ensemble, LiPo를 같은 실행 간격으로 비교할 수 있게 실행 도구를 만들고, 실행 결과를 데이터셋으로 남겨 비교합니다.' },
+      ],
+    },
+    {
+      key: 'leader',
+      name: '리더암 연결',
+      easy: '리더암을 로봇 팔 자세에 먼저 맞춘 뒤에 연결해, 연결하는 순간 로봇이 튀지 않게 했습니다.',
+      tags: ['중력 보상', 'Dynamixel', '팔로우 모드'],
+      tech: '평소에는 중력 보상만 켜서 손으로 가볍게 움직일 수 있습니다. F 키를 누르면 리더암이 로봇 팔 자세를 따라가고, S 키는 모든 관절 차이가 0.1rad 이내일 때만 로봇 팔로 명령을 보내기 시작합니다.',
+      improvements: [
+        { problem: 'Dynamixel 토크를 켜면 목표 위치가 현재 위치로 덮여서 일부 관절이 움직이지 않음', solution: '토크를 켠 다음에 목표 위치를 씁니다.' },
+        { problem: '목표를 빠르게 계속 보내면 관절이 갑자기 튀어 나감', solution: '로봇 자세가 바뀌었을 때나 0.1초마다만 목표를 쓰고, 모터의 속도·가속 프로파일로 부드럽게 따라가게 했습니다.' },
+      ],
+    },
+    {
+      key: 'record',
+      name: '데이터 수집 도구',
+      easy: '리더암 조작을 그대로 기록하고, 잘못된 시연은 바로 지우고 다시 찍을 수 있습니다.',
+      tags: ['LeRobot dataset', '30 fps'],
+      tech: '리더암 노드가 로봇 팔에 직접 명령을 보내는 구조라, LeRobot 기본 녹화 대신 관측과 명령을 함께 기록하는 녹화 루프를 따로 만들었습니다.',
+      improvements: [
+        { problem: '재녹화로 버린 시연의 영상 프레임이 다음 에피소드 영상 끝에 붙음 (LeRobot 0.4.4)', solution: '버릴 때 영상용 임시 이미지 폴더까지 지우도록 고치고, 합성 데이터셋으로 재현·검증했습니다.' },
+      ],
+    },
+  ],
+  trainingNote: 'ACT, batch 32, 청크 30스텝, 5,000스텝마다 체크포인트 저장. 시간은 프레임 수 ÷ 30fps입니다.',
+  skills: [
+    { task: '인두기 코드 뽑기', skill: 'unplug_soldering_il', episodes: 50, minutes: '6.9분', run: '20초' },
+    { task: '배터리 분리', skill: 'battery_task_il', episodes: 42, minutes: '8.7분', run: '17초' },
+    { task: '멀티탭 끄기', skill: 'switch_off_il', episodes: 50, minutes: '4.3분', run: '10초' },
+    { task: '작업대 정리 (공구 잡기)', skill: 'grasp_il', episodes: 90, minutes: '9.7분', run: '10초' },
+  ],
+  skillsNote: '배터리 분리는 뽑기 → 운반 → 놓기를 정책 하나로 수행합니다.',
+  unmeasured: ['skill별 실행 성공률', '청크 연결 방식(없음 · temporal ensemble · LiPo)별 비교 결과'],
+};
+
+// Motion Planner 상세
+export const motionPlanner = {
+  easy: 'Vision이 알려 준 물체 앞 자세까지 로봇 팔을 옮깁니다. 여기까지는 계획한 경로로 움직이고, 물체를 다루는 정밀한 동작은 모방학습 정책이 이어받습니다.',
+  stack: 'MoveIt 2 · pick_ik',
+  flow: [
+    { name: 'Vision', body: '대상 물체의 조작 전 자세(pre-manipulation pose)를 SceneState로 보냅니다.' },
+    { name: 'Task Planner', body: '그 자세가 최신이고 유효할 때만 Motion Planner에 이동을 요청합니다. 아니면 보내지 않고 보류합니다.' },
+    { name: 'Motion Planner', body: '현재 관절 상태에서 목표 자세까지 경로를 계획하고 실행합니다.' },
+    { name: '모방학습', body: '도착한 자세에서 정책이 조작을 시작합니다.' },
+  ],
+  settings: [
+    { label: '계획 시간 · 시도', value: '5초 · 10회' },
+    { label: '속도 · 가속도', value: '최대의 10%' },
+    { label: '도착 허용 오차 (위치)', value: '축마다 ±5mm' },
+    { label: '도착 허용 오차 (회전)', value: '축마다 ±0.01rad (약 0.57°)' },
+    { label: 'IK', value: 'pick_ik (KDL과 비교 후 선택)' },
+  ],
+  features: [
+    {
+      name: '축마다 다른 도착 허용 오차',
+      problem: 'MoveIt의 기본 인터페이스는 위치 세 축, 회전 세 축에 각각 하나의 허용 오차만 받음',
+      solution: '목표를 위치·자세 제약(constraint)으로 직접 만들어 x, y, z와 roll, pitch, yaw마다 따로 정할 수 있게 했습니다.',
+    },
+    {
+      name: '계획 전 관절 범위 검사',
+      problem: '로봇이 관절 한계 밖에 있으면 MoveIt이 이유를 알기 어려운 오류로 계획을 거부함',
+      solution: '계획 전에 현재 관절 상태를 검사해, 범위를 벗어난 관절 이름과 값, 한계를 함께 알려 줍니다.',
+    },
+    {
+      name: '움직이지 않고 도달 가능성 확인',
+      problem: '목표 자세에 실제로 갈 수 있는지 로봇을 움직여 봐야 알 수 있음',
+      solution: 'check 모드에서는 정해 둔 home 자세에서 목표들까지 계획만 해 보고, 로봇은 움직이지 않습니다.',
+    },
+    {
+      name: '취소하면 즉시 정지',
+      problem: '사람이 들어오거나 작업이 취소돼도 실행 중인 경로는 끝까지 감',
+      solution: 'Task Planner가 이동을 취소하면 실행 중인 경로를 바로 멈춥니다. 요청은 한 번에 하나씩 처리합니다.',
+    },
+  ],
+  unmeasured: ['계획 성공률', '평균 계획 시간', '도착 위치 오차'],
 };
 
 // 문구 초안: 팀 검토 후 수정. 기간과 시행착오는 직접 채운다.
