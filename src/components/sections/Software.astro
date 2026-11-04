@@ -46,10 +46,33 @@ import { software } from '../../data/site';
     }
   </div>
 
+  <p data-tabs-only hidden class="mt-6 text-neutral-500">카드를 누르면 아래에서 자세한 내용을 볼 수 있어요.</p>
+
+  <!-- 탭 줄: 스크롤만 하는 사람도 다른 모듈이 있다는 걸 알 수 있게 패널 바로 위에 둔다 -->
+  <div data-tabs-only data-tab-bar hidden role="tablist" aria-label="소프트웨어 모듈" class="mt-16 flex flex-wrap gap-2 border-t border-neutral-200 pt-8">
+    {
+      software.modules.map((m) => (
+        <button
+          type="button"
+          role="tab"
+          data-tab-button={m.key}
+          class="rounded-full border border-neutral-300 bg-white px-5 py-2.5 font-semibold text-neutral-600 transition-colors hover:border-ink hover:text-ink aria-selected:border-accent aria-selected:bg-accent aria-selected:text-white"
+        >
+          {m.name}
+        </button>
+      ))
+    }
+  </div>
+
   <div data-panel="vlm"><VlmDetail /></div>
   <div data-panel="imitation"><ImitationDetail /></div>
   <div data-panel="vision"><VisionDetail /></div>
   <div data-panel="motion-planner"><MotionPlannerDetail /></div>
+
+  <!-- 패널 끝: 다음 모듈로 -->
+  <div data-tabs-only hidden class="mt-12 flex justify-end">
+    <button type="button" data-next class="rounded-full bg-ink px-6 py-3 font-semibold text-white transition-colors hover:bg-accent"></button>
+  </div>
 </div>
 
 <script>
@@ -60,29 +83,46 @@ import { software } from '../../data/site';
     const cards = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
     const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
     const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-tab-link]')];
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-tab-button]')];
+    const bar = root.querySelector<HTMLElement>('[data-tab-bar]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-next]')!;
+    const keys = cards.map((c) => c.dataset.tab!);
+    const names = buttons.map((b) => b.textContent!.trim());
+
+    // JS가 있을 때만 쓰는 안내·탭 줄·다음 버튼
+    for (const el of root.querySelectorAll<HTMLElement>('[data-tabs-only]')) el.hidden = false;
 
     const show = (key: string) => {
       for (const card of cards) card.toggleAttribute('data-active', card.dataset.tab === key);
       for (const panel of panels) panel.hidden = panel.dataset.panel !== key;
       for (const link of links) link.setAttribute('aria-current', String(link.dataset.tabLink === key));
+      for (const button of buttons) button.setAttribute('aria-selected', String(button.dataset.tabButton === key));
+      const after = (keys.indexOf(key) + 1) % keys.length;
+      next.dataset.key = keys[after];
+      next.textContent = after === 0 ? `처음으로: ${names[after]} ↑` : `다음: ${names[after]} →`;
       // 숨겼던 패널이 보이면 높이가 바뀌므로 스크롤 애니메이션 위치를 다시 계산
       ScrollTrigger.refresh();
+    };
+
+    // 고른 모듈을 보여 주고 탭 줄이 화면 위에 오게 스크롤
+    const open = (key: string) => {
+      show(key);
+      history.replaceState(null, '', `#software-${key}`);
+      const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+      bar.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
     };
 
     for (const link of links) {
       link.addEventListener('click', (event) => {
         event.preventDefault();
-        const key = link.dataset.tabLink!;
-        show(key);
-        history.replaceState(null, '', link.getAttribute('href'));
-        const panel = panels.find((p) => p.dataset.panel === key);
-        const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches;
-        panel?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+        open(link.dataset.tabLink!);
       });
     }
+    for (const button of buttons) button.addEventListener('click', () => open(button.dataset.tabButton!));
+    next.addEventListener('click', () => open(next.dataset.key!));
 
     // 주소에 #software-<모듈>이 있으면 그 모듈부터, 없으면 첫 모듈
-    const fromHash = links.find((l) => l.getAttribute('href') === location.hash)?.dataset.tabLink;
-    show(fromHash ?? cards[0].dataset.tab!);
+    const fromHash = keys.find((k) => location.hash === `#software-${k}`);
+    show(fromHash ?? keys[0]);
   }
 </script>
