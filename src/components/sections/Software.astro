@@ -10,33 +10,79 @@ import { software } from '../../data/site';
 
 <SectionHeader eyebrow="소프트웨어" title={software.title} intro={software.intro} pending={software.pending ? '일부 작성 중' : undefined} />
 
-<div class="mt-12 grid gap-6 md:grid-cols-6">
-  {
-    software.modules.map((m, i) => (
-      <article class:list={['reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white', 'md:col-span-3']} style={`--i: ${i % 2}`}>
-        <div class="bg-neutral-100 text-neutral-500">
-          <Media
-            id={`software/${m.key}`}
-            label={`${m.name} 결과 이미지`}
-            spec="16:9 · 가로 1600px 이상"
-            class="aspect-[16/9] w-full"
-            sizes="(min-width: 768px) 50vw, 100vw"
-          />
-        </div>
-        <div class="flex flex-1 flex-col p-7">
-          <div class="flex items-baseline justify-between gap-4">
-            <h3 class="text-2xl font-bold">{m.name}</h3>
-            {m.owner && <span class="text-sm text-neutral-500">{m.owner}</span>}
+<!-- 카드가 탭 역할: 누른 모듈의 상세만 아래에 보인다. JS가 없으면 상세가 전부 보인다. -->
+<div data-software-tabs>
+  <div class="mt-12 grid gap-6 md:grid-cols-6">
+    {
+      software.modules.map((m, i) => (
+        <article
+          data-tab={m.key}
+          class="reveal relative flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white transition-colors data-active:border-accent data-active:ring-2 data-active:ring-accent md:col-span-3"
+          style={`--i: ${i % 2}`}
+        >
+          <div class="bg-neutral-100 text-neutral-500">
+            <Media
+              id={`software/${m.key}`}
+              label={`${m.name} 결과 이미지`}
+              spec="16:9 · 가로 1600px 이상"
+              class="aspect-[16/9] w-full"
+              sizes="(min-width: 768px) 50vw, 100vw"
+            />
           </div>
-          <p class="mt-2 leading-relaxed text-neutral-600">{m.body}</p>
-          {m.detail && <a href={m.detail} class="mt-4 text-sm font-semibold text-accent">자세히 보기 ↓</a>}
-        </div>
-      </article>
-    ))
-  }
+          <div class="flex flex-1 flex-col p-7">
+            <div class="flex items-baseline justify-between gap-4">
+              <h3 class="text-2xl font-bold">{m.name}</h3>
+              {m.owner && <span class="text-sm text-neutral-500">{m.owner}</span>}
+            </div>
+            <p class="mt-2 leading-relaxed text-neutral-600">{m.body}</p>
+            {m.detail && (
+              <a href={m.detail} data-tab-link={m.key} class="mt-4 text-sm font-semibold text-accent after:absolute after:inset-0">
+                자세히 보기 ↓
+              </a>
+            )}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <div data-panel="vlm"><VlmDetail /></div>
+  <div data-panel="imitation"><ImitationDetail /></div>
+  <div data-panel="vision"><VisionDetail /></div>
+  <div data-panel="motion-planner"><MotionPlannerDetail /></div>
 </div>
 
-<VisionDetail />
-<VlmDetail />
-<ImitationDetail />
-<MotionPlannerDetail />
+<script>
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  const root = document.querySelector<HTMLElement>('[data-software-tabs]');
+  if (root) {
+    const cards = [...root.querySelectorAll<HTMLElement>('[data-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-panel]')];
+    const links = [...root.querySelectorAll<HTMLAnchorElement>('[data-tab-link]')];
+
+    const show = (key: string) => {
+      for (const card of cards) card.toggleAttribute('data-active', card.dataset.tab === key);
+      for (const panel of panels) panel.hidden = panel.dataset.panel !== key;
+      for (const link of links) link.setAttribute('aria-current', String(link.dataset.tabLink === key));
+      // 숨겼던 패널이 보이면 높이가 바뀌므로 스크롤 애니메이션 위치를 다시 계산
+      ScrollTrigger.refresh();
+    };
+
+    for (const link of links) {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const key = link.dataset.tabLink!;
+        show(key);
+        history.replaceState(null, '', link.getAttribute('href'));
+        const panel = panels.find((p) => p.dataset.panel === key);
+        const smooth = matchMedia('(prefers-reduced-motion: no-preference)').matches;
+        panel?.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+      });
+    }
+
+    // 주소에 #software-<모듈>이 있으면 그 모듈부터, 없으면 첫 모듈
+    const fromHash = links.find((l) => l.getAttribute('href') === location.hash)?.dataset.tabLink;
+    show(fromHash ?? cards[0].dataset.tab!);
+  }
+</script>
