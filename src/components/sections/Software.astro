@@ -11,14 +11,14 @@ import { software } from '../../data/site';
 <div class="mt-12 grid gap-6 md:grid-cols-6">
   {
     software.modules.map((m, i) => (
-      <article class:list={['reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white', i < 2 ? 'md:col-span-3' : 'md:col-span-2']} style={`--i: ${i < 2 ? i : i - 2}`}>
+      <article class:list={['reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white', 'md:col-span-3']} style={`--i: ${i % 2}`}>
         <div class="bg-neutral-100 text-neutral-500">
           <Media
             id={`software/${m.key}`}
             label={`${m.name} 결과 이미지`}
             spec="16:9 · 가로 1600px 이상"
             class="aspect-[16/9] w-full"
-            sizes={i < 2 ? '(min-width: 768px) 50vw, 100vw' : '(min-width: 768px) 33vw, 100vw'}
+            sizes="(min-width: 768px) 50vw, 100vw"
           />
         </div>
         <div class="flex flex-1 flex-col p-7">

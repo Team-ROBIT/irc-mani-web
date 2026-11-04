@@ -181,7 +181,6 @@ export const software = {
     { key: 'imitation', name: '모방학습', owner: '김민조', body: '리더암으로 모은 시연 데이터로 동작 정책을 학습합니다.' },
     { key: 'vision', name: 'Vision', owner: '송수민', body: 'RGB·깊이·열화상으로 책상 위 물체의 종류와 위치, 열 상태를 파악해 로봇이 쓸 수 있는 정보로 바꿉니다.', detail: '#software-vision' },
     { key: 'motion-planner', name: 'Motion Planner', owner: '', body: '[작성 예정]' },
-    { key: 'task-planner', name: 'Task Planner', owner: '김민조', body: '[작성 예정]' },
   ],
 };
 
