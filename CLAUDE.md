@@ -76,7 +76,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - 일정: 프로젝트 완료 목표 10/30, 홈페이지 제출 11/10(본선 2일 전까지). 제출일 전후로 repo를 public 전환하고 계속 유지한다.
 - 정식 참가자(4인): 김민조, 우정윤, 송수민, 박기홍. 도움 주신 분: 최범수 (팀 소개와 별도 항목).
 - 역할
-  - 김민조: QDD 모터 low-level 제어기, 모방학습, Task planner
+  - 김민조: QDD 모터 low-level 제어기, 모방학습, Motion planner
   - 우정윤: QDD 매니퓰레이터 설계·가공, 조립
   - 박기홍: 매니퓰레이터 배선, 소품 제작·준비, 웹 페이지 제작
   - 송수민: VLM, Vision
