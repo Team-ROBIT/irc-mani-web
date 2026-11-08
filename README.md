@@ -85,7 +85,7 @@ src/
 | `hardware/station.jpg` | 스테이션 사진 (4:3) |
 | `software/vlm.jpg` 등 | 소프트웨어 모듈별 결과 이미지 (`vlm`, `vision`, `imitation`, `task-planner`, `motion-planner`) |
 | `process/design.jpg` 등 | 개발 과정 단계별 사진 (`design`, `build`, `data`, `training`, `integration`, 16:9) |
-| `team/kim-minjo.jpg` 등 | 팀원 사진 (1:1, 800px 이상) |
+| `team/kim-minjo.jpg` 등 | 팀원 사진 (3:4, 세로 800px 이상) |
 
 사진이 없는 자리는 회색 자리표시로 보이며, 거기에 필요한 파일 경로와 규격이 적혀 있습니다.
 
