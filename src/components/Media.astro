@@ -1,5 +1,6 @@
 ---
-// src/assets/media/<id>.* 파일이 있으면 최적화된 이미지를, 없으면 필요한 자료를 알려주는 자리표시를 보여준다.
+// src/assets/media/<id>.* 파일이 있으면 영상(mp4·webm) 또는 최적화된 이미지를, 없으면 필요한 자료를 알려주는 자리표시를 보여준다.
+// 같은 id의 영상과 이미지가 모두 있으면 영상을 쓴다.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -16,11 +17,16 @@ const { id, label, spec, class: className = '', sizes = '100vw' } = Astro.props;
 const files = import.meta.glob<{ default: ImageMetadata }>('/src/assets/media/**/*.{jpg,jpeg,png,webp,avif}', {
   eager: true,
 });
-const key = Object.keys(files).find((path) => path.replace(/\.[^.]+$/, '') === `/src/assets/media/${id}`);
+const videos = import.meta.glob<string>('/src/assets/media/**/*.{mp4,webm}', { eager: true, query: '?url', import: 'default' });
+const find = (list: Record<string, unknown>) => Object.keys(list).find((path) => path.replace(/\.[^.]+$/, '') === `/src/assets/media/${id}`);
+const key = find(files);
+const videoKey = find(videos);
 ---
 
 {
-  key ? (
+  videoKey ? (
+    <video src={videos[videoKey]} aria-label={label} class:list={['object-cover', className]} autoplay muted loop playsinline preload="metadata" />
+  ) : key ? (
     <Image src={files[key].default} alt={label} sizes={sizes} class:list={['object-cover', className]} />
   ) : (
     <div
@@ -37,3 +43,10 @@ const key = Object.keys(files).find((path) => path.replace(/\.[^.]+$/, '') === `
     </div>
   )
 }
+
+<script>
+  // 움직임 줄이기 설정을 켠 사용자에게는 영상을 멈춘 상태로 보여준다.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[autoplay]').forEach((v) => (v as HTMLVideoElement).pause());
+  }
+</script>
