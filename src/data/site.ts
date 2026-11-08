@@ -310,6 +310,7 @@ export const vision = {
         { problem: 'LED 점멸의 소등 구간에서 상태가 흔들림', solution: '순간의 색 하나가 아니라 시간에 따른 상태, 보정 샘플, ROI별 근거로 판단합니다.' },
       ],
       limit: '반사·조명·ROI 변경의 영향을 받아 캘리브레이션과 시간 관측이 필요합니다.',
+      image: { id: 'software/vision-led', label: '충전 상태 판단 화면' },
     },
   ],
   training: {
