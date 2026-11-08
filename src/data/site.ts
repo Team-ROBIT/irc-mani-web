@@ -319,7 +319,7 @@ export const vision = {
         { problem: '검출 박스만으로는 공구를 잡을 위치와 방향을 알기 어려움', solution: '드라이버는 손잡이, 니퍼는 축과 헤드를 분석해 파지점과 방향을 계산합니다. 일부만 검출되면 관련 원시 박스로 분할 프롬프트를 보완합니다.' },
       ],
       limit: 'SAM2 분할이 조각나거나 공구 형태가 불명확하면 파지 방향을 보류합니다. 공구 종류 전반에 대한 범용 파지 성능은 검증하지 않았습니다.',
-      image: { id: 'software/vision-grasp', label: '공구 파지 위치·방향 결정 화면' },
+      image: { id: 'software/vision-person', label: '사람 접근 감지와 공구 파지 위치 결정 화면' },
     },
   ],
   training: {
