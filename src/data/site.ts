@@ -254,6 +254,7 @@ export const vision = {
       improvements: [
         { problem: '책상 위 물체·로봇·깊이 이상점이 책상 평면을 흔듦', solution: '제외 마스크, 강건한 평면 적합, 공간 분포와 시간 안정성 검사를 함께 씁니다.' },
       ],
+      image: { id: 'software/vision-table', label: '책상 면 추정 화면' },
     },
     {
       key: 'thermal',
