@@ -25,7 +25,7 @@ const badges = [
 <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
   {
     team.members.map((m, i) => (
-      <li class="reveal" style={`--i: ${i}`}>
+      <li class="reveal flex flex-col" style={`--i: ${i}`}>
         <div class="overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
           <Media id={m.photo} label={`${m.name} 사진`} spec="3:4 · 세로 800px 이상 · 사용 동의 필요" class="aspect-[3/4] w-full object-top" sizes="(min-width: 1024px) 25vw, 50vw" />
         </div>
@@ -34,7 +34,7 @@ const badges = [
         <ul class="mt-2 space-y-1 text-neutral-600">
           {m.roles.map((r) => <li>{r}</li>)}
         </ul>
-        <div class="mt-4 flex flex-wrap gap-2">
+        <div class="mt-auto flex flex-wrap gap-2 pt-4">
           {
             badges.map((b) =>
               m[b.key] ? (
