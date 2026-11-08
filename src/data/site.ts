@@ -300,6 +300,7 @@ export const vision = {
       improvements: [
         { problem: '배터리 코드와 인두기 코드의 외형이 비슷함', solution: '위치·케이블 형태 대신 플러그 머리 형태 특징으로 추가 분류하고, 모호하면 보류합니다.' },
       ],
+      image: { id: 'software/vision-plug', label: '플러그 형태 구분 화면' },
     },
     {
       key: 'led',
