@@ -105,7 +105,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Astro + TypeScript + Tailwind CSS + MDX, 정적 출력, GitHub Pages(base path `/irc-mani-web/`).
 - 기본은 JS 없는 정적 페이지로 하고, 3D 뷰어·타임라인처럼 필요한 곳에만 클라이언트 JS를 쓴다.
 - 스크롤 연출은 CSS(scroll-driven animations, View Transitions)를 먼저 쓰고, 부족할 때만 GSAP을 쓴다. 3D는 `<model-viewer>`, 폰트는 Pretendard 셀프호스팅.
-- 디자인: 1차 시안 4종 중 **B Clean Editorial**로 확정(밝은 배경 `#fafaf7`, 잉크 `#111`, 포인트 `#e8590c`, 큰 타이포). 어둡거나 "AI로 만든 티"가 나는 연출(HUD, 네온, 과한 그라데이션)은 피한다.
+- 디자인: 1차 시안 4종 중 **B Clean Editorial**로 확정(밝은 배경 `#fafaf7`, 잉크 `#111`, 포인트 `#8a1601`, 큰 타이포). 어둡거나 "AI로 만든 티"가 나는 연출(HUD, 네온, 과한 그라데이션)은 피한다.
 - 레이아웃: 2차 시안 4종 중 **"챕터 목차"형**으로 확정했다. 왼쪽 가장자리에 고정 목차를 두고, 스크롤 위치의 챕터를 `aria-current`로 강조한다(좁은 화면은 상단 챕터 바). 홈은 `src/pages/index.astro`, 섹션은 `src/components/sections/`.
 
 ## 구조 규칙
