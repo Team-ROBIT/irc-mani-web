@@ -22,6 +22,26 @@ const badges = [
 
 <SectionHeader eyebrow="팀" title={team.title} />
 
+<figure class="mt-12">
+  <div class="overflow-hidden rounded-3xl bg-neutral-100 text-neutral-500">
+    <Media id="team/robit-banner" label="ROBIT 배너" spec="가로로 긴 배너 · 가로 2000px 이상" class="aspect-[3045/854] w-full" sizes="(min-width: 1440px) 1200px, 100vw" />
+  </div>
+  <figcaption class="mt-4">
+    <a
+      href={team.org.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${team.org.name} GitHub 조직 (새 탭에서 열림)`}
+      class="inline-flex items-center gap-2 rounded-full border border-neutral-300 bg-white px-3.5 py-1.5 text-sm font-semibold text-neutral-700 transition-colors hover:border-ink hover:bg-ink hover:text-white"
+    >
+      <svg viewBox={badges[0].viewBox} class="size-4" fill="currentColor" aria-hidden="true">
+        <path d={badges[0].path} />
+      </svg>
+      {team.org.name}
+    </a>
+  </figcaption>
+</figure>
+
 <ul class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
   {
     team.members.map((m, i) => (

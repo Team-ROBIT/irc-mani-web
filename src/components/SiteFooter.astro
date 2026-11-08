@@ -1,10 +1,13 @@
 ---
-import { project } from '../data/site';
+import { project, team } from '../data/site';
 ---
 
 <footer class="border-t border-neutral-200">
   <div class="flex flex-col gap-2 py-12 text-sm text-neutral-500 sm:flex-row sm:justify-between">
     <span class="font-bold text-ink">{project.name}</span>
-    <span>Team {project.team} · {project.contest}</span>
+    <span>
+      Team {project.team} · {project.contest} ·
+      <a href={team.org.url} target="_blank" rel="noopener noreferrer" class="font-semibold underline-offset-2 hover:text-ink hover:underline">GitHub {team.org.name}</a>
+    </span>
   </div>
 </footer>
