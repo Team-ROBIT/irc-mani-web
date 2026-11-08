@@ -207,15 +207,21 @@ export const vision = {
   features: [
     {
       key: 'detection',
-      name: '물체 인식',
-      easy: '책상 위 공구, 배터리, 인두기, 전원 코드가 각각 무엇인지 구분합니다.',
-      tags: ['YOLO11n', 'TensorRT', '추가 학습'],
-      tech: 'Ultralytics YOLO11n 사전학습 가중치에서 추가 학습했습니다. 공구 1종 모델과 배터리·배터리 코드·인두기 코드·인두기 4종 모델로 나누어 학습하고, AGX에서는 TensorRT 엔진으로 실행합니다.',
+      name: '물체 인식과 추적',
+      easy: '책상 위 공구, 배터리, 인두기, 전원 코드가 각각 무엇인지 구분합니다.\n로봇 팔이 물건을 잠깐 가려도 바로 다른 물건으로 취급하지 않고, 다시 보인 정보가 충분할 때 같은 물건으로 연결합니다.',
+      tags: ['YOLO11n', 'TensorRT', '추가 학습', '자체 C++ Tracker', 'OCCLUDED', 'ObjectArchive', 'OcclusionRecovery'],
+      tech: 'Ultralytics YOLO11n 사전학습 가중치에서 추가 학습했습니다. 공구 1종 모델과 배터리·배터리 코드·인두기 코드·인두기 4종 모델로 나누어 학습하고, AGX에서는 TensorRT 엔진으로 실행합니다. 추적은 3D 거리를 우선하고 필요하면 2D bbox IoU로 물체를 프레임 사이에서 연결하며, EMA 등으로 위치 변동을 줄입니다. OCCLUDED·ObjectArchive·OcclusionRecovery를 직접 구현해 가림 전후의 물체 ID를 연결합니다.',
       metrics: [
         { label: 'mAP@50 · 배터리·전원 4종', value: '99.2%' },
         { label: 'mAP@50 · 일반 공구', value: '97.0%' },
+        { label: '가림 후 ID 복구 성공률', value: null },
       ],
-      image: { id: 'software/vision-detection', label: '물체 인식 결과 화면' },
+      improvements: [
+        { problem: '모델마다 검출 주기가 달라, 검출하지 않은 주기를 물체 소실로 오인', solution: '해당 모델이 실제로 실행된 결과인지 구분해 Tracker의 누락 판단에 반영합니다.' },
+        { problem: '로봇 팔이 가린 뒤 같은 물체가 새 ID로 나타남', solution: '같은 클래스, 호환되는 좌표·ROI, 6cm 이내, 크기 조건을 비교해 양방향으로 유일하게 대응될 때만 기존 ID로 연결합니다. 가림 중의 과거 pose는 무효로 처리합니다.' },
+      ],
+      limit: '제자리 재등장이 기본입니다. 외형이 같은 여러 물체를 가린 뒤에는 실물 identity를 보장하지 않으며, 크게 이동한 물체나 사람이 작업 중 끊긴 ID는 위치만으로 연결하지 않습니다.',
+      image: { id: 'software/vision-detection', label: '물체 인식과 추적 결과 화면' },
     },
     {
       key: 'position',
@@ -248,20 +254,6 @@ export const vision = {
       improvements: [
         { problem: '책상 위 물체·로봇·깊이 이상점이 책상 평면을 흔듦', solution: '제외 마스크, 강건한 평면 적합, 공간 분포와 시간 안정성 검사를 함께 씁니다.' },
       ],
-    },
-    {
-      key: 'tracking',
-      name: '추적과 가림 후 복구',
-      easy: '로봇 팔이 물건을 잠깐 가려도 바로 다른 물건으로 취급하지 않고, 다시 보인 정보가 충분할 때 같은 물건으로 연결합니다.',
-      tags: ['자체 C++ Tracker', 'OCCLUDED', 'ObjectArchive', 'OcclusionRecovery'],
-      tech: '3D 거리를 우선하고 필요하면 2D bbox IoU로 물체를 프레임 사이에서 연결하며, EMA 등으로 위치 변동을 줄입니다. OCCLUDED·ObjectArchive·OcclusionRecovery를 직접 구현해 가림 전후의 물체 ID를 연결합니다.',
-      metrics: [{ label: '가림 후 ID 복구 성공률', value: null }],
-      improvements: [
-        { problem: '모델마다 검출 주기가 달라, 검출하지 않은 주기를 물체 소실로 오인', solution: '해당 모델이 실제로 실행된 결과인지 구분해 Tracker의 누락 판단에 반영합니다.' },
-        { problem: '로봇 팔이 가린 뒤 같은 물체가 새 ID로 나타남', solution: '같은 클래스, 호환되는 좌표·ROI, 6cm 이내, 크기 조건을 비교해 양방향으로 유일하게 대응될 때만 기존 ID로 연결합니다. 가림 중의 과거 pose는 무효로 처리합니다.' },
-      ],
-      limit: '제자리 재등장이 기본입니다. 외형이 같은 여러 물체를 가린 뒤에는 실물 identity를 보장하지 않으며, 크게 이동한 물체나 사람이 작업 중 끊긴 ID는 위치만으로 연결하지 않습니다.',
-      image: { id: 'software/vision-tracking', label: '가림 전·후 추적 화면' },
     },
     {
       key: 'thermal',
