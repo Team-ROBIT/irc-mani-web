@@ -489,12 +489,13 @@ export const timeline = {
   ],
 };
 
+// github·linkedin에 프로필 주소를 넣으면 팀원 카드에 배지가 생긴다. 비워 두면 배지를 그리지 않는다.
 export const team = {
   title: '팀 ROBIT',
   members: [
-    { name: '김민조', position: '팀장', photo: 'team/kim-minjo', roles: ['QDD 모터 low-level 제어기 제작', '모방학습 개발', 'Motion planner 개발'] },
-    { name: '우정윤', position: '팀원', photo: 'team/woo-jeongyun', roles: ['QDD 매니퓰레이터 설계 및 가공', '매니퓰레이터 조립'] },
-    { name: '박기홍', position: '팀원', photo: 'team/park-kihong', roles: ['매니퓰레이터 배선', '시연 소품 제작 및 준비', '웹 페이지 제작'] },
-    { name: '송수민', position: '팀원', photo: 'team/song-sumin', roles: ['VLM 개발', 'Vision'] },
+    { name: '김민조', position: '팀장', photo: 'team/kim-minjo', github: '', linkedin: '', roles: ['QDD 모터 low-level 제어기 제작', '모방학습 개발', 'Motion planner 개발'] },
+    { name: '우정윤', position: '팀원', photo: 'team/woo-jeongyun', github: '', linkedin: '', roles: ['QDD 매니퓰레이터 설계 및 가공', '매니퓰레이터 조립'] },
+    { name: '박기홍', position: '팀원', photo: 'team/park-kihong', github: '', linkedin: '', roles: ['매니퓰레이터 배선', '시연 소품 제작 및 준비', '웹 페이지 제작'] },
+    { name: '송수민', position: '팀원', photo: 'team/song-sumin', github: '', linkedin: '', roles: ['VLM 개발', 'Vision'] },
   ],
 };
