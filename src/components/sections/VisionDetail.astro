@@ -42,7 +42,7 @@ const owner = software.modules.find((m) => m.key === 'vision')?.owner;
   </dl>
 
   <h4 class="mt-16 text-2xl font-bold">핵심 기능 {vision.features.length}가지</h4>
-  <div class="mt-6 grid items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
+  <div class="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
     {
       vision.features.map((f, i) => (
         <article class="reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white" style={`--i: ${i % 3}`}>
@@ -60,41 +60,43 @@ const owner = software.modules.find((m) => m.key === 'vision')?.owner;
               {f.tags.map((t) => <li class="rounded-full bg-neutral-100 px-2.5 py-1 font-mono text-xs text-neutral-700">{t}</li>)}
             </ul>
 
-            {f.metrics && (
-              <dl class="mt-5 space-y-2 border-t border-neutral-200 pt-4">
-                {f.metrics.map((m) => (
-                  <div class="flex items-baseline justify-between gap-4 text-sm">
-                    <dt class="text-neutral-500">{m.label}</dt>
-                    <dd class:list={['shrink-0 font-bold', m.value === null ? 'font-normal text-neutral-400' : 'text-lg']}>{m.value ?? '미측정'}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-
-            {(f.tech || f.improvements || f.limit) && (
-              <details class="mt-5 border-t border-neutral-200 pt-4">
-                <summary class="cursor-pointer text-sm font-semibold text-accent select-none">기술 자세히 보기</summary>
-                <div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-600">
-                  {f.tech && <p>{f.tech}</p>}
-                  {f.improvements?.map((p) => (
-                    <div class="rounded-2xl bg-neutral-50 p-4">
-                      <p class="text-xs font-semibold text-neutral-500">직접 개선</p>
-                      <p class="mt-1">
-                        <span class="font-semibold text-ink">문제</span> {p.problem}
-                      </p>
-                      <p class="mt-1">
-                        <span class="font-semibold text-ink">해결</span> {p.solution}
-                      </p>
+            <div class="mt-auto">
+              {f.metrics && (
+                <dl class="mt-5 space-y-2 border-t border-neutral-200 pt-4">
+                  {f.metrics.map((m) => (
+                    <div class="flex items-baseline justify-between gap-4 text-sm">
+                      <dt class="text-neutral-500">{m.label}</dt>
+                      <dd class:list={['shrink-0 font-bold', m.value === null ? 'font-normal text-neutral-400' : 'text-lg']}>{m.value ?? '미측정'}</dd>
                     </div>
                   ))}
-                  {f.limit && (
-                    <p>
-                      <span class="font-semibold text-ink">한계</span> {f.limit}
-                    </p>
-                  )}
-                </div>
-              </details>
-            )}
+                </dl>
+              )}
+
+              {(f.tech || f.improvements || f.limit) && (
+                <details class="mt-5 border-t border-neutral-200 pt-4">
+                  <summary class="cursor-pointer text-sm font-semibold text-accent select-none">기술 자세히 보기</summary>
+                  <div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-600">
+                    {f.tech && <p>{f.tech}</p>}
+                    {f.improvements?.map((p) => (
+                      <div class="rounded-2xl bg-neutral-50 p-4">
+                        <p class="text-xs font-semibold text-neutral-500">직접 개선</p>
+                        <p class="mt-1">
+                          <span class="font-semibold text-ink">문제</span> {p.problem}
+                        </p>
+                        <p class="mt-1">
+                          <span class="font-semibold text-ink">해결</span> {p.solution}
+                        </p>
+                      </div>
+                    ))}
+                    {f.limit && (
+                      <p>
+                        <span class="font-semibold text-ink">한계</span> {f.limit}
+                      </p>
+                    )}
+                  </div>
+                </details>
+              )}
+            </div>
           </div>
         </article>
       ))

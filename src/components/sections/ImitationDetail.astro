@@ -56,7 +56,7 @@ const owner = software.modules.find((m) => m.key === 'imitation')?.owner;
   </div>
 
   <h4 class="mt-16 text-2xl font-bold">구현 내용 {imitation.features.length}가지</h4>
-  <div class="mt-6 grid items-start gap-6 md:grid-cols-2 xl:grid-cols-3">
+  <div class="mt-6 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
     {
       imitation.features.map((f, i) => (
         <article class="reveal flex flex-col rounded-3xl border border-neutral-200 bg-white p-6" style={`--i: ${i % 3}`}>
@@ -66,23 +66,25 @@ const owner = software.modules.find((m) => m.key === 'imitation')?.owner;
           <ul class="mt-4 flex flex-wrap gap-1.5">
             {f.tags.map((t) => <li class="rounded-full bg-neutral-100 px-2.5 py-1 font-mono text-xs text-neutral-700">{t}</li>)}
           </ul>
-          <details class="mt-5 border-t border-neutral-200 pt-4">
-            <summary class="cursor-pointer text-sm font-semibold text-accent select-none">기술 자세히 보기</summary>
-            <div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-600">
-              <p>{f.tech}</p>
-              {f.improvements?.map((p) => (
-                <div class="rounded-2xl bg-neutral-50 p-4">
-                  <p class="text-xs font-semibold text-neutral-500">직접 개선</p>
-                  <p class="mt-1">
-                    <span class="font-semibold text-ink">문제</span> {p.problem}
-                  </p>
-                  <p class="mt-1">
-                    <span class="font-semibold text-ink">해결</span> {p.solution}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </details>
+          <div class="mt-auto pt-5">
+            <details class="border-t border-neutral-200 pt-4">
+              <summary class="cursor-pointer text-sm font-semibold text-accent select-none">기술 자세히 보기</summary>
+              <div class="mt-4 space-y-4 text-sm leading-relaxed text-neutral-600">
+                <p>{f.tech}</p>
+                {f.improvements?.map((p) => (
+                  <div class="rounded-2xl bg-neutral-50 p-4">
+                    <p class="text-xs font-semibold text-neutral-500">직접 개선</p>
+                    <p class="mt-1">
+                      <span class="font-semibold text-ink">문제</span> {p.problem}
+                    </p>
+                    <p class="mt-1">
+                      <span class="font-semibold text-ink">해결</span> {p.solution}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </details>
+          </div>
         </article>
       ))
     }
