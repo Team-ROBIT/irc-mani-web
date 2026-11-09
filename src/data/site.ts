@@ -80,7 +80,7 @@ export const results = {
   title: '실제 시연 결과',
   intro: '로봇이 Task를 처음부터 끝까지 수행하는 영상과 Task별 성공률입니다.',
   pending: true,
-  youtubeId: '',
+  youtubeId: 'OLy96QEyY1U',
   items: [
     { name: '위험요소 판별', rate: '—' },
     { name: '인두기 코드 뽑기', rate: '—' },
