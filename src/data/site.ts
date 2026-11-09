@@ -479,8 +479,8 @@ export const timeline = {
   intro: '설계부터 전체 통합까지의 과정과 그 과정에서 겪은 시행착오를 정리합니다.',
   pending: true,
   stages: [
-    { key: 'design', name: '설계', period: '8/1 ~ 8/30', body: 'QDD 모터 기반 7자유도 매니퓰레이터를 설계하고, 모터 low-level 제어기를 제작했습니다.', trial: '[작성 예정]' },
-    { key: 'build', name: '가공·도색·조립', period: '9/1 ~ 9/30', body: '설계한 부품을 가공하고 도색한 뒤 매니퓰레이터를 조립·배선했습니다.', trial: '공차를 너무 작게 잡아 부품이 잘 맞지 않는 문제와, 배선 과정에서 생긴 간섭이 있어 재가공을 거쳤습니다.' },
+    { key: 'design', name: '설계', period: '8/1 ~ 8/30', body: 'QDD 모터 기반 7자유도 매니퓰레이터를 설계하고, 모터 low-level 제어기를 제작했습니다.', trial: '매니퓰레이터를 편리하게 조종할 수 있는 리더암을 1:0.7의 비율로 제작하였습니다' },
+    { key: 'build', name: '가공·도색·조립', period: '9/1 ~ 9/30', body: '설계한 부품을 가공하고 도색한 뒤 매니퓰레이터를 조립·배선했습니다.', trial: '공차를 너무 작게 잡아 부품이 잘 맞지 않는 문제와, 배선 과정에서 생긴 간섭이 있어 재가공을 거쳤으며 부품 구조 단순화를 통하여 가공 단가를 낮추었습니다.' },
     { key: 'data', name: '데이터 수집', period: '[기간 작성 예정]', body: '사람이 리더암을 움직여 Task별 시연 데이터를 모았습니다.', trial: 'Leader arm에 중력·마찰 보상(gravity·friction compensation)을 구현해, 데이터를 모으는 동안 조작자의 피로를 줄이고 시연 품질을 일정하게 유지했습니다.' },
     { key: 'training', name: '학습', period: '[기간 작성 예정]', body: '모은 시연 데이터로 모방학습 정책을 학습했습니다.', trial: '작업 공간(workspace) 위치만 바뀌어도 정책(policy)이 실패했습니다. image augmentation으로 fine-tuning해서 환경 변화에도 잘 동작하도록 만들었습니다.' },
     { key: 'integration', name: '통합', period: '[기간 작성 예정]', body: 'VLM, Vision, Task Planner와 동작 정책을 매니퓰레이터에 연결해 전체 시연을 맞췄습니다.', trial: '[작성 예정]' },
