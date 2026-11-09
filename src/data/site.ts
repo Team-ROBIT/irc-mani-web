@@ -134,21 +134,26 @@ export const hardware = {
 // 자료가 정리되면 채운다. pending 섹션은 "자료 준비 중"으로 표시된다.
 export const system = {
   title: '전체 시스템 구성',
-  intro: '탑뷰 카메라로 위험요소를 판단하고 매니퓰레이터의 동작으로 옮기기까지의 흐름입니다. 리더암은 학습 데이터 수집에만 쓰며, 시연 중 수동 조작은 없습니다.',
+  intro: '탑뷰 카메라와 Vision이 입력을 받고, VLM이 상황을 판단한 뒤 Task Planner가 실행을 연결하는 흐름입니다. 리더암은 학습 데이터 수집에만 쓰며, 시연 중 수동 조작은 없습니다.',
   pending: true,
   diagram: {
     run: {
       label: '자율 수행',
       stages: [
-        { label: '입력', nodes: [{ name: '탑뷰 카메라', note: 'Station' }] },
         {
-          label: '인식·판단',
+          label: '입력',
           nodes: [
-            { name: 'VLM', note: '퇴실 인식, 위험요소 판별, 우선순위' },
-            { name: 'Vision', note: '' },
+            { name: '탑뷰 카메라', note: 'Station' },
+            { name: 'Vision', note: '객체·상태·위험 인식' },
           ],
         },
-        { label: '계획', nodes: [{ name: 'Task Planner', note: '' }] },
+        {
+          label: '판단·계획',
+          nodes: [
+            { name: 'VLM', note: '퇴실 인식, 위험요소 판별, 우선순위' },
+          ],
+        },
+        { label: '실행', nodes: [{ name: 'Task Planner', note: '' }] },
         {
           label: '동작 생성',
           nodes: [
@@ -321,7 +326,6 @@ export const vision = {
       { name: '일반 공구', images: '1,670장', split: '1,387 / 197 / 86', precision: '97.5%', recall: '95.8%', map50: '97.0%', map5095: '87.1%' },
     ],
   },
-  unmeasured: ['전체 시스템 실측 FPS · 평균/p95 지연', 'AGX에서의 YOLO 평균 추론 시간'],
 };
 
 export const vlm = {
@@ -347,13 +351,12 @@ export const vlm = {
     { name: '사례 1', scene: '인두기 · 배터리 · 콘센트 · 공구 2개', time: '21.554초', tokens: '10,173 / 105' },
     { name: '사례 2', scene: '배터리 · 공구 2개', time: '13.944초', tokens: '8,897 / 45' },
   ],
-  unmeasured: ['평균 생성 시간', '계획 정확도', '전체 작업 성공률'],
   limit: '계획 생성이 성공해도 실행 성공을 보장하지는 않습니다. 입력 상태가 오래되었거나 관계가 불명확하면 보류합니다.',
 };
 
 // 모방학습 상세. 측정값이 null이면 "미측정"으로 표시된다.
 export const imitation = {
-  easy: '사람이 리더암으로 직접 보여 준 동작을 학습해, 코드 뽑기·스위치 끄기처럼 위치를 정밀하게 맞춰야 하는 조작을 로봇이 스스로 하게 만들었습니다.',
+  easy: '사람이 리더암으로 직접 보여 준 동작을 학습해, 코드 뽑기·스위치 끄기처럼 물체와 접촉이 많은(contact-rich) 조작을 로봇이 스스로 하게 만들었습니다.',
   model: 'ACT (Action Chunking with Transformers)',
   runtime: 'LeRobot 0.4.4 위에 로봇·학습·실행 도구를 직접 구현',
   principle: {
@@ -397,7 +400,7 @@ export const imitation = {
       tags: ['ACT chunk 30', 'LiPo', 'OSQP'],
       tech: '청크마다 앞 20스텝만 실행하고 다시 예측해, 새 청크의 앞 10스텝이 이전 청크와 겹치게 합니다. 겹치는 구간을 jerk가 최소가 되도록 최적화(QP)로 잇습니다. 그리퍼 개폐는 타이밍이 중요해서 다듬지 않습니다.',
       improvements: [
-        { problem: '청크가 바뀌는 순간 동작이 끊기거나 튐', solution: '아무것도 하지 않는 방식, ACT 논문의 temporal ensemble, LiPo를 같은 실행 간격으로 비교할 수 있게 실행 도구를 만들고, 실행 결과를 데이터셋으로 남겨 비교합니다.' },
+        { problem: '청크가 바뀌는 순간 동작이 끊기거나 튐', solution: 'ACT의 temporal ensemble과 LiPo로 청크 경계를 평활화하고, 보정 없는 기본 방식과 같은 실행 조건에서 돌린 궤적 데이터로 경계 불연속(jerk·점프 크기)과 성공률을 정량 비교합니다.' },
       ],
     },
     {
@@ -406,10 +409,7 @@ export const imitation = {
       easy: '리더암을 로봇 팔 자세에 먼저 맞춘 뒤에 연결해, 연결하는 순간 로봇이 튀지 않게 했습니다.',
       tags: ['중력 보상', 'Dynamixel', '팔로우 모드'],
       tech: '평소에는 중력 보상만 켜서 손으로 가볍게 움직일 수 있습니다. F 키를 누르면 리더암이 로봇 팔 자세를 따라가고, S 키는 모든 관절 차이가 0.1rad 이내일 때만 로봇 팔로 명령을 보내기 시작합니다.',
-      improvements: [
-        { problem: 'Dynamixel 토크를 켜면 목표 위치가 현재 위치로 덮여서 일부 관절이 움직이지 않음', solution: '토크를 켠 다음에 목표 위치를 씁니다.' },
-        { problem: '목표를 빠르게 계속 보내면 관절이 갑자기 튀어 나감', solution: '로봇 자세가 바뀌었을 때나 0.1초마다만 목표를 쓰고, 모터의 속도·가속 프로파일로 부드럽게 따라가게 했습니다.' },
-      ],
+      improvements: [],
     },
     {
       key: 'record',
@@ -424,18 +424,17 @@ export const imitation = {
   ],
   trainingNote: 'ACT, batch 32, 청크 30스텝, 5,000스텝마다 체크포인트 저장. 시간은 프레임 수 ÷ 30fps입니다.',
   skills: [
-    { task: '인두기 코드 뽑기', skill: 'unplug_soldering_il', episodes: 50, minutes: '6.9분', run: '20초' },
-    { task: '배터리 분리', skill: 'battery_task_il', episodes: 42, minutes: '8.7분', run: '17초' },
-    { task: '멀티탭 끄기', skill: 'switch_off_il', episodes: 50, minutes: '4.3분', run: '10초' },
-    { task: '작업대 정리 (공구 잡기)', skill: 'grasp_il', episodes: 90, minutes: '9.7분', run: '10초' },
+    { task: '인두기 코드 뽑기', skill: 'unplug_soldering_il', episodes: 50, minutes: '6.9분', run: '14초' },
+    { task: '배터리 분리', skill: 'battery_task_il', episodes: 42, minutes: '8.7분', run: '15초' },
+    { task: '멀티탭 끄기', skill: 'switch_off_il', episodes: 50, minutes: '4.3분', run: '8초' },
+    { task: '작업대 정리 (공구 잡기)', skill: 'grasp_il', episodes: 90, minutes: '9.7분', run: '2초' },
   ],
   skillsNote: '배터리 분리는 뽑기 → 운반 → 놓기를 정책 하나로 수행합니다.',
-  unmeasured: ['skill별 실행 성공률', '청크 연결 방식(없음 · temporal ensemble · LiPo)별 비교 결과'],
 };
 
 // Motion Planner 상세
 export const motionPlanner = {
-  easy: 'Vision이 알려 준 물체 앞 자세까지 로봇 팔을 옮깁니다. 여기까지는 계획한 경로로 움직이고, 물체를 다루는 정밀한 동작은 모방학습 정책이 이어받습니다.',
+  easy: 'Vision이 알려 준 물체 앞 자세까지 로봇 팔을 옮깁니다. 여기까지는 계획한 경로로 움직이고, 물체를 다루는 접촉이 많은 동작은 모방학습 정책이 이어받습니다.',
   stack: 'MoveIt 2 · pick_ik',
   flow: [
     { name: 'Vision', body: '대상 물체의 조작 전 자세(pre-manipulation pose)를 SceneState로 보냅니다.' },
@@ -472,7 +471,6 @@ export const motionPlanner = {
       solution: 'Task Planner가 이동을 취소하면 실행 중인 경로를 바로 멈춥니다. 요청은 한 번에 하나씩 처리합니다.',
     },
   ],
-  unmeasured: ['계획 성공률', '평균 계획 시간', '도착 위치 오차'],
 };
 
 // 문구 초안: 팀 검토 후 수정. 기간과 시행착오는 직접 채운다.
