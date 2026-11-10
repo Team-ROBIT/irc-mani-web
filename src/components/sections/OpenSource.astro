@@ -5,19 +5,19 @@ import { openSource } from '../../data/site';
 
 <SectionHeader eyebrow="오픈소스" title={openSource.title} intro={openSource.intro} />
 
-<!-- 넓은 화면에서는 모듈 묶음을 나란히 두고, SDK는 짧은 오른쪽 칸 아래에 붙인다 -->
+<!-- 넓은 화면에서는 모듈 묶음을 나란히 두고, SDK는 오른쪽 칸 아래에 붙여 두 칸의 맨 아래를 맞춘다 -->
 <div class="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-8">
   {
     openSource.groups.map((g, i) => (
-      <div>
+      <div class="flex flex-col">
         <h3 class="text-lg font-bold">{g.name}</h3>
-        <ul class="reveal mt-4 divide-y divide-neutral-100 rounded-3xl border border-neutral-200 bg-white">
+        <ul class:list={['reveal mt-4 divide-y divide-neutral-100 rounded-3xl border border-neutral-200 bg-white', i < openSource.groups.length - 1 && 'lg:flex-1']}>
           {g.items.map((r) => (
             <li class="px-5 py-3">
               <div class="flex items-baseline justify-between gap-4">
-                <p class="min-w-0">
+                <p class="flex min-w-0 flex-wrap items-baseline gap-x-2">
                   <span class="font-semibold">{r.name}</span>
-                  <span class="ml-2 text-xs whitespace-nowrap text-neutral-500">{r.category}</span>
+                  <span class="text-xs whitespace-nowrap text-neutral-500">{r.category}</span>
                 </p>
                 <a href={r.url} target="_blank" rel="noopener noreferrer" class="shrink-0 text-sm font-semibold text-accent hover:underline">
                   {r.linkLabel} ↗
@@ -35,7 +35,7 @@ import { openSource } from '../../data/site';
         {i === openSource.groups.length - 1 && (
           <>
             <h3 class="mt-10 text-lg font-bold">{openSource.sdkTitle}</h3>
-            <ul class="reveal mt-4 divide-y divide-neutral-100 rounded-3xl border border-neutral-200 bg-white">
+            <ul class="reveal mt-4 divide-y divide-neutral-100 rounded-3xl border border-neutral-200 bg-white lg:flex-1">
               {openSource.sdk.map((r) => (
                 <li class="px-5 py-3">
                   <div class="flex items-baseline justify-between gap-4">
