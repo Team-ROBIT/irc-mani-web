@@ -48,10 +48,13 @@ export const why = {
     '과학기술정보통신부, 「연구실안전관리실태조사」 2024 (KOSIS 연구실 사고 현황)',
     '과학기술정보통신부, 「연구실안전관리실태조사」 2025',
   ],
+  casesTitle: '실제 연구실 배터리 사고 보도',
+  casesNote: '방송사 뉴스 영상입니다. 재생하면 YouTube에서 불러오며, 제목 아래에 원제와 출처를 적었습니다.',
+  // kind 'video'는 YouTube 영상 ID(주소의 v= 뒤 값)만 넣는다. 공유 링크의 ?si= 같은 추적 값은 넣지 않는다.
   cases: [
-    { title: '대학원 연구실 배터리 화재', url: 'https://www.youtube.com/watch?v=WIwHCSgCqlc' },
-    { title: '관리자 전원 미차단으로 인한 사고', url: 'https://www.youtube.com/watch?v=1PmRYAUTcbI' },
-    { title: '4족 로봇 실험 중 화재', url: 'https://www.youtube.com/watch?v=K7Z1AZFtdnM' },
+    { kind: 'video', id: 'WIwHCSgCqlc', title: '대학원 연구실 배터리 화재', source: 'KBS News', headline: '서울대 연구실서 배터리 폭발 화재…50여분 만에 진화 (2025.08.12)' },
+    { kind: 'video', id: '1PmRYAUTcbI', title: '관리자 전원 미차단으로 인한 사고', source: 'KBS News', headline: "국정자원 화재는 '총체적 인재'…\"전원 차단 안 했다\" (2025.11.25)" },
+    { kind: 'video', id: 'K7Z1AZFtdnM', title: '4족 로봇 실험 중 화재', source: 'YTN', headline: '충남대 공대 연구실 배터리 화재...학생 2명 대피' },
   ],
 };
 
@@ -515,7 +518,7 @@ export const timeline = {
 
 // github·linkedin에 프로필 주소를 넣으면 팀원 카드에 배지가 생긴다. 비워 두면 배지를 그리지 않는다.
 export const team = {
-  title: '팀 ROBIT',
+  title: 'Team ROBIT',
   org: { name: 'Team-ROBIT', url: 'https://github.com/Team-ROBIT' },
   members: [
     { name: '김민조', position: '팀장', photo: 'team/kim-minjo', github: 'https://github.com/kmj060703', linkedin: 'https://www.linkedin.com/in/minjo-kim-a29864434/', roles: ['QDD 모터 low-level 제어기 제작', '모방학습 개발', 'Motion planner 개발'] },

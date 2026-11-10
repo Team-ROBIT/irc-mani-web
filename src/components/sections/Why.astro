@@ -31,20 +31,42 @@ import { why } from '../../data/site';
   }
 </div>
 
-<div class="mt-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-  <ul class="space-y-1 text-xs text-neutral-500">
-    {why.sources.map((s) => <li>출처: {s}</li>)}
-  </ul>
-  <div class="flex flex-wrap gap-2">
-    {
-      why.cases.map((c) => (
-        <a href={c.url} target="_blank" rel="noopener" class="rounded-full border border-neutral-300 px-4 py-2 text-sm hover:border-ink">
-          사례 영상 · {c.title} ↗
-        </a>
-      ))
-    }
-  </div>
+<h3 class="mt-20 text-2xl font-bold">{why.casesTitle}</h3>
+<p class="mt-2 text-sm text-neutral-500">{why.casesNote}</p>
+<div class="mt-6 grid gap-6 md:grid-cols-3">
+  {
+    why.cases.map((v, i) => (
+      <article class="reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white" style={`--i: ${i}`}>
+        <div data-yt={v.id} data-title={v.title} class="relative aspect-video bg-neutral-100">
+          <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" aria-label={`${v.title} 영상 보기`} class="group absolute inset-0">
+            <img
+              src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+              alt=""
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              class="size-full object-cover"
+            />
+            <span class="absolute inset-0 grid place-items-center bg-black/10 transition-colors group-hover:bg-black/25" aria-hidden="true">
+              <span class="grid size-14 place-items-center rounded-full bg-white/95 text-xl text-ink shadow">▶</span>
+            </span>
+          </a>
+        </div>
+        <div class="flex flex-1 flex-col p-5">
+          <p class="text-xs font-semibold text-accent">영상 · {v.source}</p>
+          <h4 class="mt-1 text-lg font-bold">{v.title}</h4>
+          <p class="mt-2 text-sm leading-snug text-neutral-500">원제: {v.headline}</p>
+          <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" class="mt-auto pt-4 text-sm font-semibold text-accent hover:underline">
+            YouTube에서 보기 ↗
+          </a>
+        </div>
+      </article>
+    ))
+  }
 </div>
+
+<ul class="mt-10 space-y-1 text-xs text-neutral-500">
+  {why.sources.map((s) => <li>출처: {s}</li>)}
+</ul>
 
 <script>
   // 통계 숫자가 화면에 들어오면 0부터 실제 값까지 올라간다. JS가 없으면 처음부터 실제 값이 보인다.
@@ -69,5 +91,21 @@ import { why } from '../../data/site';
       { threshold: 0.6 },
     );
     document.querySelectorAll('[data-count]').forEach((el) => observer.observe(el));
+  }
+</script>
+
+<script>
+  // 썸네일을 누르면 새 탭으로 가지 않고 같은 자리에서 재생한다. JS가 없으면 YouTube 링크로 이동한다.
+  for (const box of document.querySelectorAll<HTMLElement>('[data-yt]')) {
+    box.querySelector('a')?.addEventListener('click', (event) => {
+      event.preventDefault();
+      const frame = document.createElement('iframe');
+      frame.src = `https://www.youtube-nocookie.com/embed/${box.dataset.yt}?autoplay=1`;
+      frame.title = box.dataset.title ?? '사례 영상';
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture';
+      frame.allowFullscreen = true;
+      frame.className = 'absolute inset-0 size-full';
+      box.replaceChildren(frame);
+    });
   }
 </script>
