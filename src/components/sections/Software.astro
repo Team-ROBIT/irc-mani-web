@@ -148,7 +148,7 @@ import { software } from '../../data/site';
       let at = 0;
       slots = panels.map((p) => {
         const overflow = Math.max(0, p.offsetHeight - h);
-        const lead = h * 0.12;
+        const lead = h * 0.6; // 모듈 제목이 제자리에 머무는 스크롤 거리
         const length = lead + overflow + h * 0.25;
         const slot = { start: at, lead, overflow, length };
         at += length;
