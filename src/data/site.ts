@@ -53,7 +53,6 @@ export const why = {
   // kind 'video'는 YouTube 영상 ID(주소의 v= 뒤 값)만 넣는다. 공유 링크의 ?si= 같은 추적 값은 넣지 않는다.
   cases: [
     { kind: 'video', id: 'WIwHCSgCqlc', title: '대학원 연구실 배터리 화재', source: 'KBS News', headline: '서울대 연구실서 배터리 폭발 화재…50여분 만에 진화 (2025.08.12)' },
-    { kind: 'video', id: '1PmRYAUTcbI', title: '관리자 전원 미차단으로 인한 사고', source: 'KBS News', headline: "국정자원 화재는 '총체적 인재'…\"전원 차단 안 했다\" (2025.11.25)" },
     { kind: 'video', id: 'K7Z1AZFtdnM', title: '4족 로봇 실험 중 화재', source: 'YTN', headline: '충남대 공대 연구실 배터리 화재...학생 2명 대피' },
   ],
 };
