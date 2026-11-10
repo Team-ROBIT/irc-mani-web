@@ -50,7 +50,6 @@ export const why = {
     '과학기술정보통신부, 「연구실안전관리실태조사」 2025',
   ],
   casesTitle: '실제 연구실 사고 보도',
-  casesNote: '방송사 뉴스 영상입니다. 재생하면 YouTube에서 불러오며, 제목 아래에 원제와 출처를 적었습니다.',
   // kind 'video'는 YouTube 영상 ID(주소의 v= 뒤 값)만 넣는다. 공유 링크의 ?si= 같은 추적 값은 넣지 않는다.
   cases: [
     { kind: 'video', id: 'WIwHCSgCqlc', title: '대학원 연구실 배터리 화재', source: 'KBS News', headline: '서울대 연구실서 배터리 폭발 화재…50여분 만에 진화 (2025.08.12)' },
