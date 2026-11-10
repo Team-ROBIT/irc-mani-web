@@ -518,7 +518,6 @@ export const motionPlanner = {
 export const timeline = {
   title: '어떻게 만들었는가',
   intro: '설계부터 전체 통합까지의 과정과 그 과정에서 겪은 시행착오를 정리합니다.',
-  pending: true,
   stages: [
     { key: 'design', name: '설계', period: '8/1 ~ 8/30', body: 'QDD 모터 기반 7자유도 매니퓰레이터를 설계하고, 모터 low-level 제어기를 제작했습니다.', trial: '매니퓰레이터를 편리하게 조종할 수 있는 리더암을 1:0.7의 비율로 제작하였습니다' },
     { key: 'build', name: '가공·도색·조립', period: '9/1 ~ 9/30', body: '설계한 부품을 가공하고 도색한 뒤 매니퓰레이터를 조립·배선했습니다.', trial: '공차를 너무 작게 잡아 부품이 잘 맞지 않는 문제와, 배선 과정에서 생긴 간섭이 있어 재가공을 거쳤으며 부품 구조 단순화를 통하여 가공 단가를 낮추었습니다.' },
