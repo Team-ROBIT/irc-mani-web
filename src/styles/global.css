@@ -56,3 +56,19 @@ html {
   -webkit-mask-image: linear-gradient(to bottom, #000 50%, rgb(0 0 0 / var(--fade)) 100%);
   mask-image: linear-gradient(to bottom, #000 50%, rgb(0 0 0 / var(--fade)) 100%);
 }
+
+/* 소개: 넓은 화면에서 화면 높이의 0.6만큼 스크롤하는 동안 고정된 뒤 다음 섹션이 나타난다. */
+@media (min-width: 80rem) and (min-height: 46rem) and (prefers-reduced-motion: no-preference) {
+  /* sticky는 부모의 padding을 범위로 치지 않으므로 높이를 직접 늘린다: 화면 100% + 스크롤 60% */
+  .hero-pin {
+    min-height: 160vh;
+    min-height: 160svh;
+  }
+  .hero-stick {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    align-content: center;
+  }
+}

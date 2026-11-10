@@ -64,15 +64,17 @@ import { project, media, nav } from '../data/site';
 
     <div class="mx-auto w-full max-w-[1500px] min-w-0 px-5 sm:px-8 lg:px-10 xl:px-14">
       <main class="divide-y divide-neutral-200">
-        <section id="top" class="grid gap-10 pt-10 pb-20 xl:grid-cols-[1fr_1.15fr] xl:items-center xl:pt-16">
-          <div class="hero-out">
-            <p class="intro text-sm font-semibold text-accent">Team {project.team} · {project.contest}</p>
-            <h1 class="intro mt-4 text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.9] font-black tracking-[-0.04em]" style="--i: 1">{project.name}</h1>
-            <p class="intro mt-8 text-2xl leading-snug font-bold sm:text-3xl" style="--i: 2">{project.headline}</p>
-            <p class="intro mt-5 text-lg leading-relaxed text-neutral-600" style="--i: 3">{project.summary}</p>
-          </div>
-          <div class="intro overflow-hidden rounded-3xl bg-neutral-200 text-neutral-500" style="--i: 2">
-            <Media {...media.hero} class="hero-zoom aspect-[4/3] w-full" sizes="(min-width: 1280px) 55vw, 100vw" />
+        <section id="top" class="hero-pin">
+          <div class="hero-stick grid gap-10 pt-10 pb-20 xl:grid-cols-[1fr_1.15fr] xl:items-center xl:pt-16">
+            <div class="hero-out">
+              <p class="intro text-sm font-semibold text-accent">Team {project.team} · {project.contest}</p>
+              <h1 class="intro mt-4 text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.9] font-black tracking-[-0.04em]" style="--i: 1">{project.name}</h1>
+              <p class="intro mt-8 text-2xl leading-snug font-bold sm:text-3xl" style="--i: 2">{project.headline}</p>
+              <p class="intro mt-5 text-lg leading-relaxed text-neutral-600" style="--i: 3">{project.summary}</p>
+            </div>
+            <div class="intro overflow-hidden rounded-3xl bg-neutral-200 text-neutral-500" style="--i: 2">
+              <Media {...media.hero} class="hero-zoom aspect-[4/3] w-full" sizes="(min-width: 1280px) 55vw, 100vw" />
+            </div>
           </div>
         </section>
         <section id="why" class="py-20 lg:py-28"><Why /></section>
