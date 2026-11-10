@@ -408,6 +408,24 @@ export const vlm = {
 };
 
 // 모방학습 상세. 측정값이 null이면 "미측정"으로 표시된다.
+export const voice = {
+  title: '음성 입출력',
+  items: [
+    {
+      kind: '음성 입력 · STT',
+      model: 'Whisper Small · faster-whisper',
+      body: 'AGX GPU에서 FP16으로 한국어 음성을 텍스트로 변환합니다. 발화 구간을 감지하고, 인식한 요청을 Vision의 선택 물체 정보와 연결합니다.',
+      tags: ['Whisper Small', 'GPU · FP16', '한국어 음성 인식'],
+    },
+    {
+      kind: '음성 출력 · TTS',
+      model: 'Supertonic 3 · F1 음성',
+      body: 'AGX CPU에서 안내 문장을 합성합니다. 시작 시 고정 문구를 미리 합성해 RAM에 적재하고, 상황에 맞는 음성을 재생합니다.',
+      tags: ['Supertonic 3', 'ONNX Runtime · CPU', '음성 사전 캐시'],
+    },
+  ],
+};
+
 export const imitation = {
   easy: '사람이 리더암으로 직접 보여 준 동작을 학습해, 코드 뽑기·스위치 끄기처럼 물체와 접촉이 많은(contact-rich) 조작을 로봇이 스스로 하게 만들었습니다.',
   model: 'ACT (Action Chunking with Transformers)',

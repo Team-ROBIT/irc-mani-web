@@ -1,5 +1,5 @@
 ---
-import { software, vlm } from '../../data/site';
+import { software, vlm, voice } from '../../data/site';
 
 const owner = software.modules.find((m) => m.key === 'vlm')?.owner;
 ---
@@ -81,4 +81,19 @@ const owner = software.modules.find((m) => m.key === 'vlm')?.owner;
     </table>
   </div>
 
+  <h4 class="mt-16 text-2xl font-bold">{voice.title}</h4>
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+    {
+      voice.items.map((v, i) => (
+        <article class="reveal rounded-3xl border border-neutral-200 bg-white p-6" style={`--i: ${i}`}>
+          <p class="text-sm font-semibold text-accent">{v.kind}</p>
+          <p class="mt-2 text-xl font-bold">{v.model}</p>
+          <p class="mt-3 leading-relaxed text-neutral-700">{v.body}</p>
+          <ul class="mt-4 flex flex-wrap gap-1.5">
+            {v.tags.map((t) => <li class="rounded-full bg-neutral-100 px-2.5 py-1 font-mono text-xs text-neutral-700">{t}</li>)}
+          </ul>
+        </article>
+      ))
+    }
+  </div>
 </div>
