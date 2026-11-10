@@ -49,14 +49,14 @@ import { software } from '../../data/site';
   <p data-tabs-only hidden class="mt-6 text-neutral-500">카드를 누르면 아래에서 자세한 내용을 볼 수 있어요.</p>
 
   <!-- 탭 줄: 스크롤만 하는 사람도 다른 모듈이 있다는 걸 알 수 있게 패널 바로 위에 둔다 -->
-  <div data-tabs-only data-tab-bar hidden role="tablist" aria-label="소프트웨어 모듈" class="mt-16 flex flex-wrap gap-2 border-t border-neutral-200 pt-8">
+  <div data-tabs-only data-tab-bar hidden role="tablist" aria-label="소프트웨어 모듈" class="mt-16 flex overflow-x-auto border-b border-neutral-200">
     {
       software.modules.map((m) => (
         <button
           type="button"
           role="tab"
           data-tab-button={m.key}
-          class="rounded-full border border-neutral-300 bg-white px-5 py-2.5 font-semibold text-neutral-600 transition-colors hover:border-ink hover:text-ink aria-selected:border-accent aria-selected:bg-accent aria-selected:text-white"
+          class="-mb-px shrink-0 border-b-[3px] border-transparent px-3 py-3 text-sm font-semibold sm:px-6 sm:text-base whitespace-nowrap text-neutral-600 transition-colors hover:text-ink aria-selected:border-accent aria-selected:text-accent"
         >
           {m.name}
         </button>
@@ -126,3 +126,12 @@ import { software } from '../../data/site';
     show(fromHash ?? keys[0]);
   }
 </script>
+
+<style>
+  /* 탭으로 하나씩 볼 때는 상세 위쪽 구분선을 없애고 탭 줄에 붙인다. JS가 없으면 상세가 이어지므로 구분선을 남긴다. */
+  [data-tab-bar]:not([hidden]) ~ [data-panel] > :global(:first-child) {
+    margin-top: 1.5rem;
+    border-top: 0;
+    padding-top: 0;
+  }
+</style>
