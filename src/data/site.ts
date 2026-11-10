@@ -136,7 +136,6 @@ export const hardware = {
 export const system = {
   title: '전체 시스템 구성',
   intro: '탑뷰 카메라와 Vision이 입력을 받고, VLM이 상황을 판단한 뒤 Task Planner가 실행을 연결하는 흐름입니다. 리더암은 학습 데이터 수집에만 쓰며, 시연 중 수동 조작은 없습니다.',
-  pending: true,
   diagram: {
     run: {
       label: '자율 수행',
