@@ -556,6 +556,14 @@ export const openSource = {
     {
       name: '모방학습 · Motion Planner',
       items: [
+        { category: '모방학습 프레임워크', name: 'LeRobot 0.4.4', purpose: '로봇 연결·시연 데이터 기록·학습·실행 도구의 기반', license: 'Apache-2.0', linkLabel: 'LeRobot', url: 'https://github.com/huggingface/lerobot' },
+        { category: '모방학습 정책', name: 'ACT (Action Chunking with Transformers)', purpose: '리더암 시연 데이터로 조작 정책 학습', license: 'LeRobot 구현 Apache-2.0 / 원본 코드 MIT', linkLabel: 'ACT', url: 'https://github.com/tonyzhaozh/act' },
+        { category: '딥러닝', name: 'PyTorch', purpose: '정책 학습·추론', license: 'BSD-3-Clause', linkLabel: 'PyTorch', url: 'https://github.com/pytorch/pytorch' },
+        { category: '역기구학', name: 'Pinocchio', purpose: '그리퍼 자세를 관절 각도로 변환(감쇠 최소제곱 IK)', license: 'BSD-2-Clause', linkLabel: 'Pinocchio', url: 'https://github.com/stack-of-tasks/pinocchio' },
+        { category: '최적화', name: 'OSQP', purpose: '동작 청크 이음새를 매끄럽게 잇는 QP 풀이', license: 'Apache-2.0', linkLabel: 'OSQP', url: 'https://github.com/osqp/osqp' },
+        { category: '경로 계획', name: 'MoveIt 2', purpose: '물체 앞 접근 자세까지 팔 경로 계획', license: 'BSD-3-Clause', linkLabel: 'MoveIt 2', url: 'https://github.com/moveit/moveit2' },
+        { category: 'IK 플러그인', name: 'pick_ik', purpose: 'MoveIt 역기구학 풀이(KDL과 비교 후 선택)', license: 'BSD-3-Clause', linkLabel: 'pick_ik', url: 'https://github.com/PickNikRobotics/pick_ik' },
+        { category: '로봇 제어', name: 'ros2_control', purpose: '팔·그리퍼 컨트롤러와 하드웨어 연결', license: 'Apache-2.0', linkLabel: 'ros2_control', url: 'https://github.com/ros-controls/ros2_control' },
       ],
     },
   ],
