@@ -180,13 +180,28 @@ export const system = {
   },
   environment: {
     title: '실행 환경',
-    rows: [
-      { item: '연산 장치', value: 'NVIDIA Jetson AGX' },
-      { item: '실행 방식', value: 'Vision·VLM 온디바이스 로컬 실행' },
-      { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
-      { item: 'RGB·깊이 입력', value: 'Intel RealSense D455 · USB 3 연결' },
-      { item: '음성 입력', value: 'AGX에 연결된 USB 마이크' },
-      { item: '음성 출력', value: 'AGX에 연결된 USB 스피커' },
+    groups: [
+      {
+        name: 'Jetson AGX',
+        rows: [
+          { item: '연산 장치', value: 'NVIDIA Jetson AGX' },
+          { item: '실행 방식', value: 'Vision·VLM 온디바이스 로컬 실행' },
+          { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
+          { item: 'RGB·깊이 입력', value: 'Intel RealSense D455 · USB 3 연결' },
+          { item: '음성 입력', value: 'AGX에 연결된 USB 마이크' },
+          { item: '음성 출력', value: 'AGX에 연결된 USB 스피커' },
+        ],
+      },
+      {
+        name: '노트북',
+        rows: [
+          { item: '연산 장치', value: 'NVIDIA RTX 4060 노트북' },
+          { item: '실행 방식', value: '모방학습 정책·Motion Planner 로컬 실행' },
+          { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
+          { item: '손목 카메라 입력', value: 'RealSense · 360×640' },
+          { item: '모터 통신', value: 'CANable · USB 연결' },
+        ],
+      },
     ],
   },
 };
