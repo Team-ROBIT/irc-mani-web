@@ -1,0 +1,61 @@
+---
+import SectionHeader from './SectionHeader.astro';
+import { openSource } from '../../data/site';
+---
+
+<SectionHeader eyebrow="오픈소스" title={openSource.title} intro={openSource.intro} />
+
+<div class="reveal mt-12 overflow-x-auto rounded-3xl border border-neutral-200 bg-white">
+  <table class="w-full min-w-[56rem] text-left text-sm">
+    <thead class="border-b border-neutral-200 text-neutral-500">
+      <tr>
+        <th class="p-4 font-semibold">구분</th>
+        <th class="p-4 font-semibold">이름·모델</th>
+        <th class="p-4 font-semibold">사용 목적</th>
+        <th class="p-4 font-semibold">라이선스</th>
+        <th class="p-4 font-semibold">주소</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        openSource.items.map((r) => (
+          <tr class="border-b border-neutral-100 align-top last:border-0">
+            <td class="p-4 text-neutral-500">{r.category}</td>
+            <td class="p-4 font-semibold">{r.name}</td>
+            <td class="p-4 leading-snug text-neutral-700">{r.purpose}</td>
+            <td class="p-4 leading-snug font-mono text-xs text-neutral-700">{r.license}</td>
+            <td class="p-4 whitespace-nowrap">
+              <a href={r.url} target="_blank" rel="noopener noreferrer" class="font-semibold text-accent hover:underline">{r.linkLabel} ↗</a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<h3 class="mt-16 text-2xl font-bold">{openSource.sdkTitle}</h3>
+<div class="reveal mt-6 overflow-x-auto rounded-3xl border border-neutral-200 bg-white">
+  <table class="w-full min-w-[36rem] text-left text-sm">
+    <thead class="border-b border-neutral-200 text-neutral-500">
+      <tr>
+        <th class="p-4 font-semibold">SDK</th>
+        <th class="p-4 font-semibold">사용 목적</th>
+        <th class="p-4 font-semibold">주소</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        openSource.sdk.map((r) => (
+          <tr class="border-b border-neutral-100 align-top last:border-0">
+            <td class="p-4 font-semibold">{r.name}</td>
+            <td class="p-4 leading-snug text-neutral-700">{r.purpose}</td>
+            <td class="p-4 whitespace-nowrap">
+              <a href={r.url} target="_blank" rel="noopener noreferrer" class="font-semibold text-accent hover:underline">{r.linkLabel} ↗</a>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
