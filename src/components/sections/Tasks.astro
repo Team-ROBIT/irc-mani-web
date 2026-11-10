@@ -11,7 +11,7 @@ import { tasks } from '../../data/site';
     tasks.priorities.map((p, i) => (
       <>
         {i > 0 && <span class="text-neutral-400">›</span>}
-        <span class:list={['reveal rounded-full px-3 py-1 font-semibold', i === 0 ? 'bg-accent text-white' : 'bg-neutral-200/70']} style={`--i: ${i}`}>
+        <span class="reveal rounded-full bg-neutral-200/70 px-3 py-1 font-semibold" style={`--i: ${i}`}>
           {p.name}
         </span>
       </>
