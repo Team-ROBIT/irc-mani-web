@@ -34,32 +34,44 @@ import { why } from '../../data/site';
 <h3 class="mt-20 text-2xl font-bold">{why.casesTitle}</h3>
 <div class="mt-6 grid gap-6 md:grid-cols-3">
   {
-    why.cases.map((v, i) => (
-      <article class="reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white" style={`--i: ${i}`}>
-        <div data-yt={v.id} data-title={v.title} class="relative aspect-video bg-neutral-100">
-          <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" aria-label={`${v.title} 영상 보기`} class="group absolute inset-0">
-            <img
-              src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
-              alt=""
-              loading="lazy"
-              referrerpolicy="no-referrer"
-              class="size-full object-cover"
-            />
-            <span class="absolute inset-0 grid place-items-center bg-black/10 transition-colors group-hover:bg-black/25" aria-hidden="true">
-              <span class="grid size-14 place-items-center rounded-full bg-white/95 text-xl text-ink shadow">▶</span>
-            </span>
-          </a>
-        </div>
-        <div class="flex flex-1 flex-col p-5">
-          <p class="text-xs font-semibold text-accent">영상 · {v.source}</p>
-          <h4 class="mt-1 text-lg font-bold">{v.title}</h4>
-          <p class="mt-2 text-sm leading-snug text-neutral-500">원제: {v.headline}</p>
-          <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" class="mt-auto pt-4 text-sm font-semibold text-accent hover:underline">
-            YouTube에서 보기 ↗
-          </a>
-        </div>
-      </article>
-    ))
+    why.cases.map((v, i) => {
+      const href = v.kind === 'video' ? `https://www.youtube.com/watch?v=${v.id}` : v.url;
+      return (
+        <article class="reveal flex flex-col overflow-hidden rounded-3xl border border-neutral-200 bg-white" style={`--i: ${i}`}>
+          {v.kind === 'video' ? (
+            <div data-yt={v.id} data-title={v.title} class="relative aspect-video bg-neutral-100">
+              <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${v.title} 영상 보기`} class="group absolute inset-0">
+                <img
+                  src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                  alt=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                  class="size-full object-cover"
+                />
+                <span class="absolute inset-0 grid place-items-center bg-black/10 transition-colors group-hover:bg-black/25" aria-hidden="true">
+                  <span class="grid size-14 place-items-center rounded-full bg-white/95 text-xl text-ink shadow">▶</span>
+                </span>
+              </a>
+            </div>
+          ) : (
+            <div class="relative aspect-video bg-neutral-100">
+              <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${v.title} 기사 보기`} class="group absolute inset-0">
+                <img src={v.image} alt="" loading="lazy" referrerpolicy="no-referrer" class="size-full object-cover" />
+                <span class="absolute inset-0 transition-colors group-hover:bg-black/15" aria-hidden="true" />
+              </a>
+            </div>
+          )}
+          <div class="flex flex-1 flex-col p-5">
+            <p class="text-xs font-semibold text-accent">{v.kind === 'video' ? '영상' : '기사'} · {v.source}</p>
+            <h4 class="mt-1 text-lg font-bold">{v.title}</h4>
+            <p class="mt-2 text-sm leading-snug text-neutral-500">원제: {v.headline}</p>
+            <a href={href} target="_blank" rel="noopener noreferrer" class="mt-auto pt-4 text-sm font-semibold text-accent hover:underline">
+              {v.kind === 'video' ? 'YouTube에서 보기' : '기사 보기'} ↗
+            </a>
+          </div>
+        </article>
+      );
+    })
   }
 </div>
 
