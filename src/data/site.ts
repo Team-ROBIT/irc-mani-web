@@ -389,7 +389,7 @@ export const voice = {
     {
       kind: '음성 출력 · TTS',
       model: 'Supertonic 3 · F1 음성',
-      body: 'AGX CPU에서 안내 문장을 합성합니다. 시작 시 고정 문구를 미리 합성해 RAM에 적재하고, 상황에 맞는 음성을 재생합니다.',
+      body: 'AGX CPU에서 안내 문장을 합성합니다. 고정 문구는 미리 합성해 RAM에 적재하고, 상황에 맞는 음성을 재생합니다.',
       tags: ['Supertonic 3', 'ONNX Runtime · CPU', '음성 사전 캐시'],
     },
   ],
