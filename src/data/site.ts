@@ -209,7 +209,6 @@ export const system = {
 export const software = {
   title: '소프트웨어',
   intro: '위험을 판단하는 VLM부터 동작을 만드는 모방학습·플래너까지, 각 모듈의 구조와 결과를 정리합니다.',
-  pending: true,
   modules: [
     { key: 'vlm', name: 'VLM', owner: '송수민', body: '카메라 화면과 책상 상태를 보고 무엇을 어떤 순서로 처리할지 계획합니다. 위험 우선순위를 따르고, 불명확하면 보류합니다.', detail: '#software-vlm' },
     { key: 'imitation', name: '모방학습', owner: '김민조', body: '리더암으로 모은 시연 데이터로 ACT 정책을 학습해, 코드 뽑기·스위치 끄기 같은 정밀한 조작을 로봇이 스스로 수행합니다.', detail: '#software-imitation' },
