@@ -177,45 +177,6 @@ export const system = {
   communication: {
     title: '노드 간 통신',
     intro: '각 모듈이 서로 무엇을 주고받는지 정리했습니다. 화살표는 데이터가 가는 방향입니다.',
-    groups: [
-      {
-        name: '인식 입력',
-        links: [
-          { from: 'RGB·깊이 카메라', to: 'Vision', data: '영상·거리 정보' },
-          { from: 'RGB·깊이 카메라', to: 'VLM · 작업 계획', data: 'RGB 영상' },
-          { from: 'Vision', to: 'VLM · 작업 계획', data: '물체 종류·상태·관계, 사람 상태·조작 연관 정보' },
-        ],
-      },
-      {
-        name: '계획과 실행',
-        links: [
-          { from: 'VLM · 작업 계획', to: '계획 검증·구체화', data: '작업 종류·대상·순서' },
-          { from: '계획 검증·구체화', to: 'Task Planner', data: '검증된 작업 계획' },
-          { from: 'Vision', to: 'Task Planner', data: '최신 물체 위치·접근 자세' },
-          { from: 'Task Planner', to: '계획 검증·구체화', data: '수락·진행·완료·실패, 다음 계획 요청' },
-          { from: '계획 검증·구체화', to: 'VLM · 작업 계획', data: '실행 결과·남은 작업' },
-          { from: '계획 검증·구체화', to: 'Vision', data: '현재·다음 작업 대상' },
-        ],
-      },
-      {
-        name: '음성 입력',
-        links: [
-          { from: 'USB 마이크', to: '음성 인식', data: '음성' },
-          { from: '음성 인식', to: '음성 대화 제어', data: '인식 문장' },
-          { from: '음성 대화 제어', to: 'VLM · 작업 계획', data: '분류한 사용자 요청' },
-          { from: 'Vision', to: '음성 대화 제어', data: '사람 접근·침범·이탈 상태' },
-        ],
-      },
-      {
-        name: '음성 안내',
-        links: [
-          { from: '계획 검증·구체화', to: '음성 대화 제어', data: '요청 접수·처리 순서' },
-          { from: 'Task Planner', to: '음성 대화 제어', data: '실행 상태·결과' },
-          { from: '음성 대화 제어', to: '음성 인식', data: '안내 후 청취 시작·종료' },
-          { from: '음성 대화 제어', to: '음성 합성 · USB 스피커', data: '안내·응답' },
-        ],
-      },
-    ],
   },
   environment: {
     title: '실행 환경',
