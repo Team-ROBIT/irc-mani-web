@@ -49,3 +49,10 @@ html {
     scroll-behavior: auto !important;
   }
 }
+
+/* 소프트웨어 카드 썸네일: 위쪽 절반은 항상 또렷하고, 아래쪽만 --fade 값만큼 흐리다가 스크롤하면 또렷해진다. */
+.thumb-fade {
+  --fade: 1;
+  -webkit-mask-image: linear-gradient(to bottom, #000 50%, rgb(0 0 0 / var(--fade)) 100%);
+  mask-image: linear-gradient(to bottom, #000 50%, rgb(0 0 0 / var(--fade)) 100%);
+}

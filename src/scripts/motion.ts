@@ -39,6 +39,15 @@ gsap.matchMedia().add(motion, () => {
     play(el, riseFrom, riseTo, entry(el, i * 0.08, 0.6 + i * 0.08));
   }
 
+  // 소프트웨어 카드: 카드는 투명해지지 않고 위로만 올라오며, 썸네일 아래쪽만 흐리다가 또렷해진다.
+  for (const el of all('.rise')) {
+    const i = Number(el.style.getPropertyValue('--i')) || 0;
+    play(el, { y: 40 }, { y: 0 }, entry(el, i * 0.08, 0.6 + i * 0.08));
+  }
+  for (const el of all('.thumb-fade')) {
+    play(el, { '--fade': 0.35 }, { '--fade': 1 }, entry(el.parentElement!, 0, 0.8));
+  }
+
   // 사진이 가장자리부터 열리면서 안쪽 이미지가 제자리를 찾는다.
   for (const el of all('.wipe')) {
     const range = cover(el, 0, 0.45);
