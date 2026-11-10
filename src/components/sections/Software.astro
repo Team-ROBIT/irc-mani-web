@@ -10,7 +10,7 @@ import { software } from '../../data/site';
 
 <SectionHeader eyebrow="소프트웨어" title={software.title} intro={software.intro} pending={software.pending ? '일부 작성 중' : undefined} />
 
-<!-- 카드는 아래 상세로 가는 링크. 상세는 VLM부터 순서대로 이어서 보인다. -->
+<!-- 카드는 상세로 가는 링크. 넓은 화면에서는 고정 무대에서 스크롤에 따라 모듈이 바뀌고, 그 밖에는 VLM부터 순서대로 이어서 보인다. -->
 <div>
   <div class="mt-12 grid gap-6 md:grid-cols-6">
     {
@@ -35,7 +35,7 @@ import { software } from '../../data/site';
             </div>
             <p class="mt-2 leading-relaxed text-neutral-600">{m.body}</p>
             {m.detail && (
-              <a href={m.detail} class="mt-4 text-sm font-semibold text-accent after:absolute after:inset-0">
+              <a href={m.detail} data-sw-link={m.key} class="mt-4 text-sm font-semibold text-accent after:absolute after:inset-0">
                 자세히 보기 ↓
               </a>
             )}
@@ -45,8 +45,202 @@ import { software } from '../../data/site';
     }
   </div>
 
-  <VlmDetail />
-  <ImitationDetail />
-  <VisionDetail />
-  <MotionPlannerDetail />
+  <div data-sw-wrap>
+    <div data-sw-stage class="sw-stage">
+      <div data-sw-tabs hidden role="tablist" aria-label="소프트웨어 모듈" class="items-center gap-2 pb-3">
+        {
+          software.modules.map((m) => (
+            <button
+              type="button"
+              role="tab"
+              data-sw-tab={m.key}
+              class="rounded-full border border-neutral-300 bg-white px-5 py-2 font-semibold text-neutral-600 transition-colors hover:border-ink hover:text-ink aria-selected:border-accent aria-selected:bg-accent aria-selected:text-white"
+            >
+              {m.name}
+            </button>
+          ))
+        }
+        <span class="ml-auto text-sm text-neutral-500">스크롤하면 다음 모듈로 넘어갑니다 ↓</span>
+      </div>
+      <div data-sw-bar hidden class="h-0.5 bg-neutral-200"><span data-sw-fill class="block h-full origin-left bg-accent" style="transform: scaleX(0)"></span></div>
+      <div data-sw-viewport class="sw-viewport">
+        <div data-sw-panel="vlm" class="sw-panel"><VlmDetail /></div>
+        <div data-sw-panel="imitation" class="sw-panel"><ImitationDetail /></div>
+        <div data-sw-panel="vision" class="sw-panel"><VisionDetail /></div>
+        <div data-sw-panel="motion-planner" class="sw-panel"><MotionPlannerDetail /></div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<style is:global>
+  /* 고정 무대: JS가 data-on을 붙였을 때만 적용된다. 그 밖에는 상세가 순서대로 이어서 보인다. */
+  .sw-stage[data-on] {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100svh;
+    padding-top: 1.25rem;
+    overflow: hidden;
+    background: var(--color-paper);
+  }
+  .sw-stage[data-on] [data-sw-tabs] {
+    display: flex;
+  }
+  .sw-stage[data-on] .sw-viewport {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .sw-stage[data-on] .sw-panel {
+    position: absolute;
+    inset: 0 0 auto 0;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.35s ease,
+      visibility 0s 0.35s;
+    will-change: transform;
+  }
+  .sw-stage[data-on] .sw-panel[data-active] {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s ease;
+  }
+  .sw-stage[data-on] .sw-panel > div {
+    margin-top: 0;
+    border-top-width: 0;
+    padding-top: 2rem;
+  }
+</style>
+
+<script>
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  const wrap = document.querySelector<HTMLElement>('[data-sw-wrap]');
+  if (wrap) {
+    const stage = wrap.querySelector<HTMLElement>('[data-sw-stage]')!;
+    const viewport = wrap.querySelector<HTMLElement>('[data-sw-viewport]')!;
+    const tabs = wrap.querySelector<HTMLElement>('[data-sw-tabs]')!;
+    const bar = wrap.querySelector<HTMLElement>('[data-sw-bar]')!;
+    const fill = wrap.querySelector<HTMLElement>('[data-sw-fill]')!;
+    const panels = [...wrap.querySelectorAll<HTMLElement>('[data-sw-panel]')];
+    const buttons = [...wrap.querySelectorAll<HTMLButtonElement>('[data-sw-tab]')];
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-sw-link]')];
+    const keys = panels.map((p) => p.dataset.swPanel!);
+    const query = matchMedia('(min-width: 64rem) and (min-height: 36rem) and (prefers-reduced-motion: no-preference)');
+
+    type Slot = { start: number; lead: number; overflow: number; length: number };
+    let slots: Slot[] = [];
+    let top = 0;
+    let total = 0;
+    let current = -1;
+    let on = false;
+    let frame = 0;
+    let refreshTimer = 0;
+
+    // 모듈마다 한 구간. 내용이 화면보다 길면 그만큼 스크롤하는 동안 위로 올라간다.
+    const measure = () => {
+      const h = viewport.clientHeight;
+      let at = 0;
+      slots = panels.map((p) => {
+        const overflow = Math.max(0, p.offsetHeight - h);
+        const lead = h * 0.12;
+        const length = lead + overflow + h * 0.25;
+        const slot = { start: at, lead, overflow, length };
+        at += length;
+        return slot;
+      });
+      const changed = Math.abs(at - total) > 1;
+      total = at;
+      wrap.style.height = `${stage.offsetHeight + total}px`;
+      top = wrap.getBoundingClientRect().top + scrollY;
+      // 아래 섹션의 스크롤 애니메이션 위치를 다시 계산
+      if (changed) {
+        clearTimeout(refreshTimer);
+        refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+      }
+    };
+
+    const setActive = (i: number) => {
+      current = i;
+      panels.forEach((p, n) => p.toggleAttribute('data-active', n === i));
+      buttons.forEach((b, n) => b.setAttribute('aria-selected', String(n === i)));
+    };
+
+    const update = () => {
+      frame = 0;
+      if (!on) return;
+      const p = Math.max(0, scrollY - top);
+      let i = slots.findIndex((s) => p < s.start + s.length);
+      if (i < 0) i = slots.length - 1;
+      const s = slots[i];
+      const local = Math.min(Math.max(p - s.start, 0), s.length);
+      const shift = Math.min(Math.max(local - s.lead, 0), s.overflow);
+      panels[i].style.transform = `translate3d(0, ${-shift}px, 0)`;
+      fill.style.transform = `scaleX(${local / s.length})`;
+      if (i !== current) setActive(i);
+    };
+
+    const request = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    const goTo = (key: string, smooth = true) => {
+      const i = keys.indexOf(key);
+      if (i < 0) return;
+      scrollTo({ top: top + slots[i].start + 1, behavior: smooth ? 'smooth' : 'auto' });
+    };
+
+    const resizer = new ResizeObserver(() => {
+      if (!on) return;
+      measure();
+      request();
+    });
+
+    const enable = () => {
+      on = true;
+      stage.dataset.on = '';
+      tabs.hidden = false;
+      bar.hidden = false;
+      for (const el of [viewport, ...panels]) resizer.observe(el);
+      measure();
+      update();
+      const target = keys.find((k) => location.hash === `#software-${k}`);
+      if (target) goTo(target, false);
+    };
+
+    const disable = () => {
+      on = false;
+      resizer.disconnect();
+      delete stage.dataset.on;
+      tabs.hidden = true;
+      bar.hidden = true;
+      wrap.style.height = '';
+      total = 0;
+      current = -1;
+      for (const p of panels) {
+        p.style.transform = '';
+        p.removeAttribute('data-active');
+      }
+      ScrollTrigger.refresh();
+    };
+
+    const sync = () => (query.matches ? !on && enable() : on && disable());
+
+    addEventListener('scroll', request, { passive: true });
+    query.addEventListener('change', sync);
+    for (const b of buttons) b.addEventListener('click', () => goTo(b.dataset.swTab!));
+    for (const a of links) {
+      a.addEventListener('click', (event) => {
+        if (!on) return; // 무대가 꺼져 있으면 기본 앵커 이동
+        event.preventDefault();
+        goTo(a.dataset.swLink!);
+      });
+    }
+    sync();
+  }
+</script>
