@@ -64,9 +64,13 @@ const owner = software.modules.find((m) => m.key === 'vision')?.owner;
               {f.metrics && (
                 <dl class="mt-5 space-y-2 border-t border-neutral-200 pt-4">
                   {f.metrics.map((m) => (
-                    <div class="flex items-baseline justify-between gap-4 text-sm">
+                    <div class="flex items-center justify-between gap-4 text-sm">
                       <dt class="text-neutral-500">{m.label}</dt>
-                      <dd class:list={['shrink-0 font-bold', m.value === null ? 'font-normal text-neutral-400' : 'text-lg']}>{m.value ?? '미측정'}</dd>
+                      <dd class:list={['text-right font-bold', m.value === null ? 'font-normal text-neutral-400' : 'text-lg']}>
+                        {(m.value ?? '미측정').split(' (').map((part, i) => (
+                          <Fragment>{i > 0 && ' '}<span class="inline-block">{i > 0 ? `(${part}` : part}</span></Fragment>
+                        ))}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -110,7 +114,6 @@ const owner = software.modules.find((m) => m.key === 'vision')?.owner;
       <thead class="border-b border-neutral-200 text-neutral-500">
         <tr>
           <th class="p-4 font-semibold">모델</th>
-          <th class="p-4 font-semibold">학습 이미지<br /><span class="font-normal">train / valid / test</span></th>
           <th class="p-4 font-semibold">Precision</th>
           <th class="p-4 font-semibold">Recall</th>
           <th class="p-4 font-semibold">mAP@50</th>
@@ -122,11 +125,6 @@ const owner = software.modules.find((m) => m.key === 'vision')?.owner;
           vision.training.rows.map((r) => (
             <tr class="border-b border-neutral-100 last:border-0">
               <td class="p-4 font-semibold">{r.name}</td>
-              <td class="p-4">
-                {r.images}
-                <br />
-                <span class="font-mono text-xs text-neutral-500">{r.split}</span>
-              </td>
               <td class="p-4">{r.precision}</td>
               <td class="p-4">{r.recall}</td>
               <td class="p-4 font-bold">{r.map50}</td>
