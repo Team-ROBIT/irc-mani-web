@@ -59,11 +59,9 @@ export const why = {
   ],
 };
 
-// 08.13 컨셉 기준. 최종 시연 task와 AI 역할은 확정 전.
 export const tasks = {
   title: '수행하는 Task',
   intro: '사람이 연구실을 나가면 로봇이 위험요소를 찾아 우선순위를 정하고, 가장 위험한 것부터 직접 처리합니다.',
-  pending: true,
   priorities: [
     { rank: 1, name: '열', level: 'high' },
     { rank: 2, name: '배터리', level: 'high' },
