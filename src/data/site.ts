@@ -529,7 +529,7 @@ export const timeline = {
 // 사용한 오픈소스·모델과 SDK. 라이선스 표기는 팀이 정리한 값이다.
 export const openSource = {
   title: '사용한 오픈소스와 SDK',
-  intro: '이 작품에 쓴 공개 소프트웨어·모델·SDK와 각각의 라이선스, 공식 주소입니다. 라이선스는 팀이 정리한 표기이므로 재사용 전에 원문을 확인해 주세요.',
+  intro: '이 작품에 쓴 공개 소프트웨어·모델·SDK와 각각의 라이선스, 공식 주소입니다.',
   groups: [
     {
       name: 'Vision · VLM · 음성',
