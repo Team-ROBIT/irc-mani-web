@@ -62,7 +62,7 @@ import { why } from '../../data/site';
             </div>
           )}
           <div class="flex flex-1 flex-col p-5">
-            <p class="text-xs font-semibold text-accent">{v.kind === 'video' ? '영상' : '기사'} · {v.source}</p>
+            <p class="text-xs font-semibold text-accent">{v.kind === 'video' ? '영상' : '기사'} · {v.source}{v.kind === 'article' && ` · 사진 ${v.imageCredit}`}</p>
             <h4 class="mt-1 text-lg font-bold">{v.title}</h4>
             <p class="mt-2 text-sm leading-snug text-neutral-500">원제: {v.headline}</p>
             <a href={href} target="_blank" rel="noopener noreferrer" class="mt-auto pt-4 text-sm font-semibold text-accent hover:underline">

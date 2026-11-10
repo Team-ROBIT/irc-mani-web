@@ -51,11 +51,11 @@ export const why = {
   ],
   casesTitle: '실제 연구실 사고 보도',
   // kind 'video'는 YouTube 영상 ID(주소의 v= 뒤 값)만 넣는다. 공유 링크의 ?si= 같은 추적 값은 넣지 않는다.
-  // kind 'article'은 기사 주소(url)와 대표 이미지 주소(image)를 넣는다. 이미지는 repo에 저장하지 않고 언론사 주소에서 불러온다.
+  // kind 'article'은 기사 주소(url), 사진 주소(image), 사진 출처(imageCredit)를 넣는다. 사진은 repo에 저장하지 않고 언론사 주소에서 불러온다.
   cases: [
     { kind: 'video', id: 'WIwHCSgCqlc', title: '대학원 연구실 배터리 화재', source: 'KBS News', headline: '서울대 연구실서 배터리 폭발 화재…50여분 만에 진화 (2025.08.12)' },
     { kind: 'video', id: 'K7Z1AZFtdnM', title: '4족 로봇 실험 중 화재', source: 'YTN', headline: '충남대 공대 연구실 배터리 화재...학생 2명 대피' },
-    { kind: 'article', url: 'https://www.segye.com/newsView/20250813515891', title: '한 해 300여 건의 연구실 사고', source: '세계일보', image: 'https://www.segye.com/content/image/2025/08/13/20250813516125.jpg', headline: '“자칫하면 폭발”… ‘위험천만한 연구실’ 한해 사고만 300여건 (2025.08.13)' },
+    { kind: 'article', url: 'https://www.segye.com/newsView/20250813515891', title: '한 해 300여 건의 연구실 사고', source: '세계일보', image: 'https://www.segye.com/content/image/2025/08/13/20250813516127.jpg', imageCredit: '뉴시스', headline: '“자칫하면 폭발”… ‘위험천만한 연구실’ 한해 사고만 300여건 (2025.08.13)' },
   ],
 };
 
