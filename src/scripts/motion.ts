@@ -26,8 +26,6 @@ function play(target: Element, from: gsap.TweenVars, to: gsap.TweenVars, range: 
 }
 
 const all = (selector: string) => [...document.querySelectorAll<HTMLElement>(selector)];
-// 소프트웨어 고정 무대 안의 요소는 무대가 위치를 직접 옮기므로 스크롤 연출에서 뺀다.
-const inStage = (el: HTMLElement) => !el.closest('[data-sw-viewport]');
 const riseFrom = { opacity: 0, y: 40 };
 const riseTo = { opacity: 1, y: 0 };
 const motion = '(prefers-reduced-motion: no-preference)';
@@ -36,7 +34,7 @@ gsap.matchMedia().add(motion, () => {
   gsap.fromTo('.scroll-progress', { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
 
   // --i는 순번. 같은 줄의 항목이 하나씩 차례로 나타난다.
-  for (const el of all('.reveal').filter(inStage)) {
+  for (const el of all('.reveal')) {
     const i = Number(el.style.getPropertyValue('--i')) || 0;
     play(el, riseFrom, riseTo, entry(el, i * 0.08, 0.6 + i * 0.08));
   }
