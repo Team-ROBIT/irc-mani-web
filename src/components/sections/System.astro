@@ -53,16 +53,49 @@ const trainStart = policyStage - train.stages.length + 1;
   </ol>
 </figure>
 
-<ul class="mt-6 grid gap-4 sm:grid-cols-2">
+<h3 class="mt-16 text-2xl font-bold">{system.communication.title}</h3>
+<p class="mt-3 max-w-3xl text-neutral-600">{system.communication.intro}</p>
+<div class="mt-6 grid gap-4 lg:grid-cols-2">
   {
-    system.items.map((item) => (
-      <li class="rounded-2xl border border-dashed border-neutral-300 p-5 text-neutral-500">
-        <p class="font-semibold text-ink">{item}</p>
-        <p class="mt-1 text-sm">작성 예정</p>
-      </li>
+    system.communication.groups.map((g, i) => (
+      <div class="reveal rounded-3xl border border-neutral-200 bg-white p-6" style={`--i: ${i % 2}`}>
+        <p class="text-sm font-bold text-accent">{g.name}</p>
+        <ul class="mt-3 divide-y divide-neutral-100">
+          {g.links.map((l) => (
+            <li class="py-3">
+              <p class="font-semibold">
+                {l.from} <span class="text-accent" aria-label="에서">→</span> {l.to}
+              </p>
+              <p class="mt-1 text-sm leading-snug text-neutral-600">{l.data}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     ))
   }
-</ul>
+</div>
+
+<h3 class="mt-16 text-2xl font-bold">{system.environment.title}</h3>
+<div class="reveal mt-6 overflow-x-auto rounded-3xl border border-neutral-200 bg-white">
+  <table class="w-full min-w-[28rem] text-left text-sm sm:text-base">
+    <thead class="border-b border-neutral-200 text-neutral-500">
+      <tr>
+        <th class="p-4 font-semibold">항목</th>
+        <th class="p-4 font-semibold">실행 환경</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        system.environment.rows.map((r) => (
+          <tr class="border-b border-neutral-100 last:border-0">
+            <td class="p-4 font-semibold">{r.item}</td>
+            <td class="p-4">{r.value}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
 
 <style>
   .diagram-grid {
