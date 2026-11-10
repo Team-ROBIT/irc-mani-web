@@ -82,7 +82,7 @@ export const results = {
   pending: true,
   youtubeId: 'OLy96QEyY1U',
   items: [
-    { name: '위험요소 판별', rate: '—' },
+    { name: '위험요소 판별', rate: '98.5%' },
     { name: '인두기 코드 뽑기', rate: '—' },
     { name: '배터리 분리', rate: '—' },
     { name: '멀티탭 끄기', rate: '—' },
