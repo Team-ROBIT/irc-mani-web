@@ -187,7 +187,7 @@ export const system = {
           { item: '연산 장치', value: 'NVIDIA Jetson AGX' },
           { item: '실행 방식', value: 'Vision·VLM 온디바이스 로컬 실행' },
           { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
-          { item: 'RGB·깊이 입력', value: 'Intel RealSense D455 · USB 3 연결' },
+          { item: 'RGB·깊이 입력', value: 'Intel RealSense D455' },
           { item: '음성 입력', value: 'AGX에 연결된 USB 마이크' },
           { item: '음성 출력', value: 'AGX에 연결된 USB 스피커' },
         ],
