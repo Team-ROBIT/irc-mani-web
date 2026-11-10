@@ -59,11 +59,9 @@ export const why = {
   ],
 };
 
-// 08.13 컨셉 기준. 최종 시연 task와 AI 역할은 확정 전.
 export const tasks = {
   title: '수행하는 Task',
   intro: '사람이 연구실을 나가면 로봇이 위험요소를 찾아 우선순위를 정하고, 가장 위험한 것부터 직접 처리합니다.',
-  pending: true,
   priorities: [
     { rank: 1, name: '열', level: 'high' },
     { rank: 2, name: '배터리', level: 'high' },
@@ -83,14 +81,13 @@ export const tasks = {
 export const results = {
   title: '실제 시연 결과',
   intro: '로봇이 Task를 처음부터 끝까지 수행하는 영상과 Task별 성공률입니다.',
-  pending: true,
   youtubeId: 'OLy96QEyY1U',
   items: [
     { name: '위험요소 판별', rate: '98.5%' },
-    { name: '인두기 코드 뽑기', rate: '—' },
-    { name: '배터리 분리', rate: '—' },
-    { name: '멀티탭 끄기', rate: '—' },
-    { name: '작업대 정리', rate: '—' },
+    { name: '인두기 코드 뽑기', rate: '92%' },
+    { name: '배터리 분리', rate: '92%' },
+    { name: '멀티탭 끄기', rate: '70%' },
+    { name: '작업대 정리', rate: '80%' },
   ],
 };
 
@@ -139,7 +136,6 @@ export const hardware = {
 export const system = {
   title: '전체 시스템 구성',
   intro: '탑뷰 카메라와 Vision이 입력을 받고, VLM이 상황을 판단한 뒤 Task Planner가 실행을 연결하는 흐름입니다. 리더암은 학습 데이터 수집에만 쓰며, 시연 중 수동 조작은 없습니다.',
-  pending: true,
   diagram: {
     run: {
       label: '자율 수행',
@@ -184,13 +180,28 @@ export const system = {
   },
   environment: {
     title: '실행 환경',
-    rows: [
-      { item: '연산 장치', value: 'NVIDIA Jetson AGX' },
-      { item: '실행 방식', value: 'Vision·VLM 온디바이스 로컬 실행' },
-      { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
-      { item: 'RGB·깊이 입력', value: 'Intel RealSense D455 · USB 3 연결' },
-      { item: '음성 입력', value: 'AGX에 연결된 USB 마이크' },
-      { item: '음성 출력', value: 'AGX에 연결된 USB 스피커' },
+    groups: [
+      {
+        name: 'Jetson AGX',
+        rows: [
+          { item: '연산 장치', value: 'NVIDIA Jetson AGX' },
+          { item: '실행 방식', value: 'Vision·VLM 온디바이스 로컬 실행' },
+          { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
+          { item: 'RGB·깊이 입력', value: 'Intel RealSense D455' },
+          { item: '음성 입력', value: 'AGX에 연결된 USB 마이크' },
+          { item: '음성 출력', value: 'AGX에 연결된 USB 스피커' },
+        ],
+      },
+      {
+        name: '노트북',
+        rows: [
+          { item: '연산 장치', value: 'NVIDIA RTX 4060 노트북' },
+          { item: '실행 방식', value: '모방학습 정책·Motion Planner 로컬 실행' },
+          { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
+          { item: '손목 카메라 입력', value: 'Intel RealSense D405' },
+          { item: '모터 통신', value: 'CANable · USB 연결' },
+        ],
+      },
     ],
   },
 };
@@ -198,7 +209,6 @@ export const system = {
 export const software = {
   title: '소프트웨어',
   intro: '위험을 판단하는 VLM부터 동작을 만드는 모방학습·플래너까지, 각 모듈의 구조와 결과를 정리합니다.',
-  pending: true,
   modules: [
     { key: 'vlm', name: 'VLM', owner: '송수민', body: '카메라 화면과 책상 상태를 보고 무엇을 어떤 순서로 처리할지 계획합니다. 위험 우선순위를 따르고, 불명확하면 보류합니다.', detail: '#software-vlm' },
     { key: 'imitation', name: '모방학습', owner: '김민조', body: '리더암으로 모은 시연 데이터로 ACT 정책을 학습해, 코드 뽑기·스위치 끄기 같은 정밀한 조작을 로봇이 스스로 수행합니다.', detail: '#software-imitation' },
@@ -507,13 +517,12 @@ export const motionPlanner = {
 export const timeline = {
   title: '어떻게 만들었는가',
   intro: '설계부터 전체 통합까지의 과정과 그 과정에서 겪은 시행착오를 정리합니다.',
-  pending: true,
   stages: [
     { key: 'design', name: '설계', period: '8/1 ~ 8/30', body: 'QDD 모터 기반 7자유도 매니퓰레이터를 설계하고, 모터 low-level 제어기를 제작했습니다.', trial: '매니퓰레이터를 편리하게 조종할 수 있는 리더암을 1:0.7의 비율로 제작하였습니다' },
     { key: 'build', name: '가공·도색·조립', period: '9/1 ~ 9/30', body: '설계한 부품을 가공하고 도색한 뒤 매니퓰레이터를 조립·배선했습니다.', trial: '공차를 너무 작게 잡아 부품이 잘 맞지 않는 문제와, 배선 과정에서 생긴 간섭이 있어 재가공을 거쳤으며 부품 구조 단순화를 통하여 가공 단가를 낮추었습니다.' },
-    { key: 'data', name: '데이터 수집', period: '[기간 작성 예정]', body: '사람이 리더암을 움직여 Task별 시연 데이터를 모았습니다.', trial: 'Leader arm에 중력·마찰 보상(gravity·friction compensation)을 구현해, 데이터를 모으는 동안 조작자의 피로를 줄이고 시연 품질을 일정하게 유지했습니다.' },
-    { key: 'training', name: '학습', period: '[기간 작성 예정]', body: '모은 시연 데이터로 모방학습 정책을 학습했습니다.', trial: '작업 공간(workspace) 위치만 바뀌어도 정책(policy)이 실패했습니다. image augmentation으로 fine-tuning해서 환경 변화에도 잘 동작하도록 만들었습니다.' },
-    { key: 'integration', name: '통합', period: '[기간 작성 예정]', body: 'VLM, Vision, Task Planner와 동작 정책을 매니퓰레이터에 연결해 전체 시연을 맞췄습니다.', trial: '[작성 예정]' },
+    { key: 'data', name: '데이터 수집', period: '10/1 ~ 10/10', body: '사람이 리더암을 움직여 Task별 시연 데이터를 모았습니다.', trial: 'Leader arm에 중력·마찰 보상(gravity·friction compensation)을 구현해, 데이터를 모으는 동안 조작자의 피로를 줄이고 시연 품질을 일정하게 유지했습니다.' },
+    { key: 'training', name: '학습', period: '10/11 ~ 10/31', body: '모은 시연 데이터로 모방학습 정책을 학습했습니다.', trial: '작업 공간(workspace) 위치만 바뀌어도 정책(policy)이 실패했습니다. image augmentation으로 fine-tuning해서 환경 변화에도 잘 동작하도록 만들었습니다.' },
+    { key: 'integration', name: '통합', period: '11/1 ~ 11/10', body: 'VLM, Vision, Task Planner와 동작 정책을 매니퓰레이터에 연결해 전체 시연을 맞췄습니다.', trial: 'AGX와 노트북을 ROS 2로 연결하자, 두 장치의 시간이 어긋나 Vision이 보낸 물체 위치가 오래된 값으로 처리됐습니다. 두 장치의 시간을 동기화하고, 일정 시간이 지난 위치는 쓰지 않도록 해 해결했습니다.' },
   ],
 };
 
@@ -521,28 +530,49 @@ export const timeline = {
 export const openSource = {
   title: '사용한 오픈소스와 SDK',
   intro: '이 작품에 쓴 공개 소프트웨어·모델·SDK와 각각의 라이선스, 공식 주소입니다. 라이선스는 팀이 정리한 표기이므로 재사용 전에 원문을 확인해 주세요.',
-  items: [
-    { category: '객체 검출', name: 'YOLO11n', purpose: '자체 학습한 물체 검출', license: 'AGPL-3.0 / Enterprise', linkLabel: 'Ultralytics', url: 'https://github.com/ultralytics/ultralytics' },
-    { category: '영역 분할', name: 'SAM 2.1 Tiny', purpose: '공구 영역 분할·방향 및 파지 자세 계산 보조', license: '원본 코드·가중치 Apache-2.0 / Ultralytics 구현 AGPL-3.0', linkLabel: 'SAM 2', url: 'https://github.com/facebookresearch/sam2' },
-    { category: '손 인식', name: 'MediaPipe Hand Landmarker', purpose: '손 관절 검출·사람 상호작용 분석', license: '코드·가중치 Apache-2.0', linkLabel: 'MediaPipe', url: 'https://github.com/google-ai-edge/mediapipe' },
-    { category: '영상 처리', name: 'OpenCV', purpose: '영상·깊이 처리·색상 및 형태 분석', license: 'Apache-2.0', linkLabel: 'OpenCV', url: 'https://github.com/opencv/opencv' },
-    { category: '카메라 연동', name: 'RealSense ROS', purpose: 'RGB·깊이 영상 수신 및 정렬', license: 'Apache-2.0', linkLabel: 'RealSense ROS', url: 'https://github.com/realsenseai/realsense-ros' },
-    { category: '상황 판단·계획', name: 'Qwen3-VL-4B-Instruct', purpose: '장면과 사용자 요청을 바탕으로 작업 추천', license: 'Apache-2.0', linkLabel: 'Qwen3-VL', url: 'https://github.com/QwenLM/Qwen3-VL' },
-    { category: 'VLM 추론', name: 'TensorRT Edge-LLM', purpose: 'AGX 로컬 VLM 추론', license: 'Apache-2.0', linkLabel: 'TensorRT Edge-LLM', url: 'https://github.com/NVIDIA/TensorRT-Edge-LLM' },
-    { category: '음성 인식 모델', name: 'Whisper Small', purpose: '한국어 음성을 텍스트로 변환', license: 'MIT', linkLabel: 'Whisper', url: 'https://github.com/openai/whisper' },
-    { category: '음성 인식 실행', name: 'faster-whisper', purpose: 'Whisper 모델 추론', license: 'MIT', linkLabel: 'faster-whisper', url: 'https://github.com/SYSTRAN/faster-whisper' },
-    { category: '음성 추론 엔진', name: 'CTranslate2', purpose: '음성 인식 GPU 추론', license: 'MIT', linkLabel: 'CTranslate2', url: 'https://github.com/OpenNMT/CTranslate2' },
-    { category: '음성 합성', name: 'Supertonic 3 · F1', purpose: '한국어 안내·응답 음성 생성', license: '코드 MIT / 가중치 BigScience Open RAIL-M', linkLabel: 'Supertonic', url: 'https://github.com/supertone-oss-archive/supertonic' },
-    { category: '음성 합성 실행', name: 'ONNX Runtime', purpose: '음성 합성 모델 실행', license: 'MIT', linkLabel: 'ONNX Runtime', url: 'https://github.com/microsoft/onnxruntime' },
-    { category: '노드 통신', name: 'ROS 2 Jazzy · rclcpp/rclpy', purpose: '센서·인식·계획 모듈 연동', license: 'rclcpp/rclpy: Apache-2.0', linkLabel: 'ROS 2', url: 'https://docs.ros.org/en/jazzy/' },
-    { category: '설정·모니터링 UI', name: 'PyQt5', purpose: '설정·캘리브레이션·상태 표시', license: 'GPLv3 / 상용 라이선스', linkLabel: 'PyQt', url: 'https://www.riverbankcomputing.com/software/pyqt/' },
-    { category: '시각화', name: 'RViz 2', purpose: '객체·점군·접근 자세 표시', license: 'Clear BSD', linkLabel: 'RViz', url: 'https://github.com/ros2/rviz' },
+  groups: [
+    {
+      name: 'Vision · VLM · 음성',
+      items: [
+        { category: '객체 검출', name: 'YOLO11n', purpose: '자체 학습한 물체 검출', license: 'AGPL-3.0 / Enterprise', linkLabel: 'Ultralytics', url: 'https://github.com/ultralytics/ultralytics' },
+        { category: '영역 분할', name: 'SAM 2.1 Tiny', purpose: '공구 영역 분할·방향 및 파지 자세 계산 보조', license: '원본 코드·가중치 Apache-2.0 / Ultralytics 구현 AGPL-3.0', linkLabel: 'SAM 2', url: 'https://github.com/facebookresearch/sam2' },
+        { category: '손 인식', name: 'MediaPipe Hand Landmarker', purpose: '손 관절 검출·사람 상호작용 분석', license: '코드·가중치 Apache-2.0', linkLabel: 'MediaPipe', url: 'https://github.com/google-ai-edge/mediapipe' },
+        { category: '영상 처리', name: 'OpenCV', purpose: '영상·깊이 처리·색상 및 형태 분석', license: 'Apache-2.0', linkLabel: 'OpenCV', url: 'https://github.com/opencv/opencv' },
+        { category: '카메라 연동', name: 'RealSense ROS', purpose: 'RGB·깊이 영상 수신 및 정렬', license: 'Apache-2.0', linkLabel: 'RealSense ROS', url: 'https://github.com/realsenseai/realsense-ros' },
+        { category: '상황 판단·계획', name: 'Qwen3-VL-4B-Instruct', purpose: '장면과 사용자 요청을 바탕으로 작업 추천', license: 'Apache-2.0', linkLabel: 'Qwen3-VL', url: 'https://github.com/QwenLM/Qwen3-VL' },
+        { category: 'VLM 추론', name: 'TensorRT Edge-LLM', purpose: 'AGX 로컬 VLM 추론', license: 'Apache-2.0', linkLabel: 'TensorRT Edge-LLM', url: 'https://github.com/NVIDIA/TensorRT-Edge-LLM' },
+        { category: '음성 인식 모델', name: 'Whisper Small', purpose: '한국어 음성을 텍스트로 변환', license: 'MIT', linkLabel: 'Whisper', url: 'https://github.com/openai/whisper' },
+        { category: '음성 인식 실행', name: 'faster-whisper', purpose: 'Whisper 모델 추론', license: 'MIT', linkLabel: 'faster-whisper', url: 'https://github.com/SYSTRAN/faster-whisper' },
+        { category: '음성 추론 엔진', name: 'CTranslate2', purpose: '음성 인식 GPU 추론', license: 'MIT', linkLabel: 'CTranslate2', url: 'https://github.com/OpenNMT/CTranslate2' },
+        { category: '음성 합성', name: 'Supertonic 3 · F1', purpose: '한국어 안내·응답 음성 생성', license: '코드 MIT / 가중치 BigScience Open RAIL-M', linkLabel: 'Supertonic', url: 'https://github.com/supertone-oss-archive/supertonic' },
+        { category: '음성 합성 실행', name: 'ONNX Runtime', purpose: '음성 합성 모델 실행', license: 'MIT', linkLabel: 'ONNX Runtime', url: 'https://github.com/microsoft/onnxruntime' },
+        { category: '노드 통신', name: 'ROS 2 Jazzy · rclcpp/rclpy', purpose: '센서·인식·계획 모듈 연동', license: 'rclcpp/rclpy: Apache-2.0', linkLabel: 'ROS 2', url: 'https://docs.ros.org/en/jazzy/' },
+        { category: '설정·모니터링 UI', name: 'PyQt5', purpose: '설정·캘리브레이션·상태 표시', license: 'GPLv3 / 상용 라이선스', linkLabel: 'PyQt', url: 'https://www.riverbankcomputing.com/software/pyqt/' },
+        { category: '시각화', name: 'RViz 2', purpose: '객체·점군·접근 자세 표시', license: 'Clear BSD', linkLabel: 'RViz', url: 'https://github.com/ros2/rviz' },
+      ],
+    },
+    {
+      name: '모방학습 · Motion Planner · Task Planner',
+      items: [
+        { category: '모방학습 프레임워크', name: 'LeRobot 0.4.4', purpose: '로봇 연결·시연 데이터 기록·학습·실행 도구의 기반', license: 'Apache-2.0', linkLabel: 'LeRobot', url: 'https://github.com/huggingface/lerobot' },
+        { category: '모방학습 정책', name: 'ACT (Action Chunking with Transformers)', purpose: '리더암 시연 데이터로 조작 정책 학습', license: 'LeRobot 구현 Apache-2.0 / 원본 코드 MIT', linkLabel: 'ACT', url: 'https://github.com/tonyzhaozh/act' },
+        { category: '딥러닝', name: 'PyTorch', purpose: '정책 학습·추론', license: 'BSD-3-Clause', linkLabel: 'PyTorch', url: 'https://github.com/pytorch/pytorch' },
+        { category: '청크 평활화', name: 'LiPo (action_lipo)', purpose: '동작 청크 이음새를 jerk가 최소가 되게 잇기', license: '라이선스 명시 없음', linkLabel: 'LiPo', url: 'https://github.com/lab-dream/lipo' },
+        { category: '역기구학', name: 'Pinocchio', purpose: '그리퍼 자세를 관절 각도로 변환(감쇠 최소제곱 IK)', license: 'BSD-2-Clause', linkLabel: 'Pinocchio', url: 'https://github.com/stack-of-tasks/pinocchio' },
+        { category: '최적화', name: 'OSQP', purpose: 'LiPo 최적화(QP) 풀이', license: 'Apache-2.0', linkLabel: 'OSQP', url: 'https://github.com/osqp/osqp' },
+        { category: '경로 계획', name: 'MoveIt 2', purpose: '물체 앞 접근 자세까지 팔 경로 계획', license: 'BSD-3-Clause', linkLabel: 'MoveIt 2', url: 'https://github.com/moveit/moveit2' },
+        { category: 'IK 플러그인', name: 'pick_ik', purpose: 'MoveIt 역기구학 풀이(KDL과 비교 후 선택)', license: 'BSD-3-Clause', linkLabel: 'pick_ik', url: 'https://github.com/PickNikRobotics/pick_ik' },
+        { category: '로봇 제어', name: 'ros2_control', purpose: '팔·그리퍼 컨트롤러와 하드웨어 연결', license: 'Apache-2.0', linkLabel: 'ros2_control', url: 'https://github.com/ros-controls/ros2_control' },
+        { category: '작업 흐름', name: 'BehaviorTree.CPP', purpose: 'Task Planner 행동 트리 실행', license: 'MIT', linkLabel: 'BehaviorTree.CPP', url: 'https://github.com/BehaviorTree/BehaviorTree.CPP' },
+      ],
+    },
   ],
   sdkTitle: '사용 SDK',
   sdk: [
     { name: 'NVIDIA TensorRT', purpose: '객체 검출 모델 최적화·추론', linkLabel: 'TensorRT', url: 'https://developer.nvidia.com/tensorrt' },
     { name: 'Intel RealSense SDK 2.0', purpose: 'RGB·깊이 카메라 연결 및 영상 수신', linkLabel: 'RealSense SDK', url: 'https://github.com/realsenseai/librealsense' },
     { name: 'ThermoEye TmSDK', purpose: '열화상 카메라 연결·온도 변환', linkLabel: 'ThermoEye', url: 'https://thermoeye.co.kr/' },
+    { name: 'ROBOTIS DYNAMIXEL SDK', purpose: '리더암 Dynamixel 모터 위치 읽기·전류 제어(중력 보상)', linkLabel: 'DYNAMIXEL SDK', url: 'https://github.com/ROBOTIS-GIT/DynamixelSDK' },
   ],
 };
 

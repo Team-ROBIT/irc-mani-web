@@ -24,6 +24,8 @@
   .chip.exe i { background: var(--color-neutral-200); border-color: var(--color-neutral-600); }
   .panel { margin-top: 1rem; overflow-x: auto; border: 1px solid var(--color-neutral-300); border-radius: 1.5rem; background: var(--color-paper); }
   svg { display: block; width: 100%; min-width: 900px; height: auto; font-family: var(--font-sans); }
+  /* 넓은 화면에서는 실행 환경 옆 칸에 맞춰 줄어든다 */
+  @media (min-width: 80rem) { svg { min-width: 0; } }
   .ln { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
   .e-dev { stroke: var(--color-neutral-500); } .e-per { stroke: var(--color-ink); } .e-ctl { stroke: var(--color-accent); }
   .e-voc { stroke: var(--color-accent); stroke-dasharray: 5 4; } .e-exe { stroke: var(--color-neutral-600); }
