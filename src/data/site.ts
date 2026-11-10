@@ -198,7 +198,7 @@ export const system = {
           { item: '연산 장치', value: 'NVIDIA RTX 4060 노트북' },
           { item: '실행 방식', value: '모방학습 정책·Motion Planner 로컬 실행' },
           { item: '모듈 연동 환경', value: 'ROS 2 Jazzy' },
-          { item: '손목 카메라 입력', value: 'RealSense · 360×640' },
+          { item: '손목 카메라 입력', value: 'Intel RealSense D405' },
           { item: '모터 통신', value: 'CANable · USB 연결' },
         ],
       },
