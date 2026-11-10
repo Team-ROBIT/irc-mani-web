@@ -532,22 +532,32 @@ export const timeline = {
 export const openSource = {
   title: '사용한 오픈소스와 SDK',
   intro: '이 작품에 쓴 공개 소프트웨어·모델·SDK와 각각의 라이선스, 공식 주소입니다. 라이선스는 팀이 정리한 표기이므로 재사용 전에 원문을 확인해 주세요.',
-  items: [
-    { category: '객체 검출', name: 'YOLO11n', purpose: '자체 학습한 물체 검출', license: 'AGPL-3.0 / Enterprise', linkLabel: 'Ultralytics', url: 'https://github.com/ultralytics/ultralytics' },
-    { category: '영역 분할', name: 'SAM 2.1 Tiny', purpose: '공구 영역 분할·방향 및 파지 자세 계산 보조', license: '원본 코드·가중치 Apache-2.0 / Ultralytics 구현 AGPL-3.0', linkLabel: 'SAM 2', url: 'https://github.com/facebookresearch/sam2' },
-    { category: '손 인식', name: 'MediaPipe Hand Landmarker', purpose: '손 관절 검출·사람 상호작용 분석', license: '코드·가중치 Apache-2.0', linkLabel: 'MediaPipe', url: 'https://github.com/google-ai-edge/mediapipe' },
-    { category: '영상 처리', name: 'OpenCV', purpose: '영상·깊이 처리·색상 및 형태 분석', license: 'Apache-2.0', linkLabel: 'OpenCV', url: 'https://github.com/opencv/opencv' },
-    { category: '카메라 연동', name: 'RealSense ROS', purpose: 'RGB·깊이 영상 수신 및 정렬', license: 'Apache-2.0', linkLabel: 'RealSense ROS', url: 'https://github.com/realsenseai/realsense-ros' },
-    { category: '상황 판단·계획', name: 'Qwen3-VL-4B-Instruct', purpose: '장면과 사용자 요청을 바탕으로 작업 추천', license: 'Apache-2.0', linkLabel: 'Qwen3-VL', url: 'https://github.com/QwenLM/Qwen3-VL' },
-    { category: 'VLM 추론', name: 'TensorRT Edge-LLM', purpose: 'AGX 로컬 VLM 추론', license: 'Apache-2.0', linkLabel: 'TensorRT Edge-LLM', url: 'https://github.com/NVIDIA/TensorRT-Edge-LLM' },
-    { category: '음성 인식 모델', name: 'Whisper Small', purpose: '한국어 음성을 텍스트로 변환', license: 'MIT', linkLabel: 'Whisper', url: 'https://github.com/openai/whisper' },
-    { category: '음성 인식 실행', name: 'faster-whisper', purpose: 'Whisper 모델 추론', license: 'MIT', linkLabel: 'faster-whisper', url: 'https://github.com/SYSTRAN/faster-whisper' },
-    { category: '음성 추론 엔진', name: 'CTranslate2', purpose: '음성 인식 GPU 추론', license: 'MIT', linkLabel: 'CTranslate2', url: 'https://github.com/OpenNMT/CTranslate2' },
-    { category: '음성 합성', name: 'Supertonic 3 · F1', purpose: '한국어 안내·응답 음성 생성', license: '코드 MIT / 가중치 BigScience Open RAIL-M', linkLabel: 'Supertonic', url: 'https://github.com/supertone-oss-archive/supertonic' },
-    { category: '음성 합성 실행', name: 'ONNX Runtime', purpose: '음성 합성 모델 실행', license: 'MIT', linkLabel: 'ONNX Runtime', url: 'https://github.com/microsoft/onnxruntime' },
-    { category: '노드 통신', name: 'ROS 2 Jazzy · rclcpp/rclpy', purpose: '센서·인식·계획 모듈 연동', license: 'rclcpp/rclpy: Apache-2.0', linkLabel: 'ROS 2', url: 'https://docs.ros.org/en/jazzy/' },
-    { category: '설정·모니터링 UI', name: 'PyQt5', purpose: '설정·캘리브레이션·상태 표시', license: 'GPLv3 / 상용 라이선스', linkLabel: 'PyQt', url: 'https://www.riverbankcomputing.com/software/pyqt/' },
-    { category: '시각화', name: 'RViz 2', purpose: '객체·점군·접근 자세 표시', license: 'Clear BSD', linkLabel: 'RViz', url: 'https://github.com/ros2/rviz' },
+  groups: [
+    {
+      name: 'Vision · VLM · 음성',
+      items: [
+        { category: '객체 검출', name: 'YOLO11n', purpose: '자체 학습한 물체 검출', license: 'AGPL-3.0 / Enterprise', linkLabel: 'Ultralytics', url: 'https://github.com/ultralytics/ultralytics' },
+        { category: '영역 분할', name: 'SAM 2.1 Tiny', purpose: '공구 영역 분할·방향 및 파지 자세 계산 보조', license: '원본 코드·가중치 Apache-2.0 / Ultralytics 구현 AGPL-3.0', linkLabel: 'SAM 2', url: 'https://github.com/facebookresearch/sam2' },
+        { category: '손 인식', name: 'MediaPipe Hand Landmarker', purpose: '손 관절 검출·사람 상호작용 분석', license: '코드·가중치 Apache-2.0', linkLabel: 'MediaPipe', url: 'https://github.com/google-ai-edge/mediapipe' },
+        { category: '영상 처리', name: 'OpenCV', purpose: '영상·깊이 처리·색상 및 형태 분석', license: 'Apache-2.0', linkLabel: 'OpenCV', url: 'https://github.com/opencv/opencv' },
+        { category: '카메라 연동', name: 'RealSense ROS', purpose: 'RGB·깊이 영상 수신 및 정렬', license: 'Apache-2.0', linkLabel: 'RealSense ROS', url: 'https://github.com/realsenseai/realsense-ros' },
+        { category: '상황 판단·계획', name: 'Qwen3-VL-4B-Instruct', purpose: '장면과 사용자 요청을 바탕으로 작업 추천', license: 'Apache-2.0', linkLabel: 'Qwen3-VL', url: 'https://github.com/QwenLM/Qwen3-VL' },
+        { category: 'VLM 추론', name: 'TensorRT Edge-LLM', purpose: 'AGX 로컬 VLM 추론', license: 'Apache-2.0', linkLabel: 'TensorRT Edge-LLM', url: 'https://github.com/NVIDIA/TensorRT-Edge-LLM' },
+        { category: '음성 인식 모델', name: 'Whisper Small', purpose: '한국어 음성을 텍스트로 변환', license: 'MIT', linkLabel: 'Whisper', url: 'https://github.com/openai/whisper' },
+        { category: '음성 인식 실행', name: 'faster-whisper', purpose: 'Whisper 모델 추론', license: 'MIT', linkLabel: 'faster-whisper', url: 'https://github.com/SYSTRAN/faster-whisper' },
+        { category: '음성 추론 엔진', name: 'CTranslate2', purpose: '음성 인식 GPU 추론', license: 'MIT', linkLabel: 'CTranslate2', url: 'https://github.com/OpenNMT/CTranslate2' },
+        { category: '음성 합성', name: 'Supertonic 3 · F1', purpose: '한국어 안내·응답 음성 생성', license: '코드 MIT / 가중치 BigScience Open RAIL-M', linkLabel: 'Supertonic', url: 'https://github.com/supertone-oss-archive/supertonic' },
+        { category: '음성 합성 실행', name: 'ONNX Runtime', purpose: '음성 합성 모델 실행', license: 'MIT', linkLabel: 'ONNX Runtime', url: 'https://github.com/microsoft/onnxruntime' },
+        { category: '노드 통신', name: 'ROS 2 Jazzy · rclcpp/rclpy', purpose: '센서·인식·계획 모듈 연동', license: 'rclcpp/rclpy: Apache-2.0', linkLabel: 'ROS 2', url: 'https://docs.ros.org/en/jazzy/' },
+        { category: '설정·모니터링 UI', name: 'PyQt5', purpose: '설정·캘리브레이션·상태 표시', license: 'GPLv3 / 상용 라이선스', linkLabel: 'PyQt', url: 'https://www.riverbankcomputing.com/software/pyqt/' },
+        { category: '시각화', name: 'RViz 2', purpose: '객체·점군·접근 자세 표시', license: 'Clear BSD', linkLabel: 'RViz', url: 'https://github.com/ros2/rviz' },
+      ],
+    },
+    {
+      name: '모방학습 · Motion Planner',
+      items: [
+      ],
+    },
   ],
   sdkTitle: '사용 SDK',
   sdk: [
