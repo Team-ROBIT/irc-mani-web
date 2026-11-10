@@ -70,7 +70,7 @@ const trainStart = policyStage - train.stages.length + 1;
       system.environment.groups.map((g) => (
         <>
           <h4 class="mt-6 text-sm font-semibold text-neutral-500">{g.name}</h4>
-          <div class="reveal mt-2 overflow-x-auto rounded-3xl border border-neutral-200 bg-white">
+          <div class:list={['mt-2 overflow-x-auto rounded-3xl border border-neutral-200 bg-white', g.name !== '노트북' && 'reveal']}>
             <table class="w-full min-w-[28rem] text-left text-sm sm:text-base xl:min-w-0">
               <thead class="border-b border-neutral-200 text-neutral-500">
                 <tr>
