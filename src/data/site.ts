@@ -572,6 +572,7 @@ export const openSource = {
     { name: 'NVIDIA TensorRT', purpose: '객체 검출 모델 최적화·추론', linkLabel: 'TensorRT', url: 'https://developer.nvidia.com/tensorrt' },
     { name: 'Intel RealSense SDK 2.0', purpose: 'RGB·깊이 카메라 연결 및 영상 수신', linkLabel: 'RealSense SDK', url: 'https://github.com/realsenseai/librealsense' },
     { name: 'ThermoEye TmSDK', purpose: '열화상 카메라 연결·온도 변환', linkLabel: 'ThermoEye', url: 'https://thermoeye.co.kr/' },
+    { name: 'ROBOTIS DYNAMIXEL SDK', purpose: '리더암 Dynamixel 모터 위치 읽기·전류 제어(중력 보상)', linkLabel: 'DYNAMIXEL SDK', url: 'https://github.com/ROBOTIS-GIT/DynamixelSDK' },
   ],
 };
 
