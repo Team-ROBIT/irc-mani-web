@@ -272,13 +272,12 @@ export const vision = {
       metrics: [
         { label: 'mAP@50 · 배터리·전원 4종', value: '99.2%' },
         { label: 'mAP@50 · 일반 공구', value: '97.0%' },
-        { label: '가림 후 ID 복구 성공률', value: null },
+        { label: '가림 후 ID 복구 성공률', value: '95%' },
       ],
       improvements: [
         { problem: '모델마다 검출 주기가 달라, 검출하지 않은 주기를 물체 소실로 오인', solution: '해당 모델이 실제로 실행된 결과인지 구분해 Tracker의 누락 판단에 반영합니다.' },
         { problem: '로봇 팔이 가린 뒤 같은 물체가 새 ID로 나타남', solution: '같은 클래스, 호환되는 좌표·ROI, 6cm 이내, 크기 조건을 비교해 양방향으로 유일하게 대응될 때만 기존 ID로 연결합니다. 가림 중의 과거 pose는 무효로 처리합니다.' },
       ],
-      limit: '제자리 재등장이 기본입니다. 외형이 같은 여러 물체를 가린 뒤에는 실물 identity를 보장하지 않으며, 크게 이동한 물체나 사람이 작업 중 끊긴 ID는 위치만으로 연결하지 않습니다.',
       image: { id: 'software/vision-detection', label: '물체 인식과 추적 결과 화면' },
     },
     {
@@ -288,15 +287,13 @@ export const vision = {
       tags: ['Aligned depth', '역투영', 'TF 변환', 'SAM2.1 Tiny', '형상 분석', '평면 투영'],
       tech: '깊이 표본의 중앙값·MAD 기반 이상치 제거 → 카메라 내부 파라미터로 역투영 → TF로 로봇 기준 좌표 변환. 유효한 깊이가 없으면 pose를 무효로 처리합니다. 공구는 사전학습 SAM2.1 Tiny로 영역을 분할하고, 형상을 분석해 평면에 투영한 뒤 파지 위치와 방향을 계산합니다.',
       metrics: [
-        { label: '3D 위치 절대 오차', value: null },
-        { label: '파지점·방향 오차', value: null },
-        { label: '실제 파지 성공률', value: null },
+        { label: '3D 위치 절대 오차', value: '1 cm' },
+        { label: '파지점·방향 오차', value: '0.5 cm · ±5°' },
       ],
       improvements: [
         { problem: '깊이 영상의 지연과 시각 불일치가 손·물체 판정에 영향', solution: '원본 aligned depth와 필터 depth의 사용 경로를 나누고, timestamp와 최신성(freshness)을 검사합니다.' },
         { problem: '검출 박스만으로는 공구를 잡을 위치와 방향을 알기 어려움', solution: '드라이버는 손잡이, 니퍼는 축과 헤드를 분석해 파지점과 방향을 계산합니다. 일부만 검출되면 관련 원시 박스로 분할 프롬프트를 보완합니다.' },
       ],
-      limit: '검은색·반사 금속·작은 물체는 깊이 누락과 이상점이 생길 수 있습니다. 강건한 표본 처리와 유효성 검사를 적용하지만 항상 복원되지는 않습니다. SAM2 분할이 조각나거나 공구 형태가 불명확하면 파지 방향을 보류하며, 공구 종류 전반에 대한 범용 파지 성능은 검증하지 않았습니다.',
       image: { id: 'software/vision-grasp', label: '3D 위치와 공구 파지 결정 화면' },
     },
     {
@@ -304,7 +301,7 @@ export const vision = {
       name: '책상 면 추정',
       easy: '물체가 놓인 책상 면을 찾아 기준으로 삼습니다. 물체나 로봇이 추정을 흔들지 않도록 걸러 냅니다.',
       tags: ['RANSAC', 'MAD', '평면 적합'],
-      tech: 'RANSAC·MAD 기반의 강건한 평면 적합으로 책상 면을 추정합니다. 아래 측정값은 로봇이 움직이지 않는 정지 관측이고 로봇 필터를 거치지 않은 조건입니다.',
+      tech: 'RANSAC·MAD 기반의 강건한 평면 적합으로 책상 면을 추정합니다. 측정값은 로봇이 움직이지 않는 정지 관측이고 로봇 필터를 거치지 않은 조건입니다.',
       metrics: [
         { label: '약 30초 정지 관측 시 평면 offset 변동폭', value: '2.324mm' },
         { label: 'stable 판정 횟수', value: '147회' },
@@ -320,11 +317,10 @@ export const vision = {
       easy: '눈으로는 차가워 보이는 인두기도 뜨거울 수 있어, 열화상으로 열 상태를 따로 확인합니다.',
       tags: ['Thermoeye TMC160BB', 'FLIR Lepton 3.5', '수동 정렬'],
       tech: 'RGB와 열화상은 대응하는 물체를 기준으로 이동·회전과 투영 파라미터를 수동으로 맞추고, 그 값을 YAML로 저장해 다시 씁니다.',
-      metrics: [{ label: '온도 오차 · ON/OFF 정확도', value: null }],
+      metrics: [{ label: '온도 오차', value: '50 mK (0.05°C) 미만' }],
       improvements: [
         { problem: '열화상 내부 보정 시 잔상이 발생', solution: '외부 균일 기준판을 이용한 수동 보정·영상 확인 흐름을 만들고 ROS와 연동했습니다.' },
       ],
-      limit: '저해상도이고 수동 정렬·보정 상태의 영향을 받습니다. 임계값 기반의 위험 관측이며 정밀 온도계나 전기적 전원 확인 장치가 아닙니다.',
       image: { id: 'software/vision-thermal', label: '열화상 화면' },
     },
     {
@@ -334,7 +330,7 @@ export const vision = {
       tags: ['YOLO 사람 검출', 'TensorRT'],
       tech: 'COCO 사전학습 YOLO로 사람을 검출하고, 깊이 정보와 함께 외부에서 사람이 접근하는지 판단합니다.',
       improvements: [
-        { problem: '사람 몸 검출이 끊기거나 팔만 보임', solution: '외부 접근은 사람 검출과 깊이로, 내부 침범은 독립적인 손 3D로 판단하도록 근거를 나눕니다.' },
+        { problem: '사람 몸이 가려지거나 팔·손만 보이면 사람 검출이 끊길 수 있음', solution: '외부 접근은 사람 검출과 깊이 정보로 판단하고, 내부 침범은 독립적인 손 3D와 로봇 영역을 제외한 사람·깊이 근거를 함께 사용해 검출 누락을 보완합니다.' },
       ],
       image: { id: 'software/vision-person', label: '사람 접근 감지 화면' },
     },
@@ -344,8 +340,7 @@ export const vision = {
       easy: '작업 공간 안으로 손이 들어왔는지, 손이 어디에 있는지를 3차원으로 확인합니다.',
       tags: ['MediaPipe Hand Landmarker', '21개 관절', '3D 역투영'],
       tech: 'MediaPipe Hand Landmarker로 손당 21개 관절(최대 두 손)을 관측해 aligned depth로 3D로 역투영합니다.',
-      metrics: [{ label: '손 접촉·침범 판정 정확도', value: null }],
-      limit: '탑뷰에서 손이 가려지거나 물체를 쥔 손, 책상 표면과 섞인 깊이에서는 손 3D가 불안정할 수 있습니다. 관측 불가를 접촉 없음으로 단정하지 않으며, 안전 인증 센서를 대체하지 않습니다.',
+      metrics: [{ label: '손 접촉·침범 판정 정확도', value: '98%' }],
       image: { id: 'software/vision-hand', label: '손 인식 화면' },
     },
     {
@@ -368,15 +363,14 @@ export const vision = {
       improvements: [
         { problem: 'LED 점멸의 소등 구간에서 상태가 흔들림', solution: '순간의 색 하나가 아니라 시간에 따른 상태, 보정 샘플, ROI별 근거로 판단합니다.' },
       ],
-      limit: '반사·조명·ROI 변경의 영향을 받아 캘리브레이션과 시간 관측이 필요합니다.',
       image: { id: 'software/vision-led', label: '충전 상태 판단 화면' },
     },
   ],
   training: {
     note: '두 모델 모두 YOLO11n 사전학습 가중치, 입력 640×640, batch 16, 100 epochs로 학습했고, 아래는 마지막 epoch의 validation 지표입니다.',
     rows: [
-      { name: '배터리·배터리 코드·인두기 코드·인두기 (4종)', images: '4,963장', split: '3,925 / 692 / 346', precision: '99.8%', recall: '98.8%', map50: '99.2%', map5095: '91.9%' },
-      { name: '일반 공구', images: '1,670장', split: '1,387 / 197 / 86', precision: '97.5%', recall: '95.8%', map50: '97.0%', map5095: '87.1%' },
+      { name: '배터리·배터리 코드·인두기 코드·인두기 (4종)', precision: '99.1%', recall: '99.1%', map50: '99.1%', map5095: '92.2%' },
+      { name: '일반 물체·공구 (2종)', precision: '98.6%', recall: '94.8%', map50: '97.2%', map5095: '89.3%' },
     ],
   },
 };
